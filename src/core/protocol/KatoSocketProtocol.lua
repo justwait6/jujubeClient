@@ -1,0 +1,3 @@
+local KatoSocketProtocol = {}
+
+return KatoSocketProtocol

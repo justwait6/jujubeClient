@@ -1,0 +1,3830 @@
+Quick-Cocos2dx-Community C++ support ready.
+
+------------------------------------------------
+
+LOAD LUA FILE: D:/source/jujube/src/main.lua
+
+------------------------------------------------
+
+[LUA-print] ===========================================================
+
+[LUA-print]               LOAD QUICK FRAMEWORK
+
+[LUA-print] ===========================================================
+
+[LUA-print] [INFO] 
+
+[LUA-print] [INFO] # DEBUG                        = 1
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # device.platform              = windows
+
+[LUA-print] [INFO] # device.model                 = unknown
+
+[LUA-print] [INFO] # device.language              = cn
+
+[LUA-print] [INFO] # device.writablePath          = D:\source\jujube\
+
+[LUA-print] [INFO] # device.directorySeparator    = \
+
+[LUA-print] [INFO] # device.pathSeparator         = ;
+
+[LUA-print] [INFO] #
+
+[LUA-print] [INFO] # CONFIG_SCREEN_AUTOSCALE      = FIXED_HEIGHT
+
+[LUA-print] [INFO] # CONFIG_SCREEN_WIDTH          = 1280.00
+
+[LUA-print] [INFO] # CONFIG_SCREEN_HEIGHT         = 720.00
+
+[LUA-print] [INFO] # display.widthInPixels        = 1280.00
+
+[LUA-print] [INFO] # display.heightInPixels       = 720.00
+
+[LUA-print] [INFO] # display.contentScaleFactor   = 1.00
+
+[LUA-print] [INFO] # display.width                = 1280.00
+
+[LUA-print] [INFO] # display.height               = 720.00
+
+[LUA-print] [INFO] # display.cx                   = 640.00
+
+[LUA-print] [INFO] # display.cy                   = 360.00
+
+[LUA-print] [INFO] # display.left                 = 0.00
+
+[LUA-print] [INFO] # display.right                = 1280.00
+
+[LUA-print] [INFO] # display.top                  = 720.00
+
+[LUA-print] [INFO] # display.bottom               = 0.00
+
+[LUA-print] [INFO] # display.c_left               = -640.00
+
+[LUA-print] [INFO] # display.c_right              = 640.00
+
+[LUA-print] [INFO] # display.c_top                = 360.00
+
+[LUA-print] [INFO] # display.c_bottom             = -360.00
+
+[LUA-print] [INFO] #
+
+[LUA-print] =====mkdir D:\source\jujube\cache\tmpimg\
+
+[LUA-print] ===== done mkdir
+
+[LUA-print] =====mkdir D:\source\jujube\cache\tmpimg\
+
+[LUA-print] ===== done mkdir
+
+[LUA-print] =====mkdir D:\source\jujube\cache\headpics\
+
+[LUA-print] ===== done mkdir
+
+[LUA-print] =====mkdir D:\source\jujube\cache\gift\
+
+[LUA-print] ===== done mkdir
+
+[LUA-print] [2][POST][http://47.100.99.3:9000/login] {"mac_address":"","version":"2.0.6","timezone":"+0","name":"100","lid":2,"network":"","pid":1,"password":"123456","machine_type":"unknown","sig":"cad5b57f78d0e16d21fd9fdb5bf42645","imei":"00-E0-4C-33-14-6D","gid":900,"cid":0,"_interface":"\/login","os":""}
+
+[LUA-print] [2] [RESPONSE]={"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","switches":[1,2,3],"ret":0,"message":"login success!"}
+
+[LUA-print] dump from: [string "D:/source/jujube/src/app/controller/login/LoginCtrl.lua"]:86: in function 'succCallback'
+
+[LUA-print] - "<var>" = {
+
+[LUA-print] -     "message"  = "login success!"
+
+[LUA-print] -     "ret"      = 0
+
+[LUA-print] -     "switches" = {
+
+[LUA-print] -         1 = 1
+
+[LUA-print] -         2 = 2
+
+[LUA-print] -         3 = 3
+
+[LUA-print] -     }
+
+[LUA-print] -     "token"    = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ"
+
+[LUA-print] - }
+
+[LUA-print] dump from: [string "D:/source/jujube/src/app/model/activity/ActManager.lua"]:39: in function 'setActSwitches'
+
+[LUA-print] - "switches" = {
+
+[LUA-print] -     1 = true
+
+[LUA-print] -     2 = true
+
+[LUA-print] -     3 = true
+
+[LUA-print] - }
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [3][POST][http://47.100.99.3:9000/MoneyTree/basicInfo] {"_interface":"\/MoneyTree\/basicInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 10234
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] [4][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-friendRank","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] [5][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-ownTreeInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] [3] code=404
+
+[LUA-print] reqest baseinfo fail
+
+[LUA-print] [4] code=404
+
+[LUA-print] [5] code=404
+
+[LUA-print] 点击了帮助
+
+[LUA-print] MySocket:timer_ current time: 	1562580014
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] 点击了帮助
+
+[LUA-print] 点击了邀请
+
+Inner height <= scrollview height, it will be force sized!
+
+[LUA-print] [6][POST][http://47.100.99.3:9000/MoneyTree/basicInfo] {"_interface":"\/MoneyTree\/basicInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 10234
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] 1
+
+[LUA-print] [7][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-friendRank","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] [8][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-ownTreeInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI1ODE4MDYsImlhdCI6MTU2MjU4MDAwNn0.TjWBjpAaZKh3r1x9OzL_C-Zi1PUrLAQlagWAQT1HrPesZykUS7rXfaUdyWWFE5uyA3KiOhM1m_Z8fFTVP9dLsl7JBo_ThkhDeyxwbA4jPYeh6ZitsZECRcQT8-MP-KNqTNXsN6pj1pelin5joQbuqGEPZepQVA1nFMA4iRiDjm9wZR76wvPn3xyn02y9ipWB9aVnZDHaMuhqUpMCaADZ6kyOVw33ujAJNUZkxiuwqgPbm7FRHzKkmvT5BGPha4mx5Ehb9YYSYdCqFREHPSQ6MUoVozEcK0pQLLQE5qiEaxTHbyHLlnoBH0-l2Xj-gasNz_-LYCdfkTWraYJPKZ4eCQ","param":{"type":"gold"}}
+
+[LUA-print] [6] code=404
+
+[LUA-print] reqest baseinfo fail
+
+[LUA-print] [7] code=404
+
+[LUA-print] [8] code=404
+
+[LUA-print] MySocket:timer_ current time: 	1562580024
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580034
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580044
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580054
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580064
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580074
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580084
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580094
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580104
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580114
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580124
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580134
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580144
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580154
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580164
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580174
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580184
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580194
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580204
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580214
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580224
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580234
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580244
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580255
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580265
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580275
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580285
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580295
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580305
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580315
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580325
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580335
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580345
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580355
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580365
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580375
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580385
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580395
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580405
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580415
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580425
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580435
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580445
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580455
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580465
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580475
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580485
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580495
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580505
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580515
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580525
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580535
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580545
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580555
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580565
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580575
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580585
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580595
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580605
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580615
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580625
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580635
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580645
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580655
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580665
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580675
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580685
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580695
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580705
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580715
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580725
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580735
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580745
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580755
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580765
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580775
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580785
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580795
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580805
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580815
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580825
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580835
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580845
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580855
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580865
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580875
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580885
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580895
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580905
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580915
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580925
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580935
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580945
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580955
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580965
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580975
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580985
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562580995
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581005
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581015
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581025
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581035
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581045
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581055
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581065
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581075
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581085
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581095
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581105
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581115
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581125
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581135
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581145
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581155
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581165
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581175
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581185
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581195
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581205
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581215
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581225
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581235
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581245
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581255
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581265
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581276
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581286
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581296
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581306
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581316
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581326
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581336
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581346
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581356
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581366
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581376
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581386
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581396
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581406
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581416
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581426
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581436
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581446
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581456
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581466
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581476
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581486
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581496
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581506
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581516
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581526
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581536
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581546
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581556
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581566
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581576
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581586
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581596
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581606
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581616
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581626
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581636
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581646
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581656
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581666
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581676
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581686
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581696
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581706
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581716
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581726
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581736
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581746
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581756
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581766
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581776
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581786
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581796
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581806
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581816
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581826
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581836
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581846
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581856
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581866
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581876
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581886
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581896
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581906
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581916
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581926
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581936
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581946
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581956
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581966
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581976
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581986
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562581996
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582006
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582016
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582026
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582036
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582046
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582056
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582066
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582076
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582086
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582096
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582106
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582116
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582126
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582136
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582146
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582156
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582166
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582176
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582187
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582197
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582207
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582217
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582227
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582237
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582247
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582257
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582267
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582277
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582287
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582297
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582307
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582317
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582327
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582337
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582347
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582357
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582367
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582377
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582387
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582397
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582407
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582417
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582427
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582437
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582447
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582457
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582467
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582477
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582487
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582497
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582507
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582517
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582527
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582537
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582547
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582557
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582567
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582577
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582587
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582597
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582607
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582617
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582627
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582637
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582647
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582657
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582667
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582677
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582687
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582697
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582707
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582717
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582727
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582737
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582747
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582757
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582767
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582777
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582787
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582797
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582807
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582817
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582827
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582837
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582847
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582857
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582867
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582877
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582887
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582897
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582907
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582917
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582927
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582937
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582947
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582957
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582967
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582977
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582987
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562582997
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583007
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583017
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583027
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583037
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583047
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583057
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583067
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583077
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583087
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583097
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583107
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583117
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583127
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583137
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583148
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583158
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583168
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583178
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583188
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583198
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583208
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583218
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583228
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583238
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583248
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583258
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583268
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583278
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583288
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583298
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583308
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583318
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583328
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583338
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583348
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583358
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583368
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583378
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583388
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583398
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583408
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583418
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583428
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583438
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583448
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583458
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583468
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583478
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583488
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583498
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583508
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583518
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583528
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583538
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583548
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583558
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583568
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583578
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583588
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583598
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583608
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583618
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583628
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583638
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583648
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583658
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583668
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583678
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583688
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583698
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583708
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583718
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583729
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583739
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583749
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583759
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583769
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583779
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583789
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583799
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583809
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583819
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583829
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583839
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583849
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583859
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583869
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583879
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583889
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583899
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583909
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583919
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583929
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583939
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583949
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583959
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583969
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583979
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583989
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562583999
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584009
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584019
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584029
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584039
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584049
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584059
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584069
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584079
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584089
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584099
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584109
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584119
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584129
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584139
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584149
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584159
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584169
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584179
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584189
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584199
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584209
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584219
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584229
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584239
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584249
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584259
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584269
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584279
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584289
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584299
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584309
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584319
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584329
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584339
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584349
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584359
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584369
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584379
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584389
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584399
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584409
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584419
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584429
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584439
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584449
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584459
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584469
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584479
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584489
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584499
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584509
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584519
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584529
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584539
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584549
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584559
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584569
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584579
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584589
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584599
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584609
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584619
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584629
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584639
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584649
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584659
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584669
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584679
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584689
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584699
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584709
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584719
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584729
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584739
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584750
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584760
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584770
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584780
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584790
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584800
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584810
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584820
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584830
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584840
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584850
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584860
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584870
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584880
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584890
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584900
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584910
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584920
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584930
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584940
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584950
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584960
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584970
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584980
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562584990
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585000
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585010
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585020
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585030
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585040
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585050
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585060
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585070
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585080
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585090
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585100
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585110
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585120
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585130
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585140
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585151
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585161
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585171
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585181
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585191
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585201
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585211
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585221
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585231
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585241
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585251
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585261
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585271
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585281
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585291
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585301
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585311
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585321
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585331
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585341
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585351
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585361
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585371
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585381
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585391
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585401
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585411
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585421
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585431
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585441
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585451
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585461
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585471
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585481
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585491
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585501
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585511
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585521
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585531
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585541
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585551
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585561
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585571
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585581
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585591
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585601
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585611
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585621
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585631
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585641
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585651
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585661
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585671
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585681
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585691
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585701
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585711
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585721
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585731
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585741
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585751
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585761
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585771
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585781
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585791
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585801
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585811
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585821
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585831
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585841
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585851
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585861
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585871
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585881
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585891
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585901
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585911
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585921
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585931
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585941
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585951
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585961
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585971
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
+[LUA-print] MySocket:timer_ current time: 	1562585981
+
+[LUA-print] MySocket:timer_ isConnected: FALSE
+
+[LUA-print] ip port: 	nil	nil
+
