@@ -40,7 +40,7 @@ function MoneyTreeView:ctor(treeType)
 
     self.treeType = treeType or MoneyTreeView.GOLD
     self:initConfig(treeType)
-	self:initUI()
+    self:initUI()
     self:checkNeedGuide()
     -- self.friendUtil = FriendUtil.new()
 end
@@ -78,8 +78,8 @@ function MoneyTreeView:initUI()
     display.newSprite(g.Res.moneytree_bg):addTo(self)
     -- 摇钱树标题
     display.newSprite(g.Res.moneytree_titleBar)
-    	:pos(0, display.height/2 - 44)
-    	:addTo(self)
+        :pos(0, display.height/2 - 44)
+        :addTo(self)
     -- 帮助按钮
     g.myUi.ScaleButton.new({normal = g.Res.moneytree_questionIcon})
         :onClick(handler(self.ctrl, self.ctrl.onHelpClick))
@@ -90,7 +90,7 @@ function MoneyTreeView:initUI()
         :onClick(handler(self.ctrl, self.ctrl.onInviteClick))
         :pos(296, -312)
         :addTo(self)
- 	-- 关闭按钮
+    -- 关闭按钮
     g.myUi.ScaleButton.new({normal = g.Res.moneytree_backIcon})
         :onClick(handler(self, self.close))
         :pos(-display.width/2 + 82, display.height/2 - 46)
@@ -116,7 +116,7 @@ function MoneyTreeView:initUI()
     self:initMoneyTree()
     self:initMyTreeView()
     self:initOtherTreeView()
-  	self:initMyInvitesList()
+    self:initMyInvitesList()
 end
 
 function MoneyTreeView:initMyTreeView()
@@ -971,7 +971,7 @@ end
 local LIST_WIDTH = 276
 local LIST_HEIGHT = 396
 function MoneyTreeView:initMyInvitesList()
-	self.myInvitesNode = display.newNode():pos(-488, -64):addTo(self)
+    self.myInvitesNode = display.newNode():pos(-488, -64):addTo(self)
 
     -- 邀请列表背景
     display.newSprite(g.Res.moneytree_rankBg)
@@ -1002,7 +1002,7 @@ end
 
 function MoneyTreeView:newMyInviteItem(itemParams, itemSize, outerId)
     local itemParams = itemParams or {}
-	local item = display.newNode()
+    local item = display.newNode()
 
     local itemBgRes = g.Res.moneytree_rankItemBg
     if tonumber(itemParams.uid) == tonumber(g.user:getUid()) then
@@ -1063,7 +1063,7 @@ function MoneyTreeView:newMyInviteItem(itemParams, itemSize, outerId)
         display.newSprite(g.Res.moneytree_hand):pos(116 + 4, 28 + 3):addTo(item)
     end
     
-	return item
+    return item
 end
 
 function MoneyTreeView:onRankItemClick(target, evt, id, uid)
@@ -1187,18 +1187,17 @@ function MoneyTreeView:showGuideStep(guideStep)
     end
 end
 
-function MoneyTreeView:requestBaseInfo(successCallback, , noLoading)
+function MoneyTreeView:requestBaseInfo(successCallback, failCallback, noLoading)
     if self.httpBaseInfoId then return end
     if not noLoading then
         g.myUi.miniLoading:show()
     end
 
     local param = {}
-    param._interface = "/MoneyTree/basicInfo"
+    param._interface = "/moneyTree/basicInfo"
     param.param = {}
     param.param.type = self.treeType
-	param.param.gid = g.Const.GID
-    printVgg("10234")
+    param.param.gid = g.Const.GID
     local resetWrapHandler = handler(self, function ()
         self.httpBaseInfoId = nil
     end)
@@ -1230,33 +1229,16 @@ function MoneyTreeView:requestMyTreeInfo(successCallback, failCallback, noLoadin
         g.myUi.miniLoading:show()
     end
 
+    local resetWrapHandler = handler(self, function ()
+        self.httpMyTreeInfoId = nil
+    end)
+
     local param = {}
-    param.cmd = "NewMoneyTree-ownTreeInfo"
+    param._interface = "/moneyTree/ownTreeInfo"
     param.param = {}
     param.param.type = self.treeType
-    self.httpMyTreeInfoId = g.http:post(param,
-        function(data)
-            g.myUi.miniLoading:hide()
-            self.httpMyTreeInfoId = nil
-            local result = json.decode(data)
-            -- dump(result)
-            if result and result.ret == 0 then
-                if successCallback then
-                    successCallback(result)
-                end
-            else
-                if failCallback then
-                    failCallback(result)
-                end
-            end
-        end,
-        handler(self, function(self, errCode)
-            g.myUi.miniLoading:hide()
-            self.httpMyTreeInfoId = nil
-            if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
-            end
-        end))
+    self.httpMyTreeInfoId = g.http:simplePost(param,
+        successCallback, failCallback, resetWrapHandler)
 end
 
 function MoneyTreeView:onRequestMyTreeInfoSucc(data)

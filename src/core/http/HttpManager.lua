@@ -5,12 +5,12 @@ HttpManager.defaultURL = g.Const.HOST_URL
 HttpManager.defaultParams = {}
 
 function HttpManager:ctor()
-	self:initialize()
+    self:initialize()
 end
 
 function HttpManager:initialize()
-	self.requestId_ = 1
-	self.requests = {}
+    self.requestId_ = 1
+    self.requests = {}
     self.requestsSuccCbs = {} -- 成功回调集合
     self.requestsFailCbs = {} -- 失败回调集合
 end
@@ -207,7 +207,9 @@ function HttpManager:simplePost(params, succCallback, failCallback, resetHandler
         if type(data) == "table" then
             decodedData = json.decode(data)
         end
-        failCallback(decodedData)
+        if failCallback then
+            failCallback(decodedData)
+        end
     end
 
     return self:post(params, resultCallback, errorCallback)
