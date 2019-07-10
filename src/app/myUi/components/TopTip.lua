@@ -44,7 +44,7 @@ function TopTip:checkCreateTopTip()
 			:addTo(self.container_)
 
 		local size = cc.size(MAX_SHOW_LABEL_WIDTH, BG_CONTENT_SIZE.height)
-		local stencil = display.newScale9Sprite(g.Res.transparent, 0, 0, size)
+		local stencil = display.newScale9Sprite(g.Res.blank, 0, 0, size)
 		-- local stencil = display.newScale9Sprite(g.Res.common_topTipBg, 0, 0, BG_CONTENT_SIZE)
 		local clipNode = cc.ClippingNode:create():addTo(self.container_)
 		clipNode:setStencil(stencil)

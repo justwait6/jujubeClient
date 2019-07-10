@@ -88,69 +88,13 @@ LOAD LUA FILE: D:/source/jujubeClient/src/main.lua
 
 [LUA-print] [2][POST][http://47.100.99.3:9000/login] {"mac_address":"","version":"2.0.6","timezone":"+0","name":"100","lid":2,"network":"","pid":1,"password":"123456","machine_type":"unknown","sig":"cad5b57f78d0e16d21fd9fdb5bf42645","imei":"00-E0-4C-33-14-6D","gid":900,"cid":0,"_interface":"\/login","os":""}
 
-[LUA-print] [2] [RESPONSE]={"token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","switches":[1,2,3],"ret":0,"message":"login success!"}
+[LUA-print] [2] errCode=7 errmsg=Couldn't connect to server
 
-[LUA-print] dump from: [string "D:/source/jujubeClient/src/app/controller/login/LoginCtrl.lua"]:86: in function 'succCallback'
+[LUA-print] self.isPlaying_	nil
 
-[LUA-print] - "<var>" = {
+[LUA-print] table.nums(self.waitQueue_) == 0	false
 
-[LUA-print] -     "message"  = "login success!"
+ClippingNode warning: _stencil is nil.
 
-[LUA-print] -     "ret"      = 0
-
-[LUA-print] -     "switches" = {
-
-[LUA-print] -         1 = 1
-
-[LUA-print] -         2 = 2
-
-[LUA-print] -         3 = 3
-
-[LUA-print] -     }
-
-[LUA-print] -     "token"    = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg"
-
-[LUA-print] - }
-
-[LUA-print] dump from: [string "D:/source/jujubeClient/src/app/model/activity/ActManager.lua"]:39: in function 'setActSwitches'
-
-[LUA-print] - "switches" = {
-
-[LUA-print] -     1 = true
-
-[LUA-print] -     2 = true
-
-[LUA-print] -     3 = true
-
-[LUA-print] - }
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [3][POST][http://47.100.99.3:9000/moneyTree/basicInfo] {"_interface":"\/moneyTree\/basicInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [4][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-friendRank","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [5][POST][http://47.100.99.3:9000/moneyTree/ownTreeInfo] {"_interface":"\/moneyTree\/ownTreeInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [5] code=404
-
-[LUA-print] [4] code=404
-
-Inner height <= scrollview height, it will be force sized!
-
-[LUA-print] [6][POST][http://47.100.99.3:9000/moneyTree/basicInfo] {"_interface":"\/moneyTree\/basicInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [7][POST][http://47.100.99.3:9000] {"cmd":"NewMoneyTree-friendRank","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [8][POST][http://47.100.99.3:9000/moneyTree/ownTreeInfo] {"_interface":"\/moneyTree\/ownTreeInfo","token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjozLCJleHAiOjE1NjI2NDM5NzUsImlhdCI6MTU2MjY0MjE3NX0.iRchrnhT-j3vSXWXI6OV_m970nPphP8DGY2PwdcMMGiN3oTW9rynDUHkr-Axt3mG2MOAeThQPAvC2YMIcOmHfph7vXlBzZe0k5Y-bSt9zl2YcQ981X0QBk8Kor1HzUJzCrpEGLayLFAesVIYEhv7-NXgp9JhU9ZvJdTvvO1FhmfRnJtMlDWO4pDLqHb_JP2nSuEEdv8egW8AzdeEqK7hWDx5UqndIjd5EeRgiglWC0amCo4WuVUoKNnbDbH0qukgNEEokorGwWQEW-7g8g4KRbzb7J7TyWOLAzFav0JsH5FQQQH-1oFmhOWWCDGjfP4bSkY54enFCsmdBz6ibGFfEg","param":{"type":"gold"}}
-
-[LUA-print] [7] code=404
-
-[LUA-print] [8] code=404
-
-[LUA-print] MySocket:timer_ current time: 	1562642183
-
-[LUA-print] MySocket:timer_ isConnected: FALSE
-
-[LUA-print] ip port: 	nil	nil
+[LUA-print] TopTip container removed
 

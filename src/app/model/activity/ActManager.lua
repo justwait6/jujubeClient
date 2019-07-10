@@ -35,8 +35,6 @@ function ActManager:setActSwitches(remoteOpenActIds)
             self.switches[actId] = true
         end
     end
-
-    dump(self.switches, "switches")
 end
 
 function ActManager:getActSwitches()

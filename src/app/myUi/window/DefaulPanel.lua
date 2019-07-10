@@ -13,7 +13,7 @@ end
 function DefaulPanel:initilize(params)
 	local width = params.width or self.WIDTH
 	local height = params.height or self.HEIGHT
-	local bgRes = params.bgRes or g.Res.transparent
+	local bgRes = params.bgRes or g.Res.blank
 	local transBg = display.newScale9Sprite(bgRes, 0, 0, cc.size(width, height))
 		:addTo(self)
 	transBg:addNodeEventListener(cc.NODE_TOUCH_EVENT, function() return true end)

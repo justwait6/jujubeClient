@@ -15,6 +15,13 @@ function ImageLoader:ctor()
     self:registerCacheType(ImageLoader.CACHE_TYPE_NONE, {path=ImageLoader.DEFAULT_TMP_DIR})
 end
 
+function ImageLoader.getInstance()
+    if not ImageLoader.singleInstance then
+        ImageLoader.singleInstance = ImageLoader.new()
+    end
+    return ImageLoader.singleInstance
+end
+
 function ImageLoader:registerCacheType(cacheType, cacheConfig)
     self.cacheConfig_[cacheType] = cacheConfig
     if cacheConfig.path then
@@ -35,10 +42,10 @@ function ImageLoader:nextLoaderId()
     return self.loadId_
 end
 
-function ImageLoader:loadAndCacheImage(loadId, url, callback, cacheType,isForce)
+function ImageLoader:loadAndCacheImage(loadId, url, callback, cacheType, isForce)
     self:cancelJobByLoaderId(loadId)
     cacheType = cacheType or ImageLoader.CACHE_TYPE_NONE
-    self:addJob_(loadId, url, self.cacheConfig_[cacheType], callback,isForce)
+    self:addJob_(loadId, url, self.cacheConfig_[cacheType], callback, isForce)
 end
 
 function ImageLoader:loadImage(url, callback, cacheType)
@@ -64,7 +71,7 @@ function ImageLoader:cancelJobByLoaderId(loaderId)
     end
 end
 
-function ImageLoader:addJob_(loadId, url, config, callback,isForce)
+function ImageLoader:addJob_(loadId, url, config, callback, isForce)
     local hash = crypto.md5(url)
     local path = config.path .. hash
     if io.exists(path) and isForce then
@@ -77,7 +84,7 @@ function ImageLoader:addJob_(loadId, url, config, callback,isForce)
         if not tex then
             os.remove(path)
         elseif callback ~= nil then
-            callback(tex ~= nil, cc.Sprite:createWithTexture(tex),loadId)
+            callback(tex ~= nil, cc.Sprite:createWithTexture(tex), loadId)
         end
     else
         local loadingJob = self.loadingJobs_[url]

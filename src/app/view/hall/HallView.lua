@@ -5,6 +5,7 @@ end)
 local HallCtrl = require("app.controller.hall.HallCtrl")
 
 local HallActListView = import(".HallActListView")
+local HallSelfMiniView = import(".HallSelfMiniView")
 
 function HallView:ctor()
 	self.ctrl = HallCtrl.new()
@@ -36,6 +37,8 @@ function HallView:initialize()
 		-- :onClick(handler(self, self.playShowAnim))
 		:pos(0, -100)
 		:addTo(self)
+
+	HallSelfMiniView.new():pos(-display.cx + 200, display.cy - 80):addTo(self)
 end
 
 function HallView:addEventListeners()

@@ -73,7 +73,6 @@ function LoginCtrl:getEncryptSiganature(params)
 		table.insert(key_table, key)
 	end
 	table.sort(key_table)
-	-- dump(key_table)
 	local str = ""
 	for _,key in pairs(key_table) do
 		str = str .. key .. "=" .. params[key] .. "&"
@@ -83,8 +82,6 @@ function LoginCtrl:getEncryptSiganature(params)
 end
 
 function LoginCtrl:onLoginSucc(data)
-	dump(data)
-
 	local data = data or {}
 	data.info = data.info or {}
 	data.info.hallip = data.info.hallip or "47.88.215.218:9003"

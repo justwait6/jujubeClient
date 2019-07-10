@@ -43,13 +43,13 @@ function Dialog:initilize()
 
 	-- confirm button
 	local buttonSize = cc.size(106, 42)
-	self.confirmButton = ScaleButton.new({normal = g.Res.transparent}, {scale9 = true})
+	self.confirmButton = ScaleButton.new({normal = g.Res.blank}, {scale9 = true})
 		:setButtonLabel(display.newTTFLabel({size = 26, text = g.lang:getText("COMMON", "CONFIRM"), color = cc.c3b(137, 190, 224)}))
 		:onClick(handler(self, self.onConfirmClick))
 		:addTo(self)
 
 	-- cancel button
-	self.cancelButton = ScaleButton.new({normal = g.Res.transparent}, {scale9 = true})
+	self.cancelButton = ScaleButton.new({normal = g.Res.blank}, {scale9 = true})
 		:setButtonLabel(display.newTTFLabel({size = 26, text = g.lang:getText("COMMON", "CANCEL"), color = cc.c3b(137, 190, 224)}))
 		:onClick(handler(self, self.onCancelClick))
 		:addTo(self)

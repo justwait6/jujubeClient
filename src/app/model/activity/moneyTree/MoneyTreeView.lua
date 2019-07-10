@@ -145,21 +145,18 @@ function MoneyTreeView:initMyInfoPanel()
     self.myInfoNode = display.newNode():pos(490, 176):addTo(self):hide()
     display.newSprite(g.Res.moneytree_myInfoBg)
         :addTo(self.myInfoNode)
+
     -- 头像
-    local headerImage = g.myUi.HeaderNode.new(display.newSprite(g.Res.common_defaultWoman), g.Res.moneytree_imageFrameR, 74, 74)
+    g.myUi.AvatarView.new({
+        radius = 74,
+        gender = g.user:getGender(),
+        frameRes = g.Res.moneytree_imageFrameR,
+        avatarUrl = g.user:getIconUrl(),
+        clickCallback = function () self:onAvatarClick(g.user:getUid()) end,
+    })
         :pos(-88, 0)
         :addTo(self.myInfoNode)
-    g.myUi.TouchHelper.new(headerImage:getBgSprite(), function (target, evt)
-            self:onAvatarClick(target, evt, g.user:getUid())
-        end):enableTouch()
-    local iconUrl = g.user:getIconUrl()
-    if iconUrl ~= nil and iconUrl ~= "" then
-        self:updateIcon(iconUrl, headerImage)
-    else
-        if tonumber(g.user:getGender()) == g.user.Gender.MALE then
-            self:updateIcon(g.Res.common_defaultMan, headerImage)
-        end
-    end
+
     -- 姓名
     display.newTTFLabel({
             text = g.nameUtil:getNewSplitName(g.user:getName(), 14), size = 30, color = cc.c3b(255, 255, 255)})
@@ -210,7 +207,7 @@ function MoneyTreeView:updateMyDynamicsPanel(data)
     self.myDynamicsListView:removeAllItems()
 
     local contentNode = display.newNode()
-    display.newScale9Sprite(g.Res.transparent, 0, 0, cc.size(LIST_WIDTH_2, 1)):addTo(contentNode)
+    display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(LIST_WIDTH_2, 1)):addTo(contentNode)
     local lastDay = nil
     local curY, leftX = 72, LIST_WIDTH_2/2
     for i, v in ipairs(data) do
@@ -308,7 +305,11 @@ function MoneyTreeView:createVsPanel(attributes)
 
     local imageLevelY = 70
     -- 头像
-    attributes.headerImage = g.myUi.HeaderNode.new(display.newSprite(g.Res.common_defaultWoman), g.Res.moneytree_imageFrameR, 74, 74)
+    attributes.headerImage = g.myUi.AvatarView.new({
+        radius = 74,
+        gender = g.user:getGender(),
+        frameRes = g.Res.moneytree_imageFrameR,
+    })
         :pos(-88, imageLevelY)
         :addTo(node)
     
@@ -377,20 +378,15 @@ function MoneyTreeView:updateVsPanel(node, vsAttrs, data)
     if vsAttrs.headerImage then
         vsAttrs.headerImage:removeFromParent()
         -- 重新创建头像
-        vsAttrs.headerImage = g.myUi.HeaderNode.new(display.newSprite(g.Res.common_defaultWoman), g.Res.moneytree_imageFrameR, 74, 74)
-            :pos(-88, 70)
-            :addTo(node)
-        g.myUi.TouchHelper.new(vsAttrs.headerImage:getBgSprite(), function (target, evt)
-            self:onAvatarClick(target, evt, data.uid)
-        end):enableTouch()
-        local gotIcon = data.icon
-        if gotIcon ~= nil and gotIcon ~= "" then
-            self:updateIcon(g.myFunc:calcIconUrl(gotIcon), vsAttrs.headerImage)
-        else
-            if tonumber(data.gender) == g.user.Gender.MALE then
-                self:updateIcon(g.Res.common_defaultMan, vsAttrs.headerImage)
-            end
-        end
+        vsAttrs.headerImage = g.myUi.AvatarView.new({
+            radius = 74,
+            gender = g.user:getGender(),
+            frameRes = g.Res.moneytree_imageFrameR,
+            avatarUrl = data.icon,
+            clickCallback = function () self:onAvatarClick(data.uid) end,
+        })
+        :pos(-88, 70)
+        :addTo(node)
     end
     if vsAttrs.name then
         vsAttrs.name:setString(g.nameUtil:getNewSplitName(data.name, 10))
@@ -1017,21 +1013,15 @@ function MoneyTreeView:newMyInviteItem(itemParams, itemSize, outerId)
         :setMoveNoResponse(true)
 
     -- 用户头像
-    local header = g.myUi.HeaderNode.new(display.newSprite(g.Res.common_defaultWoman):scale(0.6), g.Res.moneytree_imageFrameL, 78, 78)
+    g.myUi.AvatarView.new({
+        radius = 39,
+        gender = g.user:getGender(),
+        frameRes = g.Res.moneytree_imageFrameL,
+        avatarUrl = itemParams.icon,
+        clickCallback = function () self:onAvatarClick(itemParams.uid) end,
+    })
         :pos(-88, 0)
         :addTo(item)
-    g.myUi.TouchHelper.new(header:getBgSprite(), function (target, evt)
-        self:onAvatarClick(target, evt, itemParams.uid)
-    end):enableTouch()
-        :setTouchSwallowEnabled(true)
-        :setMoveNoResponse(true)
-    if itemParams.icon then
-        self:updateIcon(g.MyFunc:calcIconUrl(itemParams.icon), header)
-    else
-        if tonumber(itemParams.gender) == g.user.Gender.MALE then
-            self:updateIcon(g.Res.common_defaultMan, header)
-        end
-    end
 
     -- 用户姓名
     display.newTTFLabel({
@@ -1096,24 +1086,7 @@ function MoneyTreeView:hideItemSelected()
 end
 
 function MoneyTreeView:onAvatarClick(target, evt, uid)
-    if evt == g.myUi.TouchHelper.CLICK then
-        -- self.friendUtil:requestFriendDetailByMid(uid)    
-    end
-end
-
-function MoneyTreeView:updateIcon(url, header)
-    if url == g.Res.common_defaultMan or url == g.Res.common_defaultWoman then
-        header:setTexture(display.newSprite(url))
-    else
-        self.headerImageLoaderId_ = g.ImageLoader:nextLoaderId()
-        g.ImageLoader:loadAndCacheImage(self.headerImageLoaderId_, url, function(success, sprite) 
-            if success then
-                if header and header.setTexture then
-                    header:setTexture(sprite)
-                end
-            end
-        end, g.ImageLoader.CACHE_TYPE_USER_HEAD_IMG)
-    end
+    -- self.friendUtil:requestFriendDetailByMid(uid)
 end
 
 local GuideStep = {}
@@ -1578,7 +1551,7 @@ end
 function MoneyTreeView:setForbidOperation(isForbidden)
     if isForbidden == true then
         if not self.noOperationCover then
-            self.noOperationCover = display.newScale9Sprite(g.Res.transparent, 0, -46, cc.size(1282, 635))
+            self.noOperationCover = display.newScale9Sprite(g.Res.blank, 0, -46, cc.size(1282, 635))
                 :addTo(self, 99)
             g.myUi.TouchHelper.new(self.noOperationCover, nil):enableTouch()
         end
@@ -1593,7 +1566,7 @@ end
 function MoneyTreeView:setGuideClickPrompt(isShowCover, callback)
     if isShowCover == true then
         if not self.guideClickNextCover then
-            self.guideClickNextCover = display.newScale9Sprite(g.Res.transparent, 0, 0, cc.size(1029, 635))
+            self.guideClickNextCover = display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(1029, 635))
                 :addTo(self, 99)
             self.guideClickNextCover:setTouchEnabled(true)
             self.guideClickNextCover:setTouchSwallowEnabled(true)
@@ -2005,17 +1978,16 @@ function MoneyTreeView:createCoinSrcDescTip(recordInfo)
 
     local curXPos = 16
     -- 头像
-    local headerImage = g.myUi.HeaderNode.new(display.newSprite(g.Res.common_defaultWoman), nil, 30, 30)
-        :pos(curXPos, 0)
-        :addTo(node)
-    local gotIcon = recordInfo.icon
-    if gotIcon ~= nil and gotIcon ~= "" then
-        self:updateIcon(g.myFunc:calcIconUrl(gotIcon), headerImage)
-    else
-        if tonumber(recordInfo.gender) == g.user.Gender.MALE then
-            self:updateIcon(g.Res.common_defaultMan, headerImage)
-        end
-    end
+    g.myUi.AvatarView.new({
+        radius = 15,
+        gender = g.user:getGender(),
+        frameRes = g.Res.moneytree_imageFrameR,
+        avatarUrl = recordInfo.icon,
+        clickCallback = function () self:onAvatarClick(g.user:getUid()) end,
+    })
+    :pos(curXPos, 0)
+    :addTo(node)
+        
     curXPos = curXPos + 24
 
     -- 姓名

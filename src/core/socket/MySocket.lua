@@ -9,7 +9,8 @@ function MySocket:ctor()
     MySocket.super.ctor(self, "MySocket", SocketProtocol)
     self.level = 0
     self.gameId = 0
-    self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
+    -- test comment
+    -- self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
 end
 
 function MySocket.getInstance()

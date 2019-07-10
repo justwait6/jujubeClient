@@ -7,7 +7,9 @@ Res.common_progress2					= "image/common/progress2.png"
 Res.common_headMask                		= "image/common/headMask.png"
 Res.common_defaultWoman    				= "image/common/defaultWoman.png"
 Res.common_defaultMan 	    			= "image/common/defaultMan.png"
-Res.common_midYellowBtn 	  			= "image/common/midYellowBtn.png"
+Res.common_midYellowBtn 	  			= "image/common/btnYellowM.png"
+Res.common_coinIcon		 	  			= "image/common/coinIcon.png"
+Res.common_headFrame	 	  			= "image/common/circle.png"
 
 Res.errorBg								= "bg2.jpg"
 Res.loginBg								= "katoBig.jpg"
@@ -18,13 +20,14 @@ Res.button2								= "blue_btn.png"
 Res.black		 		    			= "image/common/black.png"
 Res.loadingIcon					    	= "image/common/loadingIcon.png"
 Res.loadingBg					    	= "image/common/loadingBg.png"
-Res.transparent					    	= "image/common/transparent.png"
+Res.blank					    		= "image/common/blank.png"
 
 -- login
 Res.login_loginBg 						= "image/login/loginBg.jpg"
 
 -- hall
 Res.hall_hallBg 						= "image/hall/hallBg.jpg"
+Res.hall_userInfoBg 					= "image/hall/hallUserInfoBg.png"
 
 -- moneyTree
 Res.moneytree_bg 						= "image/activity/moneytree/bg.jpg"

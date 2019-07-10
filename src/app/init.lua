@@ -43,9 +43,9 @@ g.myFunc = require("app.util.MyFunc").getInstance()
 g.audio = require("app.util.AudioUtil").getInstance()
 
 --加载远程图像
-g.ImageLoader = require("core.http.ImageLoader").new()
-g.ImageLoader.CACHE_TYPE_USER_HEAD_IMG = "CACHE_TYPE_USER_HEAD_IMG"
-g.ImageLoader:registerCacheType(g.ImageLoader.CACHE_TYPE_USER_HEAD_IMG, {
+g.imageLoader = require("core.http.ImageLoader").getInstance()
+g.imageLoader.CACHE_TYPE_USER_HEAD_IMG = "CACHE_TYPE_USER_HEAD_IMG"
+g.imageLoader:registerCacheType(g.imageLoader.CACHE_TYPE_USER_HEAD_IMG, {
     path = device.writablePath .. "cache" .. device.directorySeparator .. "headpics" .. device.directorySeparator,
     onCacheChanged = function(path)
         require("lfs")
@@ -75,8 +75,8 @@ g.ImageLoader:registerCacheType(g.ImageLoader.CACHE_TYPE_USER_HEAD_IMG, {
     end
 })
 
-g.ImageLoader.CACHE_TYPE_GIFT = "CACHE_TYPE_GIFT"
-g.ImageLoader:registerCacheType(g.ImageLoader.CACHE_TYPE_GIFT, {
+g.imageLoader.CACHE_TYPE_GIFT = "CACHE_TYPE_GIFT"
+g.imageLoader:registerCacheType(g.imageLoader.CACHE_TYPE_GIFT, {
     path = device.writablePath .. "cache" .. device.directorySeparator .. "gift" .. device.directorySeparator,
     onCacheChanged = function(path) 
         require("lfs")

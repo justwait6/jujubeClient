@@ -1,131 +1,140 @@
--- --[[--[[--[[
--- @params params: a lua table
--- params.shape: the shape of avatar view
--- params.picUrl: the head image of avatar view, if not provided use defaultImage
--- params.gender: the gender of user, default MALE
--- params.defaultImage: if picUrl not provided or load url image fail, use this
--- params.avatarSize: the avatar size of avatar view
--- params.mask: the mask adding to avatar view after clipping
--- params.clickCallback: the callback when click avatar
--- --]]
--- local AvatarView = class("AvatarView", function ()
--- 	return display.newNode()
--- end)
+local AvatarView = class("AvatarView", function() 
+	return display.newNode()
+end)
 
--- local Gender = require("app.model.baseDef.Gender")
--- AvatarView.Gender = Gender
--- local Shape = require("app.model.baseDef.Shape")
--- AvatarView.Shape = Shape
+local Gender = require("app.model.baseDef.Gender")
+AvatarView.Gender = Gender
+local Shape = require("app.model.baseDef.Shape")
+AvatarView.Shape = Shape
 
--- function AvatarView:ctor(params)
--- 	params = params or {}
--- 	self.shape = params.shape or Shape.SQUARE
--- 	self.picUrl = params.picUrl
--- 	self.gender = params.gender or Gender.MALE
--- 	self.defaultImage = params.defaultImage or DEFAULT_IMAGE
--- 	self.avatarSize = params.avatarSize or cc.size(88, 88)
--- 	self.clickCallback = params.clickCallback
--- 	self.roundCorner = params.roundCorner -- Judge whether corner is square or round
+function AvatarView:ctor(params)
+    local params = params or {}
+    self.shape = params.shape or Shape.CIRCLE
+    self.gender = params.gender or Gender.MALE
+    self.avatarUrl = params.avatarUrl or self:getDefaultImage(self.gender)
+	self.frameRes = params.frameRes
+    self.clickCallback = params.clickCallback
+    if self.shape == Shape.CIRCLE then
+        self.radius = params.radius or 48
+        self.avatarSize = cc.size(self.radius * 2, self.radius * 2)
+    else
+        self.length = params.length or 88
+        self.avatarSize = cc.size(self.length, self.length)
+    end
 
--- 	if self.shape == Shape.CIRCLE then
--- 		self.radius = params.radius or 48
--- 		self.mask = params.mask or "#base_head_frame_circle.png"
--- 		self:createCircleAvatar()
--- 	elseif self.shape == Shape.SQUARE then
--- 		self.mask = params.mask or "#base_head_frame_b.png"
--- 		self:createSquareAvatar()
--- 	end
--- end
+    self:initialize()
+end
 
--- function AvatarView:createCircleAvatar()
--- 	local stencil = display.newCircle(self.radius, {x = 0, y = 0, borderColor = cc.c4f(0, 0, 0, 0), borderWidth = 0})
--- 	self._clippingNode = cc.ClippingNode:create():addTo(self)
--- 	self._clippingNode:setStencil(stencil)
+function AvatarView:initialize()
+    if self.shape == Shape.CIRCLE then
+        self:_createCircleAvatar()
+    else
+        self:_createSquareAvatar()
+    end
 
--- 	self._avatar = g.ImageLoader.new():addTo(self._clippingNode)
+    g.myUi.ScaleButton.new({normal = g.Res.blank})
+        :onClick(handler(self, self._onAvatarClick))
+        :setButtonSize(self.avatarSize)
+        :addTo(self)
 
--- 	local defaultImg = self:getDefaultImage(self.gender)
--- 	self._avatar:setData({url = g.util.func.getRealUrl(self.picUrl), defaultImage = defaultImg, size = self.avatarSize})
--- 	cc.ui.UIPushButton.new({normal = "#base_transparent.png"}, {scale9 = true})
--- 		:setButtonSize(self.avatarSize.width, self.avatarSize.height)
--- 		:onButtonClicked(handler(self, self._onAvatarClicked))
--- 		:addTo(self)
+    if self.frameRes then
+        self.frame = display.newSprite(self.frameRes):addTo(self)
+    end
+end
 
--- 	self.maskSprite = display.newSprite(self.mask):addTo(self)
--- end
+function AvatarView:_createCircleAvatar()
+    local stencil = display.newCircle(self.radius, {x = 0, y = 0, borderColor = cc.c4f(0, 0, 0, 0), borderWidth = 0})
+    
+    self._clippingNode = cc.ClippingNode:create():addTo(self)
+    self._clippingNode:setStencil(stencil)
 
--- function AvatarView:createSquareAvatar()
--- 	self._clippingNode = cc.ClippingNode:create():addTo(self)
+    self:_recreateAvatarSpriteIf()
+end
 
--- 	local stencil = nil
--- 	if not self.roundCorner then
--- 		stencil = g.util.func.getScale9Stencil("#base_transparent.png", self.avatarSize.width - 2, self.avatarSize.height - 2)
--- 		-- stencil = display.newScale9Sprite("#base_transparent.png", 0, 0, cc.size(self.avatarSize.width - 2, self.avatarSize.height - 2))
--- 	else
--- 		-- stencil = self:createNodeRoundRect(cc.rect(-self.avatarSize.width/2, -self.avatarSize.height/2, self.avatarSize.width, self.avatarSize.height))
--- 		stencil = g.util.func.getScale9Stencil("#base_button_bg.png", self.avatarSize.width - 2, self.avatarSize.height - 2)
--- 		self._clippingNode:setAlphaThreshold(0)
--- 	end
--- 	self._clippingNode:setStencil(stencil)
+function AvatarView:_createSquareAvatar()
+    local stencil = cc.DrawNode:create()
+    local w, h = self.avatarSize.width - 2, self.avatarSize.height - 2
+    stencil:drawSolidRect(cc.p(-w/2, -h/2), cc.p(w/2, h/2), cc.c4f(0, 0, 0, 0))
 
--- 	self._avatar = g.ImageLoader.new():addTo(self._clippingNode)
+    self._clippingNode = cc.ClippingNode:create():addTo(self)
+    self._clippingNode:setStencil(stencil)
 
--- 	local defaultImg = self:getDefaultImage(self.gender)
--- 	self._avatar:setData({url = g.util.func.getRealUrl(self.picUrl), defaultImage = defaultImg, size = self.avatarSize})
--- 	cc.ui.UIPushButton.new({normal = "#base_transparent.png"}, {scale9 = true})
--- 		:setButtonSize(self.avatarSize.width, self.avatarSize.height)
--- 		:onButtonClicked(handler(self, self._onAvatarClicked))
--- 		:addTo(self)
+    self:_recreateAvatarSpriteIf()
+end
 
--- 	self.maskSprite = display.newSprite(self.mask):addTo(self, 2)
--- end
+function AvatarView:_recreateAvatarSpriteIf()
+    if not self._avatarSprite then
+        self._avatarSprite = display.newSprite(g.Res.blank):addTo(self._clippingNode)
+    end
 
--- function AvatarView:scaleAvatarFrame(scaleFactor)
--- 	if self.maskSprite then
--- 		self.maskSprite:setScale(scaleFactor)
--- 	end
--- end
+    self:_asyncGetAvatarSprite(self.avatarUrl, function (sprite)
+        local size = sprite:getContentSize()
+        local minImageLength = math.min(size.width, size.height)
+        self._avatarSprite:setSpriteFrame(sprite:getSpriteFrame())
+        self._avatarSprite:scale(self.avatarSize.width/minImageLength)
+    end)
+end
 
--- function AvatarView:_onAvatarClicked()
--- 	if self.clickCallback then
--- 		self.clickCallback()
--- 	end
--- end
+function AvatarView:setAvatarUrl(avatarUrl)
+    if self.avatarUrl ~= avatarUrl then
+        self.avatarUrl = avatarUrl or self:getDefaultImage(self.gender)
+        self:_recreateAvatarSpriteIf()
+    end
+end
 
--- function AvatarView:updateAvatarView(gender)
--- 	self.gender = gender or self.gender
--- 	local defaultImg = self:getDefaultImage(self.gender)
--- 	self._avatar:setData({url = g.util.func.getRealUrl(self.picUrl), defaultImage = defaultImg, size = self.avatarSize})
--- end
+function AvatarView:_onAvatarClick()
+    self:_playClickAnim()
+    if self.clickCallback then
+        self.clickCallback()
+    end
+end
 
--- function AvatarView:updateAvatarViewUrl(url)
--- 	self.picUrl = url or self.picUrl
--- 	local defaultImg = self:getDefaultImage(self.gender)
--- 	self._avatar:setData({url = g.util.func.getRealUrl(self.picUrl), defaultImage = defaultImg, size = self.avatarSize})
--- end
+function AvatarView:_playClickAnim()
+    self:stopAllActions()
+    self:scale(1)
+    self:runAction(cc.Sequence:create({
+        cc.ScaleTo:create(0.06, 0.96),
+        cc.ScaleTo:create(0.06, 1),
+    }))
+end
 
--- function AvatarView:getDefaultImage(gender)
--- 	local defaultImage
--- 	if gender == Gender.MALE or gender == "m" then
--- 		defaultImage = "#base_avatar_m_b.png"
--- 	else
--- 		defaultImage = "#base_avatar_f_b.png"
--- 	end
+function AvatarView:_asyncGetAvatarSprite(url, callback)
+    if url == g.Res.common_defaultMan or
+        url == g.Res.common_defaultWoman then
+        if callback then
+            callback(display.newSprite(url))
+        end
+    else
+        local imageId = g.imageLoader:nextLoaderId()
+        g.imageLoader:loadAndCacheImage(imageId, g.myFunc:calcIconUrl(url), function(success, sprite)
+            if success and sprite then
+                if callback then
+                    callback(sprite)
+                end
+            else
+                if callback then
+                    callback(display.newSprite(self:getDefaultImage(self.gender)))
+                end
+            end
+        end, g.imageLoader.CACHE_TYPE_USER_HEAD_IMG)
+    end
+end
 
--- 	return defaultImage
--- end
+function AvatarView:getDefaultImage(gender)
+    local defaultImage
+    if gender == Gender.MALE or gender == "m" then
+        defaultImage = g.Res.common_defaultMan
+    else
+        defaultImage = g.Res.common_defaultWoman
+    end
 
--- --更换头像
--- function AvatarView:setData( data )
--- 	-- body
--- 	self._data = data or {}
--- 	if self._data and self._data.size == nil  then
--- 		--如果没有设置size参数,默认使用 89*89
--- 		self._data.size = self.avatarSize
--- 	end
+    return defaultImage
+end
 
--- 	self._avatar:setData(self._data)
--- end
+function AvatarView:setFrameScale(scale)
+    if self.frame then
+        self.frame:scale(scale)
+    end
+end
 
--- return AvatarView
---]]--]]
+return AvatarView

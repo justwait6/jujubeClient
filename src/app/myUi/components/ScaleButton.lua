@@ -41,12 +41,12 @@ function ScaleButton:ctor(params)
             	if params and not params.noAnim then
                 	self:targetScaleTo(sender, 0.95 * self.scale)
             	end
-                if params.precallback then
-                    params.precallback()
+                if self.pressCallback then
+                    self.pressCallback()
                 end
             elseif eventType == 3 then
-                if params.releaseCallback then
-                    params.releaseCallback()
+                if self.releaseCallback then
+                    self.releaseCallback()
                 end
                 self:targetScaleTo(sender, 1.0 * (self.scale or 1))
             end
@@ -70,6 +70,16 @@ end
 
 function ScaleButton:setLastClickTime()
     self.lastClickTime = g.timeUtil:getSocketTime()
+end
+
+function ScaleButton:onPress(callback)
+    self.pressCallback = callback
+    return self
+end
+
+function ScaleButton:onRelease(callback)
+    self.releaseCallback = callback
+    return self
 end
 
 function ScaleButton:onClick(callback)
@@ -118,6 +128,12 @@ end
 
 function ScaleButton:setButtonEnabled(enable)
     self:setEnabled(enable)
+    return self
+end
+
+function ScaleButton:setButtonSize(size)
+    self:setScale9Enabled(true)
+    self:setContentSize(size)
     return self
 end
 
