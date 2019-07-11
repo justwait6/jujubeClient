@@ -4,17 +4,15 @@ end)
 
 local HallCtrl = require("app.controller.hall.HallCtrl")
 
-local HallActListView = import(".HallActListView")
 local HallSelfMiniView = import(".HallSelfMiniView")
+local HallActListView = import(".HallActListView")
+local HallBaseListView = import(".HallBaseListView")
 
 function HallView:ctor()
 	self.ctrl = HallCtrl.new()
 
 	self:setNodeEventEnabled(true)
 	self:initialize()
-	self.actListView = HallActListView.new()
-		:pos(display.width/2 - 80, display.height/2 - 80)
-		:addTo(self, 1)
 	self:addEventListeners()
 end
 
@@ -26,11 +24,6 @@ function HallView:initialize()
     	:pos(0, 100)
     	:addTo(self)
 
-    g.myUi.ScaleButton.new({normal = g.Res.button2})
-		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "GAME_START")}))
-		:onClick(handler(self.ctrl, self.ctrl.requestServerTableId))
-		:addTo(self)
-
 	g.myUi.ScaleButton.new({normal = g.Res.button2})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "LOGOUT")}))
 		:onClick(handler(self.ctrl, self.ctrl.logout))
@@ -38,7 +31,20 @@ function HallView:initialize()
 		:pos(0, -100)
 		:addTo(self)
 
-	HallSelfMiniView.new():pos(-display.cx + 200, display.cy - 80):addTo(self)
+	-- 自己头像
+	HallSelfMiniView.new()
+		:pos(-display.cx + 200, display.cy - 80)
+		:addTo(self)
+
+	-- 活动列表
+	self.actListView = HallActListView.new()
+		:pos(display.width/2 - 80, display.height/2 - 80)
+		:addTo(self, 1)
+
+	-- 基础功能列表
+	self.baseListView = HallBaseListView.new()
+		:pos(-display.width/2, -display.height/2 + 80)
+		:addTo(self, 1)
 end
 
 function HallView:addEventListeners()
@@ -48,6 +54,9 @@ end
 function HallView:playShowAnim()
 	if self.actListView and self.actListView.playShowAnim then
 		self.actListView:playShowAnim()
+	end
+	if self.baseListView and self.baseListView.playShowAnim then
+		self.baseListView:playShowAnim()
 	end
 end
 

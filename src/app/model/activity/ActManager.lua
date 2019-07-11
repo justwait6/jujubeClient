@@ -1,11 +1,11 @@
-require("zlib")
+require("lfs")
 local ActManager = class("ActManager")
+
+ActManager.VIEW_DIR_PATH = "app.view.activity"
 
 local LocalActSwitch = import(".LocalActSwitch")
 local ActDef = import(".ActDef")
 local ActConf = import(".ActConfig")
-
-local MoneyTreeView = import(".moneyTree.MoneyTreeView")
 
 function ActManager:ctor()
 	self:initialize()
@@ -72,8 +72,9 @@ function ActManager:getHallActConfs()
     return hallActConfs
 end
 
-function ActManager:onHallIconClick(actId)
-    MoneyTreeView.new():show()
+function ActManager:onHallActIconClick(actId)
+    local view = require(ActManager.VIEW_DIR_PATH .. ActConf[actId].actWindowPath)
+    view.new():show()
 end
 
 return ActManager

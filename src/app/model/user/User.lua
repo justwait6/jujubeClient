@@ -39,7 +39,7 @@ function User:setGender(gender)
 end
 
 function User:getGender()
-	return self.gender
+	return self.gender or Gender.FEMALE
 end
 
 function User:setIconUrl(iconUrl, isRelative)

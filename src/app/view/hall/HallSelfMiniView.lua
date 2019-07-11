@@ -11,9 +11,9 @@ function HallSelfMiniView:initialize()
 
 	self.avatar = g.myUi.AvatarView.new({
 		radius = 52,
-		gender = g.myUi.AvatarView.Gender.FEMALE,
+		gender = g.user:getGender(),
 		frameRes = g.Res.common_headFrame,
-		avatarUrl = "http://img1.juimg.com/180709/33069-1PF919360412.jpg",
+		avatarUrl = g.user:getIconUrl(),
 		clickCallback = function () print("111") end,
 	})
         :pos(-110, 10)

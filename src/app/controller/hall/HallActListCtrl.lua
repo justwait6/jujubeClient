@@ -13,8 +13,8 @@ function HallActListCtrl:getActConfList()
 	return actMgr:getHallActConfs()
 end
 
-function HallActListCtrl:onHallIconClick(actId)
-	return actMgr:onHallIconClick(actId)
+function HallActListCtrl:onActIconClick(actId)
+	return actMgr:onHallActIconClick(actId)
 end
 
 function HallActListCtrl:XXXX()

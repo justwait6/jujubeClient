@@ -105,4 +105,14 @@ function MyFunc:calcIconUrl(iconUrl, isRelative)
     end
 end
 
+--[[
+    @func findLast: equal to func lastIndexOf in other language
+    @param haystack: string to be found
+    @param needle: char to find, NOTE to find . you need to escape it(use %.)
+--]]
+function MyFunc:findLast(haystack, needle)
+    local i=haystack:match(".*"..needle.."()")
+    if i==nil then return nil else return i-1 end
+end
+
 return MyFunc

@@ -22,7 +22,7 @@ function HallActListView:renderIconsList()
 	for i, conf in pairs(actConfs) do
 		self.icons[i] = g.myUi.ScaleButton.new({normal = conf.hallIconRes})
 			:onClick(handler(self.ctrl, function ()
-				self.ctrl:onHallIconClick(conf.actId)
+				self.ctrl:onActIconClick(conf.actId)
 			end))
 			:addTo(self)
 			:opacity(0)

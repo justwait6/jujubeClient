@@ -1,5 +1,5 @@
 local MoneyTreeView = class("MoneyTreeView", g.myUi.Window)
--- local MoneyTreeInvitePopup = import(".MoneyTreeInvitePopup")
+local MoneyTreeInviteView = import(".MoneyTreeInviteView")
 -- local FriendUtil = import("app.module.hall.popup.util.FriendUtil")
 
 local MoneyTreeCtrl = require("app.controller.activity.moneytree.MoneyTreeCtrl")
@@ -32,8 +32,8 @@ goldCoinNum["B"] = "image/activity/moneytree/goldCoinNum/B.png"
 goldCoinNum["."] = "image/activity/moneytree/goldCoinNum/dot.png"
 
 function MoneyTreeView:ctor(treeType)
-    self.ctrl = MoneyTreeCtrl.new()
-    MoneyTreeView.super.ctor(self, {width = MoneyTreeView.WIDTH, height = MoneyTreeView.HEIGHT})
+    self.ctrl = MoneyTreeCtrl.new(self)
+    MoneyTreeView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT})
     display.addSpriteFrames("image/activity/moneytree/tree_water.plist", "image/activity/moneytree/tree_water.png")
     display.addSpriteFrames("image/activity/moneytree/newMoneyTreeAnimChip.plist", "image/activity/moneytree/newMoneyTreeAnimChip.png")
     display.addSpriteFrames("image/activity/moneytree/newMoneyTreeAnimGold.plist", "image/activity/moneytree/newMoneyTreeAnimGold.png")
@@ -46,10 +46,9 @@ function MoneyTreeView:ctor(treeType)
 end
 
 function MoneyTreeView:onShow()
-    self:requestBaseInfo(handler(self, self.onRequestBaseInfoSucc), function ()
-        -- test
-        print("reqest baseinfo fail")
-    end)
+    if self.ctrl then
+        self.ctrl:requestBaseInfo(handler(self, self.onRequestBaseInfoSucc))
+    end
     self:requestRankList(handler(self, self.onRequestRankListSucc))
     self:requestMyTreeInfo(handler(self, self.onRequestMyTreeInfoSucc))
 end
@@ -983,7 +982,7 @@ function MoneyTreeView:initMyInvitesList()
         :addTo(self.myInvitesNode)
 
     -- 邀请引导按钮(打开邀请页面)
-    g.myUi.ScaleButton.new({normal = g.Res.common_midYellowBtn})
+    g.myUi.ScaleButton.new({normal = g.Res.common_btnYellowM})
         :setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("MONEYTREE", "INVITE")}))
         :onClick(handler(self.ctrl, self.ctrl.onInviteGuideButtonClick))
         :pos(0, -224)
@@ -1158,24 +1157,6 @@ function MoneyTreeView:showGuideStep(guideStep)
     else
         self:setGuideClickPrompt(false)
     end
-end
-
-function MoneyTreeView:requestBaseInfo(successCallback, failCallback, noLoading)
-    if self.httpBaseInfoId then return end
-    if not noLoading then
-        g.myUi.miniLoading:show()
-    end
-
-    local param = {}
-    param._interface = "/moneyTree/basicInfo"
-    param.param = {}
-    param.param.type = self.treeType
-    param.param.gid = g.Const.GID
-    local resetWrapHandler = handler(self, function ()
-        self.httpBaseInfoId = nil
-    end)
-    self.httpBaseInfoId = g.http:simplePost(param,
-        successCallback, failCallback, resetWrapHandler)
 end
 
 function MoneyTreeView:onRequestBaseInfoSucc(data)
@@ -1507,17 +1488,14 @@ function MoneyTreeView:onRequestRankListSucc(data)
     end
 end
 
-function MoneyTreeView:onBindCodeClick()
-    self:showMoneyTreeInvitePopup()
-end
-
-function MoneyTreeView:showMoneyTreeInvitePopup()
-    MoneyTreeInvitePopup.new(self.treeType, self):show()
-end
-
 function MoneyTreeView:onBindCodeSucc()
     self:requestRankList(handler(self, self.onRequestRankListSucc))
     self:requestMyTreeInfo(handler(self, self.onRequestMyTreeInfoSucc))
+end
+
+function MoneyTreeView:showMoneyTreeInvitePopup()
+    local inviteView = MoneyTreeInviteView.new(self.treeType, self):show()
+    inviteView:setCtrl(self.ctrl, true)
 end
 
 
@@ -2066,7 +2044,9 @@ function MoneyTreeView:startRunCoinSrcDescTipAction(node, nextCallback)
 end
 
 function MoneyTreeView:onClearPopup()
-    g.http:cancel(self.httpBaseInfoId)
+    if self.ctrl then
+        g.http:cancel(self.httpBaseInfoId)
+    end
     g.http:cancel(self.httpMyTreeInfoId)
     g.http:cancel(self.httpRankListId)
     g.http:cancel(self.httpCollectMyCoinId)

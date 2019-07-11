@@ -2,26 +2,33 @@ local lang = {}
 local L = lang
 
 L.COMMON = {}
-L.COMMON.CONFIRM = "确定"
-L.COMMON.CANCEL = "取消"
-L.COMMON.LOGIN = "登录"
-L.COMMON.LOGOUT = "登出"
-L.COMMON.FACEBOOK = "FACEBOOK"
-L.COMMON.GAME_START = "开始游戏"
-L.COMMON.NO_NETWORK = "当前没有网络"
-L.COMMON.SEND = "发送"
+L.COMMON.CONFIRM 							 = "确定"
+L.COMMON.CANCEL 							 = "取消"
+L.COMMON.LOGIN 								 = "登录"
+L.COMMON.LOGOUT 							 = "登出"
+L.COMMON.FACEBOOK 							 = "FACEBOOK"
+L.COMMON.GAME_START 						 = "开始游戏"
+L.COMMON.NO_NETWORK 						 = "当前没有网络"
+L.COMMON.SEND 								 = "发送"
 
 L.TEST = {}
-L.TEST.HELLO_WORLD = "你好, 世界"
+L.TEST.HELLO_WORLD 							 = "你好, 世界"
 
 L.LOGIN = {}
-L.LOGIN.LOGIN_TIPS = "现在是登录界面, 有本事进游戏来找我啊"
+L.LOGIN.LOGIN_TIPS 							 = "现在是登录界面, 有本事进游戏来找我啊"
+L.LOGIN.NAME_TIPS 							 = "用户名"
+L.LOGIN.PWD_TIPS 							 = "密码"
 
 L.HALL = {}
-L.HALL.HALL_TIPS = "你果然来了, 这是大厅, 我告诉你下一步怎么走"
+L.HALL.HALL_TIPS 							 = "你果然来了, 这是大厅, 我告诉你下一步怎么走"
 
 L.HTTP = {}
-L.HTTP.TIMEOUT = "连接超时"
+L.HTTP.TIMEOUT 								 = "连接超时"
+
+L.FRIEND = {}
+L.FRIEND.SEARCH_FRIEND 						 = "搜索好友"
+L.FRIEND.NAME_TIPS 							 = "输入用户名"
+L.FRIEND.SEARCH 							 = "搜索"
 
 L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"
@@ -68,7 +75,5 @@ L.MONEYTREE.INVITE_DESC2                     = "邀请朋友得游戏币"
 L.MONEYTREE.PRODUCE                          = "产生"
 L.MONEYTREE.COME_TOMORROW                    = "明天再来"
 L.MONEYTREE.NEED_UPDATE                      = "好友未升级到新版本"
-
-
 
 return lang

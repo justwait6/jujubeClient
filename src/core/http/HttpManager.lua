@@ -228,7 +228,6 @@ function HttpManager:cancel(requestId)
         if self.requestsFailCbs[requestId] then
             self.requestsFailCbs[requestId] = nil
         end
-        HttpService.requests[requestId] = nil
         self.requests[requestId] = nil
     end
 end

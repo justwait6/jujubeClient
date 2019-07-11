@@ -4,7 +4,8 @@ local LoginType = require("app.model.login.LoginType")
 
 local actMgr = require("app.model.activity.ActManager").getInstance()
 
-function LoginCtrl:ctor()
+function LoginCtrl:ctor(viewObj)
+	self.viewObj = viewObj
 	self:initialize()
 end
 
@@ -29,31 +30,22 @@ function LoginCtrl:requestServerTableId()
 end
 
 function LoginCtrl:login(successCallback, failCallback)
+	local resetWrapHandler = handler(self, function ()
+        self.postLoginId = nil
+    end)
 	g.myUi.miniLoading:show()
 
 	local loginParams = self:getLoginParams()
 	
 	-- timeout连接显示一次
 	self.postLoginId = g.http:simplePost(loginParams,
-        successCallback, failCallback)
+        successCallback, failCallback, resetWrapHandler)
 end
 
 function LoginCtrl:getLoginParams(data)
 	local loginParams = {}
-	loginParams.access_token 	= g.myDevice:getAccessToken()
-	loginParams.imei 		 	= g.myDevice:getImei() 
-	loginParams.mac_address 	= g.myDevice:getMacAddress()
-	loginParams.os 				= g.myDevice:getOs() -- 终端操作系统
-	loginParams.machine_type 	= g.myDevice:getPhoneModel() -- 移动终端设备机型 iphone7
-	loginParams.network 		= g.myDevice:getInternetAccess() -- 接入方式，例如wifi
-	loginParams.pid 			= g.myDevice:getPlatformId() --平台ID 1-安卓 2-ios
-	loginParams.timezone  		= g.Const.timeZone
-	loginParams.version 		= g.Const.version -- 当前游戏版本号
-	loginParams.gid 			= g.Const.gameId --游戏客户端ID  200-骰子
-	loginParams.lid 			= g.user:getLoginType() --登录类型Id 1-fb 2-游客
-	loginParams.cid 			= 0 --渠道id，预留字段，目前传0即可
-	loginParams.name 			= '100'
-	loginParams.password 		= '123456'
+	loginParams.name 			= self:getInputUserName()
+	loginParams.password 		= self:getInputUserPassword()
 	loginParams._interface		= '/login'
 
 	loginParams.sig = self:getEncryptSiganature(loginParams)
@@ -87,10 +79,6 @@ function LoginCtrl:onLoginSucc(data)
 	data.info.hallip = data.info.hallip or "47.88.215.218:9003"
 
 	local user = data.info.user
-	-- g.user:setUid(user.uid or 0) --用户uid
-	-- g.user:setAccessServerToken(data.info.token)
-	-- g.user:setHallIpAndPort(data.info.hallip)
-	-- g.user:setBackupIp(data.info.backupHallIp)
 	g.http:setToken(data.token)
 	actMgr:setActSwitches(data.switches)
 
@@ -102,6 +90,7 @@ function LoginCtrl:onLoginFail(errData)
     	g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
     elseif type(errData) == "table" then
     	errData.info = errData.info or {}
+    	g.myUi.topTip:showText(errData.message)
     	print("LoginScene:onLoginFail ERROR: ", errData.info.msg)
     else
     	g.myUi.topTip:clearAll()
@@ -109,12 +98,16 @@ function LoginCtrl:onLoginFail(errData)
     end
 end
 
-function LoginCtrl:XXXX()
-	
+function LoginCtrl:getInputUserName()
+	if self.viewObj then
+		return self.viewObj:getInputUserName()
+	end
 end
 
-function LoginCtrl:XXXX()
-	
+function LoginCtrl:getInputUserPassword()
+	if self.viewObj then
+		return self.viewObj:getInputUserPassword()
+	end
 end
 
 function LoginCtrl:XXXX()

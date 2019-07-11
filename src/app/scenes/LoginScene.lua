@@ -5,7 +5,7 @@ end)
 local LoginView = require("app.view.login.LoginView")
 
 function LoginScene:ctor()
-	self.view = LoginView.new():addTo(self)
+	self.view = LoginView.new():pos(display.cx, display.cy):addTo(self)
 
     self:initialize()
 end
