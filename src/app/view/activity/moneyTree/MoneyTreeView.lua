@@ -151,14 +151,14 @@ function MoneyTreeView:initMyInfoPanel()
         gender = g.user:getGender(),
         frameRes = g.Res.moneytree_imageFrameR,
         avatarUrl = g.user:getIconUrl(),
-        clickCallback = function () self:onAvatarClick(g.user:getUid()) end,
+        clickOptions = {default = true, uid = g.user:getUid()},
     })
         :pos(-88, 0)
         :addTo(self.myInfoNode)
 
     -- 姓名
     display.newTTFLabel({
-            text = g.nameUtil:getNewSplitName(g.user:getName(), 14), size = 30, color = cc.c3b(255, 255, 255)})
+            text = g.user:getCatName(14), size = 30, color = cc.c3b(255, 255, 255)})
         :align(display.LEFT_CENTER, -34, 20)
         :addTo(self.myInfoNode)
     
@@ -237,7 +237,7 @@ function MoneyTreeView:updateMyDynamicsPanel(data)
                 :align(display.LEFT_CENTER, -leftX + 42, curY)
                 :addTo(contentNode)
             -- 名字
-            display.newTTFLabel({text = g.nameUtil:getNewSplitName(v.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
+            display.newTTFLabel({text = g.nameUtil:getLimitName(v.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
                 :align(display.LEFT_CENTER, -leftX + 104, curY)
                 :addTo(contentNode)
             -- 文字
@@ -260,7 +260,7 @@ function MoneyTreeView:updateMyDynamicsPanel(data)
                 :align(display.LEFT_CENTER, -leftX + 42, curY)
                 :addTo(contentNode)
             -- 名字
-            display.newTTFLabel({text = g.nameUtil:getNewSplitName(v.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
+            display.newTTFLabel({text = g.nameUtil:getLimitName(v.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
                 :align(display.LEFT_CENTER, -leftX + 104, curY)
                 :addTo(contentNode)
             -- 文字
@@ -314,7 +314,7 @@ function MoneyTreeView:createVsPanel(attributes)
     
     -- 姓名
     attributes.name = display.newTTFLabel({
-            text = g.nameUtil:getNewSplitName(g.user:getName(), 14), size = 30, color = cc.c3b(255, 255, 255)})
+            text = g.user:getCatName(14), size = 30, color = cc.c3b(255, 255, 255)})
         :align(display.LEFT_CENTER, -34, imageLevelY + 20)
         :addTo(node)
 
@@ -382,13 +382,13 @@ function MoneyTreeView:updateVsPanel(node, vsAttrs, data)
             gender = g.user:getGender(),
             frameRes = g.Res.moneytree_imageFrameR,
             avatarUrl = data.icon,
-            clickCallback = function () self:onAvatarClick(data.uid) end,
+            clickOptions = {default = true, uid = data.uid},
         })
         :pos(-88, 70)
         :addTo(node)
     end
     if vsAttrs.name then
-        vsAttrs.name:setString(g.nameUtil:getNewSplitName(data.name, 10))
+        vsAttrs.name:setString(g.nameUtil:getLimitName(data.name, 10))
     end
     if vsAttrs.currencyCount then
         local faceValue = g.moneyUtil:splitMoney(self:getTransferAmount(data.currencyCount or 0, self.treeType))
@@ -1017,14 +1017,14 @@ function MoneyTreeView:newMyInviteItem(itemParams, itemSize, outerId)
         gender = g.user:getGender(),
         frameRes = g.Res.moneytree_imageFrameL,
         avatarUrl = itemParams.icon,
-        clickCallback = function () self:onAvatarClick(itemParams.uid) end,
+        clickOptions = {default = true, uid = itemParams.uid},
     })
         :pos(-88, 0)
         :addTo(item)
 
     -- 用户姓名
     display.newTTFLabel({
-            text = g.nameUtil:getNewSplitName(itemParams.name, 12), size = 24, color = cc.c3b(255, 255, 255)})
+            text = g.nameUtil:getLimitName(itemParams.name, 12), size = 24, color = cc.c3b(255, 255, 255)})
         :align(display.LEFT_CENTER, -34, 30)
         :addTo(item)
 
@@ -1082,10 +1082,6 @@ function MoneyTreeView:hideItemSelected()
             self.myInvitesSelectedLbls[self.lastItemSelected]:hide()
         end
     end
-end
-
-function MoneyTreeView:onAvatarClick(target, evt, uid)
-    -- self.friendUtil:requestFriendDetailByMid(uid)
 end
 
 local GuideStep = {}
@@ -1961,7 +1957,7 @@ function MoneyTreeView:createCoinSrcDescTip(recordInfo)
         gender = g.user:getGender(),
         frameRes = g.Res.moneytree_imageFrameR,
         avatarUrl = recordInfo.icon,
-        clickCallback = function () self:onAvatarClick(g.user:getUid()) end,
+        clickOptions = {default = true, uid = g.user:getUid()},
     })
     :pos(curXPos, 0)
     :addTo(node)
@@ -1970,7 +1966,7 @@ function MoneyTreeView:createCoinSrcDescTip(recordInfo)
 
     -- 姓名
     local nameLbl = display.newTTFLabel({
-            text = g.nameUtil:getNewSplitName(recordInfo.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
+            text = g.nameUtil:getLimitName(recordInfo.name, 14), size = 18, color = cc.c3b(32, 252, 255)})
         :align(display.LEFT_CENTER, curXPos, 0)
         :addTo(node)
     curXPos = curXPos + nameLbl:getContentSize().width + 4

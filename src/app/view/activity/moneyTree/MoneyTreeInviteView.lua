@@ -156,10 +156,6 @@ function MoneyTreeInviteView:onRequestInviteInfoSucc(data)
     end
 end
 
-function MoneyTreeInviteView:onAvatarClick(uid)
-    -- self.friendUtil:requestFriendDetailByMid(uid)
-end
-
 function MoneyTreeInviteView:requestBindCode(successCallback, failCallback)
     if self.httpBindCodeId then return end
     g.myUi.miniLoading:show()
@@ -262,14 +258,14 @@ function MoneyTreeInviteView:setBindedUi(dataInfo)
 	        gender = dataInfo.gender,
 	        frameRes = g.Res.moenytree_avatarMask,
 	        avatarUrl = dataInfo.icon,
-	        clickCallback = function () self:onAvatarClick(dataInfo.uid) end,
+            clickOptions = {default = true, uid = dataInfo.uid},
 	    })
 	        :pos(-380, -154)
 	        :scale(1.2)
 	        :addTo(self)
 
         display.newTTFLabel({
-            text = g.nameUtil:getNewSplitName(dataInfo.name, 14), size = 24, color = cc.c3b(54, 177, 97)})
+            text = g.nameUtil:getLimitName(dataInfo.name, 14), size = 24, color = cc.c3b(54, 177, 97)})
             :align(display.CENTER, 0, -64)
             :addTo(self.bindedUserNode)
         if self.bindTipsLbl then

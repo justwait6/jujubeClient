@@ -50,7 +50,7 @@ function LoginView:initialize()
 		:addTo(self)
 
 	-- 登录按钮
-	g.myUi.ScaleButton.new({normal = g.Res.button2})
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "LOGIN")}))
 		:onClick(handler(self.ctrl, self.ctrl.requestGuestLogin))
 		:pos(0, -80 + yOffset)
@@ -58,7 +58,7 @@ function LoginView:initialize()
 
 	-- test begin 
 	-- 登录测试按钮1
-	g.myUi.ScaleButton.new({normal = g.Res.button2})
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = "Login 100"}))
 		:onClick(function ()
 			self.nameEditBox:setText("100")
@@ -69,7 +69,7 @@ function LoginView:initialize()
 		:addTo(self)
 
 	-- 登录测试按钮2
-	g.myUi.ScaleButton.new({normal = g.Res.button2})
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = "Login 111"}))
 		:onClick(function ()
 			self.nameEditBox:setText("111")
@@ -98,7 +98,7 @@ function LoginView:getInputUserPassword()
 end
 
 function LoginView:addEventListeners()
-	-- g.event:on(g.eventNames.XX, handler(self, self.XX), self)
+	g.event:on(g.eventNames.LOBBY_UPDATE, handler(self, self.XXXX), self)
 end
 
 function LoginView:XXXX()

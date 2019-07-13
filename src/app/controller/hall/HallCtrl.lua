@@ -7,10 +7,6 @@ end
 function HallCtrl:initialize()
 end
 
-function HallCtrl:addEventListeners()
-	-- g.event:on(g.eventNames.XX, handler(self, self.XX), self)
-end
-
 function HallCtrl:requestServerTableId()
 end
 

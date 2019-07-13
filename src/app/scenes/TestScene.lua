@@ -5,7 +5,7 @@ end)
 function TestScene:ctor()
     display.newSprite(g.Res.loginBg):pos(display.cx, display.cy):addTo(self)
 
-    g.myUi.ScaleButton.new({normal = g.Res.button2})
+    g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
         :setButtonLabel(display.newTTFLabel({size = 24, text = "打开"}))
         :onClick(handler(self, self.openWindow))
         :pos(display.cx, display.cy)

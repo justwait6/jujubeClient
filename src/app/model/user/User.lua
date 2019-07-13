@@ -19,11 +19,19 @@ function User:initialize()
 end
 
 function User:setUid(uid)
-	self.uid = uid
+	self.uid = tonumber(uid)
 end
 
 function User:getUid()
 	return self.uid
+end
+
+function User:setIdentifyName(identifyName)
+	self.identifyName = identifyName
+end
+
+function User:getIdentifyName()
+	return self.identifyName
 end
 
 function User:setName(name)
@@ -34,12 +42,33 @@ function User:getName()
 	return self.name
 end
 
+function User:getCatName(nMaxCount)
+	nMaxCount = nMaxCount or 12
+	return g.nameUtil:getLimitName(self.name, nMaxCount)
+end
+
 function User:setGender(gender)
-	self.gender = gender
+	self.gender = tonumber(gender)
 end
 
 function User:getGender()
 	return self.gender or Gender.FEMALE
+end
+
+function User:setExp(exp)
+	self.exp = tonumber(exp)
+end
+
+function User:getExp()
+	return self.exp or 0
+end
+
+function User:setVip(vip)
+	self.vip = tonumber(vip)
+end
+
+function User:getVip()
+	return self.vip or 0
 end
 
 function User:setIconUrl(iconUrl, isRelative)
@@ -63,7 +92,7 @@ function User:getImageBase()
 end
 
 function User:setMoney(money)
-	self.money = money
+	self.money = tonumber(money)
 end
 
 function User:getMoney()
@@ -136,6 +165,39 @@ end
 --]]
 function User:setLoginType(loginType)
 	self.loginType = loginType
+end
+
+function User:setLoginInfo(loginUser)
+	loginUser = loginUser or {}
+	self:setUid(loginUser.uid)
+	self:setName(loginUser.nickname)
+	self:setMoney(loginUser.money or 0)
+	self:setGender(loginUser.gender or 0)
+	self:setIconUrl(loginUser.iconUrl)
+	self:setExp(loginUser.exp or 0)
+	self:setVip(loginUser.vip or 0)
+end
+
+function User:updateUserInfo(userInfo)
+	userInfo = userInfo or {}
+	if userInfo.nickname then
+		self:setName(userInfo.nickname)
+	end
+	if userInfo.money then
+		self:setMoney(userInfo.money or 0)
+	end
+	if userInfo.gender then
+		self:setGender(userInfo.gender or 0)
+	end
+	if userInfo.iconUrl then
+		self:setIconUrl(userInfo.iconUrl)
+	end
+	if userInfo.exp then
+		self:setExp(userInfo.exp or 0)
+	end
+	if userInfo.vip then
+		self:setVip(userInfo.vip or 0)
+	end
 end
 
 return User

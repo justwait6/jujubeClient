@@ -24,16 +24,15 @@ function HallView:initialize()
     	:pos(0, 100)
     	:addTo(self)
 
-	g.myUi.ScaleButton.new({normal = g.Res.button2})
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "LOGOUT")}))
 		:onClick(handler(self.ctrl, self.ctrl.logout))
-		-- :onClick(handler(self, self.playShowAnim))
 		:pos(0, -100)
 		:addTo(self)
 
 	-- 自己头像
 	HallSelfMiniView.new()
-		:pos(-display.cx + 200, display.cy - 80)
+		:pos(-display.cx + 190, display.cy - 80)
 		:addTo(self)
 
 	-- 活动列表
@@ -43,7 +42,7 @@ function HallView:initialize()
 
 	-- 基础功能列表
 	self.baseListView = HallBaseListView.new()
-		:pos(-display.width/2, -display.height/2 + 80)
+		:pos(-display.width/2 + 80, -display.height/2 + 70)
 		:addTo(self, 1)
 end
 

@@ -29,6 +29,9 @@ L.FRIEND = {}
 L.FRIEND.SEARCH_FRIEND 						 = "搜索好友"
 L.FRIEND.NAME_TIPS 							 = "输入用户名"
 L.FRIEND.SEARCH 							 = "搜索"
+L.FRIEND.USER_NOT_FOUND						 = "未找到用户~"
+L.FRIEND.ADD						 		 = "添加"
+L.FRIEND.USER_NAME_EMPTY					 = "用户名为空"
 
 L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"

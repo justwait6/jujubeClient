@@ -10,5 +10,6 @@ function E.getName()
 end
 
 E.LOBBY_UPDATE = E.getName()
+E.USER_INFO_UPDATE = E.getName()
 
 return E

@@ -34,6 +34,7 @@ g.windowMgr = require("app.myUi.window.WindowManager").getInstance()
 -- UserManger
 g.myDevice = require("app.model.user.MyDevice").getInstance()
 g.user = require("app.model.user.User").getInstance()
+g.userMgr = require("app.model.user.UserManager").getInstance()
 g.nameUtil = require("app.util.NameUtil").getInstance()
 g.moneyUtil = require("app.util.MoneyUtil").getInstance()
 

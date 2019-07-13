@@ -25,7 +25,7 @@ function HallBaseListView:renderIconsList()
 			:onClick(handler(self.ctrl, function ()
 				self.ctrl:onBaseIconClick(conf.baseId)
 			end))
-			:pos(startX + i * distanceGap, 0)
+			:pos(startX + (i - 1) * distanceGap, 0)
 			:addTo(self)
 			:opacity(0)
 	end

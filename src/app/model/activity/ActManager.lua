@@ -1,4 +1,3 @@
-require("lfs")
 local ActManager = class("ActManager")
 
 ActManager.VIEW_DIR_PATH = "app.view.activity"

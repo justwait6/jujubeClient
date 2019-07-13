@@ -1,10 +1,10 @@
 local FriendView = class("FriendView", g.myUi.Window)
 
-local FriendCtrl = require("app.controller.hallBase.friend.FriendCtrl")
-
 local FriendSearchView = import(".FriendSearchView")
 local FriendListView = import(".FriendListView")
 
+local FriendCtrl = require("app.controller.hallBase.friend.FriendCtrl")
+local UserCtrl = require("app.controller.user.UserCtrl")
 
 FriendView.WIDTH = 1035
 FriendView.HEIGHT = 643
@@ -14,17 +14,10 @@ Tab.LIST = 1
 Tab.SEARCH = 2
 
 function FriendView:ctor()    
-    FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = true})
-
-    self:initialize()
     self.ctrl = FriendCtrl.new()
-end
-
-function FriendView:setCtrl(ctrl, createIfNull)
-    self.ctrl = ctrl
-    if ctrl == nil and createIfNull then
-        self.ctrl = MoneyTreeCtrl.new()
-    end
+    self.userCtrl = UserCtrl.new()
+    FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = true})
+    self:initialize()
 end
 
 function FriendView:onShow()
@@ -67,19 +60,19 @@ function FriendView:onTab(tab)
     end
 end
 
-
-function FriendView:onSearchClick(userName, callback)
-    
+function FriendView:requestUserinfo(...)
+    if self.userCtrl then
+        self.userCtrl:requestUserinfo(...)
+    end
 end
-
 
 function FriendView:XXXX()
 end
 
 
 function FriendView:onWindowRemove()
-    if self.ctrl then
-        self.ctrl:cancelRequestUserinfo()
+    if self.userCtrl then
+        self.userCtrl:cancelRequestUserinfo()
     end
 end
 

@@ -78,7 +78,7 @@ function LoginCtrl:onLoginSucc(data)
 	data.info = data.info or {}
 	data.info.hallip = data.info.hallip or "47.88.215.218:9003"
 
-	local user = data.info.user
+	g.user:setLoginInfo(data.user)
 	g.http:setToken(data.token)
 	actMgr:setActSwitches(data.switches)
 
