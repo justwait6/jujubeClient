@@ -10,6 +10,9 @@ L.COMMON.FACEBOOK 							 = "FACEBOOK"
 L.COMMON.GAME_START 						 = "开始游戏"
 L.COMMON.NO_NETWORK 						 = "当前没有网络"
 L.COMMON.SEND 								 = "发送"
+L.COMMON.UPDATE_FAIL 						 = "同步/更新失败"
+L.COMMON.COPY                             	 = "复制"
+L.COMMON.COPY_SUCC                           = "复制成功"
 
 L.TEST = {}
 L.TEST.HELLO_WORLD 							 = "你好, 世界"
@@ -25,6 +28,9 @@ L.HALL.HALL_TIPS 							 = "你果然来了, 这是大厅, 我告诉你下一步
 L.HTTP = {}
 L.HTTP.TIMEOUT 								 = "连接超时"
 
+L.USER = {}
+L.USER.IDENTIFY_NAME 						 = "青果名"
+
 L.FRIEND = {}
 L.FRIEND.SEARCH_FRIEND 						 = "搜索好友"
 L.FRIEND.NAME_TIPS 							 = "输入用户名"
@@ -37,7 +43,6 @@ L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"
 L.MONEYTREE.ALREADY_GET                      = "(已领:{num})"
 L.MONEYTREE.MY_CODE                          = "我的邀请码"
-L.MONEYTREE.COPY                             = "复制"
 L.MONEYTREE.BIND                             = "绑定"
 L.MONEYTREE.BIND_SIMPLE                      = "绑定简版"
 L.MONEYTREE.BINDED                           = "已绑定"

@@ -67,7 +67,7 @@ function MoneyTreeInviteView:initMyInvitePanel()
         :addTo(leftNode)
     -- 复制按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_btnGreenB})
-    	:setButtonLabel(display.newTTFLabel({text = g.lang:getText("MONEYTREE", "COPY"), size = 36}))
+    	:setButtonLabel(display.newTTFLabel({text = g.lang:getText("COMMON", "COPY"), size = 36}))
         :onClick(handler(self, self.onCopyCodeClick))
         :pos(0, 108)
         :addTo(leftNode)
