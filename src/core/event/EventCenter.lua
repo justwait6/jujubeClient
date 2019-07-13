@@ -59,7 +59,7 @@ function EventCenter:removeByTag(tag)
     assert(tag, "Tag must not be nil")
     local listeners = EventCenter._listeners
     for eventName, eventListeners in pairs(listeners) do
-        EventCenter.removeListenerByNameAndTag(eventName, tag)
+        EventCenter:removeByNameAndTag(eventName, tag)
     end
 end
 

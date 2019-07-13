@@ -54,6 +54,7 @@ function MiniLoading:show()
 end
 
 function MiniLoading:hide()
+	if tolua.isnull(self.miniLoader) then return end
 	if self.miniLoader then
 		self.miniLoader:stopAllActions()
 	end

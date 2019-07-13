@@ -73,7 +73,7 @@ function NameUtil:getShortName(sName,nMaxCount,nShowCount)
     return sName
 end
 
-function NameUtil:getNewSplitName(sName,nMaxCount,size)
+function NameUtil:getLimitName(sName,nMaxCount,size)
     if device.platform == "android" then 
         return g.native:getFixedWidthText("", size, sName, nMaxCount * 15)
     else

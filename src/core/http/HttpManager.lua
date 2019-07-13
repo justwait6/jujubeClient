@@ -202,6 +202,9 @@ function HttpManager:simplePost(params, succCallback, failCallback, resetHandler
     end
 
     local errorCallback = function (data)
+        if resetHandler then
+            resetHandler()
+        end
         g.myUi.miniLoading:hide()
         local decodedData = data
         if type(data) == "table" then

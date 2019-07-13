@@ -38,7 +38,7 @@ function TopTip:checkCreateTopTip()
 	if not self.container_ then
 		self.container_ = self:createContainer()
 			:pos(display.cx, HIDE_Y)
-			:addTo(scene)
+			:addTo(scene, 1001)
 
 		display.newScale9Sprite(g.Res.common_topTipBg, 0, 0, BG_CONTENT_SIZE)
 			:addTo(self.container_)

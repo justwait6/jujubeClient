@@ -7,6 +7,9 @@ function EditBox:ctor(param)
 	local function editboxEventHandler(eventType)
 	    if eventType == "began" then
 	        -- triggered when an edit box gains focus after keyboard is shown
+	        if param.beginCallback then
+	        	param.beginCallback(self)
+	        end
 	    elseif eventType == "ended" then
 	        -- triggered when an edit box loses focus after keyboard is hidden.
 	        if param.callback then
