@@ -8,6 +8,25 @@ function MyInfoView:ctor(mainViewObj)
 end
 
 function MyInfoView:initialize()
+    -- 游戏号
+    local curX = -70
+    local idNameDescLbl = display.newTTFLabel({text = g.lang:getText("USER", "IDENTIFY_NAME"), size = 28, color = cc.c3b(237, 226, 201)})
+        :pos(curX, 180)
+        :addTo(self)
+    -- 标志名
+    curX = curX + idNameDescLbl:getContentSize().width/2 + 40
+    local idNameLbl = display.newTTFLabel({text = g.user:getIdentifyName(), size = 28})
+        :pos(curX, 180)
+        :addTo(self)
+    -- 复制
+    curX = curX + idNameLbl:getContentSize().width/2 + 90
+    local copyLbl = display.newTTFLabel({text = g.lang:getText("COMMON", "COPY"), size = 28, color = cc.c3b(237, 226, 201)})
+    g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
+        :setButtonLabel(copyLbl, cc.p(0, 4))
+        :onClick(handler(self, self.onCopy))
+        :pos(curX, 180)
+        :addTo(self)
+
     -- 头像
     self.avatar = g.myUi.AvatarView.new({
             radius = 66,
@@ -125,6 +144,10 @@ function MyInfoView:onRecordModify(...)
     if self.mainViewObj then
         self.mainViewObj:onRecordModify(...)
     end
+end
+
+function MyInfoView:onCopy()
+    g.myUi.topTip:showText(g.lang:getText("COMMON", "COPY_SUCC"))
 end
 
 return MyInfoView

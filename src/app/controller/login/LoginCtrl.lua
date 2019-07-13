@@ -35,6 +35,7 @@ function LoginCtrl:login(successCallback, failCallback)
     end)
 	g.myUi.miniLoading:show()
 
+	g.user:setIdentifyName(self:getInputUserName())
 	local loginParams = self:getLoginParams()
 	
 	-- timeout连接显示一次
@@ -44,7 +45,7 @@ end
 
 function LoginCtrl:getLoginParams(data)
 	local loginParams = {}
-	loginParams.name 			= self:getInputUserName()
+	loginParams.name 			= g.user:getIdentifyName()
 	loginParams.password 		= self:getInputUserPassword()
 	loginParams._interface		= '/login'
 
