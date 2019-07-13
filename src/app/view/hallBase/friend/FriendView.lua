@@ -22,6 +22,7 @@ end
 
 function FriendView:onShow()
     if self.ctrl then
+        self.ctrl:reqFriendList(handler(self, self.onFriendListSucc))
     end
 end
 
