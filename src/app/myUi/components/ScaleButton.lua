@@ -87,14 +87,15 @@ function ScaleButton:onClick(callback)
     return self
 end
 
-function ScaleButton:setButtonLabel(lbl)
+function ScaleButton:setButtonLabel(lbl, offset)
+    offset = offset or cc.p(0, 0)
     if self.label then
         self.label:removeFromParent()
     end
     self.label = lbl
     self.label:addTo(self)
     local size = self:getContentSize()
-    self.label:pos(size.width/2, size.height/2)
+    self.label:pos(size.width/2 + offset.x, size.height/2 + offset.y)
 
     return self
 end

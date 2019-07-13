@@ -28,7 +28,7 @@ function UserManager:uploadUserinfo(updFields)
     		g.event:emit(g.eventNames.USER_INFO_UPDATE, updatedData)
     	end,
     	function ()
-    		
+    		g.myUi.topTip:showText(g.lang:getText("COMMON", "UPDATE_FAIL"))
     	end, true)
 end
 
