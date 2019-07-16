@@ -4,7 +4,6 @@ local L = lang
 L.COMMON = {}
 L.COMMON.CONFIRM 							 = "确定"
 L.COMMON.CANCEL 							 = "取消"
-L.COMMON.LOGIN 								 = "登录"
 L.COMMON.LOGOUT 							 = "登出"
 L.COMMON.FACEBOOK 							 = "FACEBOOK"
 L.COMMON.GAME_START 						 = "开始游戏"
@@ -18,9 +17,16 @@ L.TEST = {}
 L.TEST.HELLO_WORLD 							 = "你好, 世界"
 
 L.LOGIN = {}
+L.LOGIN.LOGIN 								 = "登录"
 L.LOGIN.LOGIN_TIPS 							 = "现在是登录界面, 有本事进游戏来找我啊"
+L.LOGIN.SIGNUP_TIPS 						 = "注册界面, 兄嘚"
 L.LOGIN.NAME_TIPS 							 = "用户名"
 L.LOGIN.PWD_TIPS 							 = "密码"
+L.LOGIN.EMAIL_TIPS 							 = "邮箱"
+L.LOGIN.SIGNUP 							 	 = "注册"
+L.LOGIN.GO_SIGNUP 							 = "去注册"
+L.LOGIN.SIGNUP_SUCC 						 = "注册成功, 2秒后自动跳入登录界面"
+L.LOGIN.GO_LOGIN 							 = "去登录"
 
 L.HALL = {}
 L.HALL.HALL_TIPS 							 = "你果然来了, 这是大厅, 我告诉你下一步怎么走"
@@ -38,6 +44,10 @@ L.FRIEND.SEARCH 							 = "搜索"
 L.FRIEND.USER_NOT_FOUND						 = "未找到用户~"
 L.FRIEND.ADD						 		 = "添加"
 L.FRIEND.USER_NAME_EMPTY					 = "用户名为空"
+L.FRIEND.REQ_SEND_SUCC					 	 = "好友请求已发送"
+L.FRIEND.REQ_SEND_FAIL					 	 = "未知错误, 请稍后再添加"
+L.FRIEND.ADD_SUCC					 		 = "添加好友成功"
+L.FRIEND.ADD_FAIL					 		 = "添加好友失败"
 
 L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"

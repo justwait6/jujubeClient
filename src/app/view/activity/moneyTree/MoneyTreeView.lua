@@ -659,7 +659,7 @@ function MoneyTreeView:requestCollectOwnCoin(reqParams, successCallback, failCal
         handler(self, function(self, errCode)
             self.httpCollectMyCoinId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end)) 
 end
@@ -725,7 +725,7 @@ function MoneyTreeView:requestCollectOtherCoin(reqParams, successCallback, failC
         handler(self, function(self, errCode)
             self.httpCollectOtherCoinId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end
@@ -1248,7 +1248,7 @@ function MoneyTreeView:requestOtherTreeInfo(reqParams, successCallback, failCall
             g.myUi.miniLoading:hide()
             self.httpOtherTreeInfoId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end
@@ -1298,13 +1298,13 @@ end
 
 function MoneyTreeView:onRequestOtherTreeInfoFail(data)
     if type(data) == "table" and tonumber(data.ret) == 9 then
-        g.myUi.topTip:showTopTip(g.lang:getText("MONEYTREE", "NEED_UPDATE"))
+        g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "NEED_UPDATE"))
     end
 end
 
 function MoneyTreeView:requestWaterMyTree(successCallback, failCallback)
     if not self:getCanWater() then
-        g.myUi.topTip:showTopTip(g.lang:getText("MONEYTREE", "COME_TOMORROW"))
+        g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "COME_TOMORROW"))
         return
     end
     
@@ -1335,7 +1335,7 @@ function MoneyTreeView:requestWaterMyTree(successCallback, failCallback)
             g.myUi.miniLoading:hide()
             self.httpWaterMyTreeId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end
@@ -1372,7 +1372,7 @@ end
 
 function MoneyTreeView:requestWaterOtherTree(reqParams, successCallback)
     if not self:getCanWater() then
-        g.myUi.topTip:showTopTip(g.lang:getText("MONEYTREE", "COME_TOMORROW"))
+        g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "COME_TOMORROW"))
         return
     end
     if self.httpWaterOtherTreeId then return end
@@ -1403,7 +1403,7 @@ function MoneyTreeView:requestWaterOtherTree(reqParams, successCallback)
             g.myUi.miniLoading:hide()
             self.httpWaterOtherTreeId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end
@@ -1454,7 +1454,7 @@ function MoneyTreeView:requestRankList(successCallback, failCallback, noShowLoad
             g.myUi.miniLoading:hide()
             self.httpRankListId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.topTip:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end

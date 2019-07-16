@@ -235,6 +235,14 @@ function HttpManager:cancel(requestId)
     end
 end
 
+function HttpManager:cancelBatch(requestIds)
+    requestIds = requestIds or {}
+    for k, v in pairs(requestIds) do
+        self:cancel(v)
+        v = nil
+    end
+end
+
 function HttpManager:setToken(token)
     HttpManager.defaultParams.token = token
 end

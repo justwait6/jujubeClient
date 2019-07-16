@@ -26,9 +26,6 @@ function LoginCtrl:requestFaceBookLogin()
 	self:login(handler(self, self.onLoginSucc), handler(self, self.onLoginFail))
 end
 
-function LoginCtrl:requestServerTableId()
-end
-
 function LoginCtrl:login(successCallback, failCallback)
 	local resetWrapHandler = handler(self, function ()
         self.postLoginId = nil
@@ -76,9 +73,8 @@ end
 
 function LoginCtrl:onLoginSucc(data)
 	local data = data or {}
-	data.info = data.info or {}
-	data.info.hallip = data.info.hallip or "47.88.215.218:9003"
 
+	g.user:setHallIpAndPort(data.hallSocket)
 	g.user:setLoginInfo(data.user)
 	g.http:setToken(data.token)
 	actMgr:setActSwitches(data.switches)

@@ -1,16 +1,17 @@
 local UserCtrl = class("UserCtrl")
 
 function UserCtrl:ctor()
+    self.httpIds = {}
 	self:initialize()
 end
 
 function UserCtrl:initialize()
 end
 
-function UserCtrl:requestUserinfo(params, successCallback, failCallback, noLoading)
-    if self.httpSearchUserId then return end
+function UserCtrl:reqUserinfo(params, successCallback, failCallback, noLoading)
+    if self.httpIds['userInfo'] then return end
     local resetWrapHandler = handler(self, function ()
-        self.httpSearchUserId = nil
+        self.httpIds['userInfo'] = nil
     end)
 
     if not noLoading then
@@ -24,11 +25,6 @@ function UserCtrl:requestUserinfo(params, successCallback, failCallback, noLoadi
     
     self.httpSearchUserId = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
-end
-
-function UserCtrl:cancelRequestUserinfo()
-    g.http:cancel(self.httpSearchUserId)
-    self.httpSearchUserId = nil
 end
 
 function UserCtrl:onRecordModify(key, value)
@@ -58,8 +54,9 @@ function UserCtrl:XXXX()
     
 end
 
-function UserCtrl:XXXX()
-    
+function UserCtrl:dispose()
+    g.http:cancelBatch(self.httpIds)
 end
+
 
 return UserCtrl

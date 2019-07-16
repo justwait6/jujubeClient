@@ -4,15 +4,15 @@ local SimpleTCP = require("framework.SimpleTCP")
 local ByteArray = require("core.utils.ByteArray")
 local PacketBuilder = import(".PacketBuilder")
 local PacketParser = import(".PacketParser")
-local KatoSocketProtocol = import("core.protocol.KatoSocketProtocol")
 local SocketService = class("SocketService")
+
+local CmdConfig = require("core.protocol.CommandConfig")
 
 local SOCKET_ID = 1
 
-function SocketService:ctor(name, protocol)
-    self.name_ = name
-    self.protocol_ = protocol
-    self.parser_ = PacketParser.new(protocol, self.name_)
+function SocketService:ctor(name)
+    self.socketName_ = name
+    self.parser_ = PacketParser.new(CmdConfig, self.socketName_)
 end
 
 function SocketService:getSocketId(mySocket)
@@ -25,29 +25,11 @@ function SocketService:setMySocket(mySocket)
     return self
 end
 
--- function SocketService:setParserClass(ParserClass)
---     self.parser_ = ParserClass.new(self.protocol_, self.name_)
--- end
-
 function SocketService:createPacketBuilder(cmd)
-    if app.name == "GapleRoomScene" then
-        if GAPLE_SOCKET_PROTOCOL.CONFIG[cmd] then
-            return PacketBuilder.new(cmd, GAPLE_SOCKET_PROTOCOL.CONFIG[cmd],self.name_)
-        else
-            return PacketBuilder.new(cmd, self.protocol_.CONFIG[cmd], self.name_)
-        end
-    -- elseif 
-    else
-        return PacketBuilder.new(cmd, self.protocol_.CONFIG[cmd], self.name_)
-    end
+    return PacketBuilder.new(cmd, CmdConfig.CLIENT[cmd], self.socketName_)
 end
 
-function SocketService:getSocketTCP()
-    return self.socket_
-end
-
-function SocketService:connect(host, port, retryConnectWhenFailure)
-    -- self:disconnect()
+function SocketService:connect(host, port)
     if not self.socket_ then
         self.socket_ = SimpleTCP.new(host, port, handler(self, self.onTCPEvent))
         self.socket_.socketId_ = self:getSocketId()
@@ -55,21 +37,21 @@ function SocketService:connect(host, port, retryConnectWhenFailure)
     self.socket_:connect()
 end
 
-function SocketService:onTCPEvent(even, data)
-    if even == SimpleTCP.EVENT_DATA then
-        print("onTCPEvent ==receive data:", data)
+function SocketService:onTCPEvent(event, data)
+    if event == SimpleTCP.EVENT_DATA then
+        print("onTCPEvent receive data:", data)
         self:onData(data)
-    elseif even == SimpleTCP.EVENT_CONNECTING then
-        print("onTCPEvent ==connecting")
-    elseif even == SimpleTCP.EVENT_CONNECTED then
+    elseif event == SimpleTCP.EVENT_CONNECTING then
+        print("onTCPEvent connecting")
+    elseif event == SimpleTCP.EVENT_CONNECTED then
         print('onTCPEvent connected')
         self:onConnected()
-    elseif even == SimpleTCP.EVENT_CLOSED then
+    elseif event == SimpleTCP.EVENT_CLOSED then
         print('onTCPEvent closed')
         self:onClosed()
-    elseif even == SimpleTCP.EVENT_FAILED then
+    elseif event == SimpleTCP.EVENT_FAILED then
         print('onTCPEvent failed')
-        self:onConnectFailure()
+        self:onConnectFailed()
     end
 end
 
@@ -83,7 +65,7 @@ function SocketService:send(data)
     end
 end
 
-function SocketService:disconnect(noEvent)
+function SocketService:disconnect()
     if self.socket_ then
         local socket = self.socket_
         self.socket_ = nil
@@ -92,7 +74,6 @@ function SocketService:disconnect(noEvent)
 end
 
 function SocketService:onConnected()
-    print("SocketService:onConnected [%d] onConnected.")
     self.parser_:reset()
     if self.mySocket then self.mySocket:onConnected() end
 end
@@ -103,27 +84,26 @@ function SocketService:onClose()
 end
 
 function SocketService:onClosed()
-    print("SocketService:onClosed: [%d] onClosed. %s")
     if self.mySocket then self.mySocket:onClosed() end
 end
 
-function SocketService:onConnectFailure()
-    if self.mySocket then self.mySocket:onConnectFailure() end
+function SocketService:onConnectFailed()
+    if self.mySocket then self.mySocket:onConnectFailed() end
 end
 
-function SocketService:onData(evt)
-    print("socket receive raw data. %s", ByteArray.toString(evt.data, 16))
+function SocketService:onData(data)
+    print("socket receive raw data: %s", ByteArray.toString(data, 16))
     local buf = ByteArray.new(ByteArray.ENDIAN_BIG)
-    buf:writeBuf(evt.data)
+    buf:writeBuf(data)
     buf:setPos(1)
     local success, packets = self.parser_:read(buf)
+    print("======================>? success??", success)
     if not success then
-        if self.mySocket then self.mySocket:onError(evt) end
+        if self.mySocket then self.mySocket:onError(data) end
     else
        for i,v in ipairs(packets) do
             if v and v.cmd then
-                --print("SocketService:onData[==PACK==][%x][%s]\n==>%s", v.cmd, table.keyof(self.protocol_, v.cmd), json.encode(v))
-                if self.mySocket then self.mySocket:onPacketReceived({data = v}) end
+                if self.mySocket then self.mySocket:onReceivePacket(v) end
             end
        end 
     end

@@ -185,14 +185,14 @@ function MoneyTreeInviteView:requestBindCode(successCallback, failCallback)
             -- dump(errCode)
             self.httpBindCodeId = nil
             if tonumber(errCode) == 28 or tonumber(errCode) == 7 then 
-                g.myUi.tipTop:showTopTip(g.lang:getText("HTTP", "TIMEOUT"))
+                g.myUi.topTip:showText(g.lang:getText("HTTP", "TIMEOUT"))
             end
         end))
 end
 
 function MoneyTreeInviteView:onCopyCodeClick()
 	-- g.native:setClipData(self.myInviteCode or "")
-	g.myUi.tipTop:showTopTip(g.lang:getText("COMMON", "COPY_SUCCESS"))
+	g.myUi.topTip:showText(g.lang:getText("COMMON", "COPY_SUCCESS"))
 end
 
 function MoneyTreeInviteView:onBindCodeClick()
@@ -237,9 +237,9 @@ function MoneyTreeInviteView:onBindCodeFail(data)
         -- code(5) -- 已经被绑定
         -- code(6) -- 不能相互绑定
         if tonumber(data.ret) == 2 or tonumber(data.ret) == 4 then
-            g.myUi.tipTop:showTopTip(g.lang:getText("MONEYTREE", "CODE_NOT_EXIST"))
+            g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "CODE_NOT_EXIST"))
         else
-            g.myUi.tipTop:showTopTip(g.lang:getText("MONEYTREE", "BIND_ERROR"))
+            g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "BIND_ERROR"))
         end
     end
 end
@@ -286,9 +286,9 @@ function MoneyTreeInviteView:onBindCodeFail(data)
         -- code(5) -- 已经被绑定
         -- code(6) -- 不能相互绑定
         if tonumber(data.ret) == 2 or tonumber(data.ret) == 4 then
-            g.myUi.tipTop:showTopTip(g.lang:getText("MONEYTREE", "CODE_NOT_EXIST"))
+            g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "CODE_NOT_EXIST"))
         else
-            g.myUi.tipTop:showTopTip(g.lang:getText("MONEYTREE", "BIND_ERROR"))
+            g.myUi.topTip:showText(g.lang:getText("MONEYTREE", "BIND_ERROR"))
         end
     end
 end

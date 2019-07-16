@@ -14,7 +14,7 @@ setmetatable(g, mt)
 
 -- Many things rely on language, put it first
 g.lang = require("app.language.LangUtil").getInstance()
-g.mySched = require("app.util.SchedulerPool").getInstance()
+g.mySched = require("app.util.MySchedulerPool").getInstance()
 g.timeUtil = require("app.util.TimeUtil").getInstance()
 g.Logger = require("core.util.Logger")
 

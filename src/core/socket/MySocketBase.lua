@@ -4,33 +4,31 @@ local ProxySelector = import(".ProxySelector")
 local SocketService = import(".SocketService")
 
 local MySocketBase = class("MySocketBase")
+local CmdConfig = require("core.protocol.CommandConfig")
 
 MySocketBase.EVT_PACKET_RECEIVED  = "MySocketBase.EVT_PACKET_RECEIVED"
-MySocketBase.EVT_CONNECTED        = "MySocketBase.EVT_CONNECTED"
-MySocketBase.EVT_CONNECT_FAIL     = "MySocketBase.EVT_CONNECT_FAIL"
-MySocketBase.EVT_CLOSED           = "MySocketBase.EVT_CLOSED"
-MySocketBase.EVT_ERROR            = "MySocketBase.EVT_ERROR"
 
-function MySocketBase:ctor(name, protocol)
-    self.PROTOCOL = protocol
+local MAX_RETRY_LIMIT = 3
 
-    self.socketService_ = SocketService.new(name, protocol):setMySocket(self)
-    self.name_ = name
+function MySocketBase:ctor(socketName, CmdDef)
+    self.CmdDef = CmdDef
+
+    self.socketService_ = SocketService.new(socketName, CmdDef):setMySocket(self)
+    self.socketName_ = socketName
     self.shouldConnect_ = false
     self.isConnected_ = false
     self.isConnecting_ = false
     self.isPaused_ = false
     self.delayPackCache_ = nil
-    self.retryLimit_ = 3
-    self.logger_ = g.Logger.new(self.name_)
+    self.logger_ = g.Logger.new(self.socketName_)
 end
 
 function MySocketBase:isConnected()
     return self.isConnected_
 end
 
-function MySocketBase:connect(ip, port, retryConnectWhenFailure)
-    self:disconnect(true)
+function MySocketBase:connect(ip, port)
+    self:disconnect()
     self.shouldConnect_ = true
     self.ip_ = ip
     self.port_ = port
@@ -42,21 +40,19 @@ function MySocketBase:connect(ip, port, retryConnectWhenFailure)
         self.isConnecting_ = true
         self.proxySelector_ = nil
         self.proxy_ = nil
-        self.retryLimit_ = 3
-        self.retryConnectWhenFailure_ = retryConnectWhenFailure
         self.logger_:warnf("connect: direct connect to %s:%s", self.ip_, self.port_)
-        self.socketService_:connect(self.ip_, self.port_, retryConnectWhenFailure)
+        self.socketService_:connect(self.ip_, self.port_)
     end
 end
 
-function MySocketBase:disconnect(noEvent)
+function MySocketBase:disconnect()
     self.shouldConnect_ = false
     self.isConnecting_ = false
-    self.isConnected_ = false
-    -- self.ip_ = nil
-    -- self.port_ = nil
     self:unscheduleHeartBeat()
-    self.socketService_:disconnect(noEvent)
+    if self:isConnected() then
+        self.socketService_:disconnect()
+        self.isConnected_ = false
+    end
 end
 
 function MySocketBase:pause()
@@ -69,7 +65,7 @@ function MySocketBase:resume()
     self.logger_:warn("resume: resume event dispatching")
     if self.delayPackCache_ and #self.delayPackCache_ > 0 then
         for i,v in ipairs(self.delayPackCache_) do
-            g.event:emit(MySocketBase.EVT_PACKET_RECEIVED, {v})
+            g.event:emit(MySocketBase.EVT_PACKET_RECEIVED, v)
         end
         self.delayPackCache_ = nil
     end
@@ -87,51 +83,24 @@ function MySocketBase:send(pack)
     end
 end
 
-function MySocketBase:onConnected(evt)
-    g.event:emit(MySocketBase.EVT_CONNECTED, {})
+function MySocketBase:onConnected()
     self.isConnected_ = true
     self.isConnecting_ = false
-    self.heartBeatTimeoutCount_ = 0
-    self:onAfterConnected()
 end
 
-function MySocketBase:scheduleHeartBeat(command, interval, timeout)
-    self.logger_:warn(":scheduleHeartBeat send scheduleHeartBeat")
-    self.heartBeatCommand_ = command
-    self.heartBeatTimeout_ = timeout
-    self.heartBeatTimeoutCount_ = 0
+function MySocketBase:startHeartBeat()
+    self.logger_:info(":startHeartBeat send startHeartBeat")
     if not self.heartBeatSchedId then
-        self.heartBeatSchedId = g.mySched:doLoop(handler(self, self.onHeartBeat_), interval)
+        self.heartBeatSchedId = g.mySched:doLoop(handler(self, self.onHeartBeat_), 10)
     end
 end
 
 function MySocketBase:unscheduleHeartBeat()
-    self.heartBeatTimeoutCount_ = 0
     if self.heartBeatSchedId then
-        -- g.mySched:cancel(self.heartBeatSchedId)
+        g.mySched:cancel(self.heartBeatSchedId)
         self.heartBeatSchedId = nil
     end
     self:cancelHeartBeatTimeOut()
-end
-
-function MySocketBase:cancelHeartBeatTimeOut()
-    if self.heartBeatTimeoutId_ then
-        g.mySched:cancel(self.heartBeatTimeoutId_)
-        self.heartBeatTimeoutId_ = nil
-    end
-end
-
-function MySocketBase:buildHeartBeatPack()
-    self.logger_:warn("buildHeartBeatPack: not implemented method buildHeartBeatPack")
-    return nil
-end
-
-function MySocketBase:onHeartBeatTimeout(timeoutcount)
-    self.logger_:warn("onHeartBeatTimeout: not implemented method onHeartBeatTimeout")
-end
-
-function MySocketBase:onHeartBeatReceived(delaySeconds)
-    self.logger_:warn("onHeartBeatReceived: not implemented method onHeartBeatReceived")
 end
 
 function MySocketBase:onHeartBeat_()
@@ -140,7 +109,7 @@ function MySocketBase:onHeartBeat_()
         self.heartBeatPackSendTime_ = g.timeUtil:getSocketTime()
         self:send(heartBeatPack)
         if not self.heartBeatTimeoutId_ then
-            self.heartBeatTimeoutId_ = g.mySched:doDelay(handler(self, self.onHeartBeatTimeout_), self.heartBeatTimeout_)
+            self.heartBeatTimeoutId_ = g.mySched:doDelay(handler(self, self.onHeartBeatTimeout_), 5)
         end
         self.logger_:warnf("onHeartBeat_: send heart beat packet time %s", self.heartBeatPackSendTime_)
     end
@@ -150,25 +119,48 @@ end
 function MySocketBase:onHeartBeatTimeout_()
     self.heartBeatTimeoutId_ = nil
     self.heartBeatTimeoutCount_ = (self.heartBeatTimeoutCount_ or 0) + 1
-    self:onHeartBeatTimeout(self.heartBeatTimeoutCount_)
+    print("self.heartBeatTimeoutCount_", self.heartBeatTimeoutCount_)
+    if self.heartBeatTimeoutCount_ >= 2 then
+        print('1')
+        self:disconnect()
+    end
     self.logger_:warnf("onHeartBeatTimeout_: heart beat timeout = %s", self.heartBeatTimeoutCount_)
+end
+
+function MySocketBase:cancelHeartBeatTimeOut()
+    self.heartBeatTimeoutCount_ = 0
+    print("self.canceling: ", self.heartBeatTimeoutCount_)
+    if self.heartBeatTimeoutId_ then
+        g.mySched:cancel(self.heartBeatTimeoutId_)
+        self.heartBeatTimeoutId_ = nil
+    end
 end
 
 function MySocketBase:onHeartBeatReceived_()
     local delaySeconds = g.timeUtil:getSocketTime() - self.heartBeatPackSendTime_
     if self.heartBeatTimeoutId_ then
         self:cancelHeartBeatTimeOut()
-        self.heartBeatTimeoutCount_ = 0
-        self:onHeartBeatReceived(delaySeconds)
         self.logger_:warnf("onHeartBeatReceived_: received delaySeconds = %s", delaySeconds)
     else
         self.logger_:warnf("onHeartBeatReceived_: timeout received delaySeconds = %s", delaySeconds)
     end
 end
 
-function MySocketBase:onConnectFailure(evt)
+function MySocketBase:buildHeartBeatPack()
+    local data = {}
+    local num = math.random(1, 2)
+    if num == 1 then
+        table.insert(data, {value = math.random(0, 2147483647)})
+    elseif num == 2 then
+        table.insert(data, {value = math.random(0, 2147483647)})
+        table.insert(data, {value = math.random(0, 2147483647)})
+    end
+    return self:createPacketBuilder(self.CmdDef.CLISVR_HEART_BEAT):setParameter("random", data):build()
+end
+
+function MySocketBase:onConnectFailed(evt)
     self.isConnected_ = false
-    self.logger_:warn("onConnectFailure: connect failure ...")
+    self.logger_:warn("onConnectFailed: connect failure ...")
 
     self.ipIndex = self.ipIndex or 1
     self.ipIndex = self.ipIndex + 1
@@ -194,19 +186,14 @@ function MySocketBase:onConnectFailure(evt)
     end
     --g.Native:umengError(errorMsg)
     if not self:reconnect_() then
-        self:onAfterConnectFailure()
-        g.event:emit(MySocketBase.EVT_CONNECT_FAIL, {})
     end
 end
 
 function MySocketBase:onError(evt)
     self.isConnected_ = false
-    self:disconnect(true)
+    self:disconnect()
     self.logger_:warn("onError: data error ...")
-    if not self:reconnect_() then
-        self:onAfterDataError()
-        g.event:emit(MySocketBase.EVT_ERROR, {})
-    end
+    self:reconnect_()
 end
 
 function MySocketBase:onClosed(evt)
@@ -214,15 +201,11 @@ function MySocketBase:onClosed(evt)
     self:unscheduleHeartBeat()
     if self.shouldConnect_ then
         if not self:reconnect_() then
-            self:onAfterConnectFailure()
-            g.event:emit(MySocketBase.EVT_CONNECT_FAIL, {})
-            self.logger_:warn("onClosed: closed and reconnect fail")
         else
             self.logger_:warn("onClosed: closed and reconnecting")
         end
     else
         self.logger_:warn("onClosed: closed and do not reconnect")
-        g.event:emit(MySocketBase.EVT_CLOSED, {})
     end
 end
 
@@ -231,14 +214,14 @@ function MySocketBase:onClose()
 end
 
 function MySocketBase:reconnect_()
-    self.logger_:warn("reconnect_: reconnecting")
-    -- self.socketService_:disconnect(true)
-    self:disconnect(true)
-    self.retryLimit_ = self.retryLimit_ - 1
+    self.logger_:warn("reconnect_: reconnecting ip port", self.ip_, self.port_)
+    if self:isConnected() then
+        self:disconnect()
+    end
+    self.retryLimit_ = (self.retryLimit_ or 0) + 1
     local isRetrying = true
-    self.logger_:warnf("reconnect_: self.ip_ = %s, self.port_ = %s", self.ip_, self.port_)
-    if self.retryLimit_ > 0 or self.retryConnectWhenFailure_ then
-        self.socketService_:connect(self.ip_, self.port_, self.retryConnectWhenFailure_)
+    if self.retryLimit_ > MAX_RETRY_LIMIT then
+        self.socketService_:connect(self.ip_, self.port_)
     else
         isRetrying = false
         self.isConnecting_ = false
@@ -246,12 +229,18 @@ function MySocketBase:reconnect_()
     return isRetrying
 end
 
-function MySocketBase:onPacketReceived(evt)
-    local pack = evt.data
-    if pack.cmd == self.heartBeatCommand_ then
-        if self.heartBeatTimeoutId_ then
-            self:onHeartBeatReceived_()
-        end
+function MySocketBase:onReceivePacket(pack)
+    -- test begin
+    if true then
+        self:onHeartBeatReceived_()
+        return
+    end
+    -- test end
+
+    local cmdName = CmdConfig.SERVER[pack.cmd].name
+
+    if pack.cmd == self.CmdDef.CLISVR_HEART_BEAT then
+        self:onHeartBeatReceived_()
     else
         self:onProcessPacket(pack)
         if self.isPaused_ then
@@ -259,32 +248,15 @@ function MySocketBase:onPacketReceived(evt)
                 self.delayPackCache_ = {}
             end
             self.delayPackCache_[#self.delayPackCache_ + 1] = pack
-            self.logger_:warnf("onPacketReceived: %s pausd cmd:%x", self.name_, pack.cmd)
+            self.logger_:warnf("onReceivePacket: pausd. ", cmdName)
         else
-            self.logger_:warnf("onPacketReceived: %s dispatching cmd:%x", self.name_, pack.cmd)
-            local ret,errMsg = pcall(function() self:dispatchEvent(MySocketBase.EVT_PACKET_RECEIVED, {evt.data}) end)
+            self.logger_:warnf("onReceivePacket: dispatching. ", cmdName)
+            local ret, errMsg = pcall(function() g.event:emit(MySocketBase.EVT_PACKET_RECEIVED, pack) end)
             if errMsg then
-                self.logger_:errorf("onPacketReceived: %s dispatching cmd:%x error %s", self.name_, pack.cmd, errMsg)
+                self.logger_:errorf("onReceivePacket: dispatching. ", cmdName, errMsg)
             end
         end
     end
-end
-
-function MySocketBase:onProcessPacket(pack)
-    self.logger_:warn("onProcessPacket: not implemented method onProcessPacket")
-end
-
-function MySocketBase:onAfterConnected()
-    self.logger_:warn("onAfterConnected: not implemented method onAfterConnected")
-end
-
-function MySocketBase:onAfterConnectFailure()
-    self.logger_:warn("onAfterConnectFailure: not implemented method onAfterConnectFailure")
-end
-
-function MySocketBase:onAfterDataError()
-    self:onAfterConnectFailure()
-    self.logger_:warn("onAfterDataError: not implemented method onAfterDataError")
 end
 
 return MySocketBase

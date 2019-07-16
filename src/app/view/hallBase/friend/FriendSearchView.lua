@@ -62,7 +62,7 @@ function FriendSearchView:showUserFoundNode(data)
         :addTo(self.userFoundNode)
     g.myUi.ScaleButton.new({normal = g.Res.common_btnGreenB, scale = 0.7})
         :setButtonLabel(display.newTTFLabel({size = 28, text = g.lang:getText("FRIEND", "ADD")}))
-        :onClick(function () self:onAddClick(data.uid) end)
+        :onClick(function () self:onAddFriendClick(data.uid) end)
         :pos(200, 0)
         :addTo(self.userFoundNode)
     self.userFoundNode:show()
@@ -138,7 +138,7 @@ function FriendSearchView:onSearchClick()
     params.name = username
     params.fields = {'nickname', 'gender', 'iconUrl'}
 
-    self.mainViewObj:requestUserinfo(params,
+    self.mainViewObj:reqUserinfo(params,
         handler(self, self.onSearchOk),
         handler(self, self.onSearchFail))
 end
@@ -158,8 +158,10 @@ function FriendSearchView:onSearchFail(data)
     self:hideUserFoundNode()
 end
 
-function FriendSearchView:onAddClick(uid)
-    print("clicked!!")
+function FriendSearchView:onAddFriendClick(friendUid)
+    if self.mainViewObj then
+        self.mainViewObj:onAddFriendClick(friendUid)
+    end
 end
 
 return FriendSearchView

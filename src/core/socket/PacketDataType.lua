@@ -5,17 +5,17 @@
     Socket数据包数据类型
 ]]
 
-local PacketDataType = {}
-PacketDataType.UBYTE = "ubyte"
-PacketDataType.BYTE = "byte"
-PacketDataType.SHORT = "short"
-PacketDataType.USHORT = "ushort"
-PacketDataType.INT = "int"
-PacketDataType.UINT = "uint"
-PacketDataType.LONG = "long"
-PacketDataType.ULONG = "ulong"
-PacketDataType.STRING = "string"
+local DataType = {}
+DataType.UBYTE = "ubyte"
+DataType.BYTE = "byte"
+DataType.SHORT = "short"
+DataType.USHORT = "ushort"
+DataType.INT = "int"
+DataType.UINT = "uint"
+DataType.LONG = "long"
+DataType.ULONG = "ulong"
+DataType.STRING = "string"
 
-PacketDataType.ARRAY = "array"
+DataType.ARRAY = "array"
 
-return PacketDataType
+return DataType

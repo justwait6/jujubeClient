@@ -112,7 +112,7 @@ function User:getAccessToken()
 end
 
 --大厅ip
-function User:setHallIp(hallip)
+function User:_setHallIp(hallip)
     self.hallip = hallip
 end
 
@@ -121,7 +121,7 @@ function User:getHallIp()
 end
 
 --大厅port
-function User:setHallPort(hallPort)
+function User:_setHallPort(hallPort)
     self.hallPort = hallPort
 end
 
@@ -133,8 +133,8 @@ function User:setHallIpAndPort(hallIpPort)
     if not hallIpPort then return end
     local ipports = g.myFunc:split(hallIpPort, ":")
     if #ipports ~= 2 then return end
-    g.user:setHallIp(ipports[1])
-    g.user:setHallPort(ipports[2])
+    g.user:_setHallIp(ipports[1])
+    g.user:_setHallPort(ipports[2])
 end
 
 function User:setBackupIp(backupip)

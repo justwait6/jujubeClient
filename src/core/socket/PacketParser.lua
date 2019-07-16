@@ -8,13 +8,10 @@ local TYPE = import(".PacketDataType")
 local HEAD_LEN = 11 -- 包头长度
 local PacketParser = class("PacketParser")
 local Code = import(".Code")
+local ByteArray = require("core.utils.ByteArray")
 
-local HallSocketProtocol = import("core.protocol.HallSocketProtocol")
-
-function PacketParser:ctor(protocol, socketName)
-    self.config_ = protocol.SERVER_CONFIG
-
-    self.hallConfig_ = HallSocketProtocol.SERVER_CONFIG
+function PacketParser:ctor(CmdConfig, socketName)
+    self.config_ = CmdConfig.SERVER
 end
 
 function PacketParser:reset()
@@ -30,11 +27,11 @@ local function verifyHeadAndGetBodyLenAndCmd(buf)
     local pos = buf:getPos()
     buf:setPos(5)
 
-    if buf:readStringBytes(2) == "LW" then
+    -- if buf:readStringBytes(2) == "LW" then
         cmd = buf:readInt()
         buf:setPos(1)
         len = buf:readInt() - HEAD_LEN
-    end
+    -- end
 
     buf:setPos(pos)
     return cmd,len
@@ -45,7 +42,7 @@ function PacketParser:read(buf)
     local success = true
     while true do
         if not self.buf_ then
-            self.buf_ = cc.utils.ByteArray.new(cc.utils.ByteArray.ENDIAN_BIG)
+            self.buf_ = ByteArray.new(ByteArray.ENDIAN_BIG)
         else
             self.buf_:setPos(self.buf_:getLen() + 1)
         end
@@ -111,7 +108,7 @@ function PacketParser:read(buf)
                     end
                 else
                     -- 包头校验失败
-                    return false, "PKG HEAD VERIFY ERROR,"..cc.utils.ByteArray.toString(self.buf_, 16)
+                    return false, "PKG HEAD VERIFY ERROR,"..ByteArray.toString(self.buf_, 16)
                 end
             end
         end
@@ -241,16 +238,11 @@ function PacketParser:readData_(ctx, buf, dtype, thisFmt)
 end
 
 function PacketParser:parsePacket_(buf)
-  
-    print("[PACK_PARSE] len:" .. buf:getLen() .. "[" .. cc.utils.ByteArray.toString(buf, 16) .. "]")
+    print("[PACK_PARSE] len:" .. buf:getLen() .. "[" .. ByteArray.toString(buf, 16) .. "]")
     local ret = {}
     local cmd = buf:setPos(7):readInt()
     local config = nil
-    if app.name == "DiceRoomScene" then
-        config = self.config_[cmd]
-    else
-        config = self.hallConfig_[cmd]
-    end
+    config = self.config_[cmd]
     if config ~= nil then
         local fmt = config.fmt
         self:decryty(buf)
@@ -290,24 +282,25 @@ function PacketParser:parsePacket_(buf)
             end
         end
         if buf:getLen() ~= buf:getPos() - 1 and DEBUG > 0 then
-            print("PROTOCOL ERROR !!!! %x bufLen:%s pos:%s [%s]", cmd, buf:getLen(), buf:getPos(), cc.utils.ByteArray.toString(buf, 16))
+            print("PROTOCOL ERROR !!!! %x bufLen:%s pos:%s [%s]", cmd, buf:getLen(), buf:getPos(), ByteArray.toString(buf, 16))
         end
         ret.cmd = cmd
         return ret
     else
-        print("========> [NOT_PROCESSED_PKG] ========> %x", cmd)
+        print("Error [NOT_PROCESSED_PKG] command config not found %x", cmd)
         return nil
     end
 end
 
 function PacketParser:decryty(buf)
-    local s = cc.utils.ByteArray.toString(buf, 16)
-    for i = 12, buf:getLen() do
+    for i = HEAD_LEN + 1, buf:getLen() do
         buf:setPos(i)
-        local x,_ = cc.utils.ByteArray.toString(buf:getBytes(i, i), 10)
+        local x, _ = ByteArray.toString(buf:getBytes(i, i), 10)
         local num = tonumber(x) + 1
-        local origal = Code.SocketJiemi[num]
-        buf:writeByte(origal)
+        -- test comment begin
+        -- local origal = Code.SocketDecode[num]
+        -- buf:writeByte(origal)
+        -- test comment end
     end
 end
 

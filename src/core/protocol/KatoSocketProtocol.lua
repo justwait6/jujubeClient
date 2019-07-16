@@ -1,3 +1,0 @@
-local KatoSocketProtocol = {}
-
-return KatoSocketProtocol

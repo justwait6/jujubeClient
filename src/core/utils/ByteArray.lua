@@ -95,7 +95,7 @@ function ByteArray:getPack(__offset, __length)
 		__t[#__t+1] = string.byte(self._buf[i])
 	end
 	local __fmt = self:_getLC("b"..#__t)
-	--print("fmt:", __fmt)
+	-- print("fmt:", __fmt)
 	local __s = string.pack(__fmt, unpack(__t))
 	return __s
 end

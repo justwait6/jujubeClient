@@ -274,7 +274,7 @@ function functions.getNum(a, m)
         return x,0
     else
         local x = math.floor(a/m)
-        local y = math.mod(a, m)
+        local y = math.fmod(a, m)
         return x,y
     end
 end

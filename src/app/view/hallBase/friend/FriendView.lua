@@ -61,19 +61,47 @@ function FriendView:onTab(tab)
     end
 end
 
-function FriendView:requestUserinfo(...)
+function FriendView:reqUserinfo(...)
     if self.userCtrl then
-        self.userCtrl:requestUserinfo(...)
+        self.userCtrl:reqUserinfo(...)
     end
+end
+
+function FriendView:onFriendListSucc(data)
+    data = data or {}
+    if self.friendListView then
+        self.friendListView:onUpdate(data.friendList)
+    end
+end
+
+function FriendView:onAddFriendClick(friendUid)
+    if self.ctrl then
+        self.ctrl:reqSendFriendRequest({friendUid = friendUid}, 
+            handler(self, self.onSendFriendRequestSucc),
+            handler(self, self.onSendFriendRequestFail))
+    end
+end
+
+function FriendView:onSendFriendRequestSucc()
+    g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_SUCC"))
+end
+
+function FriendView:onSendFriendRequestFail()
+    g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_FAIL"))
 end
 
 function FriendView:XXXX()
 end
 
+function FriendView:XXXX()
+end
 
 function FriendView:onWindowRemove()
     if self.userCtrl then
-        self.userCtrl:cancelRequestUserinfo()
+        self.userCtrl:dispose()
+    end
+    if self.ctrl then
+        self.ctrl:dispose()
     end
 end
 

@@ -4,7 +4,8 @@ end)
 
 local LoginCtrl = require("app.controller.login.LoginCtrl")
 
-function LoginView:ctor()
+function LoginView:ctor(scene)
+	self.scene = scene
 	self.ctrl = LoginCtrl.new(self)
 	self:setNodeEventEnabled(true)
 	self:initialize()
@@ -20,7 +21,7 @@ function LoginView:initialize()
     	:addTo(self)
 
     local yOffset = -236
-    -- 邀请码输入框
+    -- 用户输入框
 	self.nameEditBox = g.myUi.EditBox.new({
             image = g.Res.moneytreeinvite_codeBg,
             imageOffset = cc.p(94, 0),
@@ -34,7 +35,7 @@ function LoginView:initialize()
 		:pos(-94, 80 + yOffset)
 		:addTo(self)
 
-    -- 邀请码输入框
+    -- 密码输入框
 	self.pwdEditBox = g.myUi.EditBox.new({
             image = g.Res.moneytreeinvite_codeBg,
             imageOffset = cc.p(94, 0),
@@ -51,9 +52,16 @@ function LoginView:initialize()
 
 	-- 登录按钮
 	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
-		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "LOGIN")}))
+		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("LOGIN", "LOGIN")}))
 		:onClick(handler(self.ctrl, self.ctrl.requestGuestLogin))
 		:pos(0, -80 + yOffset)
+		:addTo(self)
+
+	-- 注册按钮
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
+		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("LOGIN", "GO_SIGNUP")}))
+		:onClick(handler(self.scene, self.scene.switchToSignupView))
+		:pos(200, -80 + yOffset)
 		:addTo(self)
 
 	-- test begin 
@@ -65,7 +73,7 @@ function LoginView:initialize()
 			self.pwdEditBox:setText("123456")
 			self.ctrl:requestGuestLogin()
 		end)
-		:pos(200, -80 + yOffset)
+		:pos(200, 80 + yOffset)
 		:addTo(self)
 
 	-- 登录测试按钮2
@@ -76,7 +84,7 @@ function LoginView:initialize()
 			self.pwdEditBox:setText("123456")
 			self.ctrl:requestGuestLogin()
 		end)
-		:pos(400, -80 + yOffset)
+		:pos(400, 80 + yOffset)
 		:addTo(self)
 	-- test end
 

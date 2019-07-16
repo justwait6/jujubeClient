@@ -7,9 +7,6 @@ end
 function HallCtrl:initialize()
 end
 
-function HallCtrl:requestServerTableId()
-end
-
 function HallCtrl:logout()
 	g.myApp:enterScene("LoginScene")
 end

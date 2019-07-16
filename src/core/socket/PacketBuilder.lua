@@ -116,43 +116,39 @@ end
 
 function PacketBuilder:build()
     local buf = ByteArray.new(ByteArray.ENDIAN_BIG)
-    -- 写包头，包体长度先写0
-    buf:writeInt(0) -- 包体长度 4
-    buf:writeStringBytes("LW") -- LW 2
-    buf:writeInt(self.cmd_) -- 命令字 4
-    buf:writeByte(0) --检验码 1
-    if self.config_ and self.config_.fmt and #self.config_.fmt>0 then
-        -- 写包体
-        for i,v in ipairs(self.config_.fmt) do
-            local name = v.name
-            local dtype = v.type
-            local fmt = v.fmt
-            local value = self.params_[name]
-            local lengthType = v.lengthType or nil
-            writeData(buf, dtype, value, fmt, lengthType)
+    -- package header, set package length to 0 first
+    buf:writeInt(0) -- package length, take 4 bytes
+    buf:writeStringBytes("LW") -- "LW", take 2 bytes
+    buf:writeInt(self.cmd_) -- command, take 4 bytes
+    buf:writeByte(0) -- check code, take 1 byte
+
+    if self.config_ and self.config_.fmt and #self.config_.fmt > 0 then
+        -- package body
+        for i, v in ipairs(self.config_.fmt) do
+            writeData(buf, v.type, self.params_[v.name], v.fmt, v.lengthType)
         end
-        -- 修改包体长度
-        buf:setPos(1)
-        buf:writeInt(buf:getLen())
-        --self:cbCode(buf)
-        self.code = self:cbCode(buf)
+        
+        -- check code
+        local code = self:cbCheckCode(buf)
         buf:setPos(11)
-        if self.code then
-            buf:writeByte(self.code)
+        if code then
+            buf:writeByte(code)
         end
-        buf:setPos(buf:getLen() + 1)
-    else
-        buf:setPos(1)
-        buf:writeInt(buf:getLen())
-        buf:setPos(buf:getLen() + 1)
     end
-    self.logger_:debugf("BUILD PACKET ==> %x(%s)[%s]", self.cmd_, buf:getLen(), ByteArray.toString(buf, 16))
+
+    -- reset package header to precise length
+    buf:setPos(1)
+    buf:writeInt(buf:getLen())
+    buf:setPos(buf:getLen() + 1)
+
+    self.logger_:debugf("BUILD PACKET @command %x, take %s bytes, content: [%s]", self.cmd_, buf:getLen(), ByteArray.toString(buf, 16))
     return buf
 end
 
-function PacketBuilder:cbCode(buf)
+function PacketBuilder:cbCheckCode(buf)
     local cbCheckCode = 0
     local s = ByteArray.toString(buf, 16)
+
     for i = 12, buf:getLen() do
         local x1,_ = ByteArray.toString(buf:getBytes(i, i), 16)
         buf:setPos(i)
@@ -162,14 +158,16 @@ function PacketBuilder:cbCode(buf)
         if cbCheckCode >= 256 then
             cbCheckCode = cbCheckCode - 256
         end
-        local origal = Code.SocketJiami[num]
-        buf:writeByte(origal)
+        -- test comment begin
+        -- local origal = Code.SocketEncode[num]
+        -- buf:writeByte(origal)
+        -- test comment end
     end
+
     if cbCheckCode == 0 then
         return 0
     else
-        local code = bit.tonot1(cbCheckCode) + 1
-        return code 
+        return bit.tonot1(cbCheckCode) + 1
     end
 end
 

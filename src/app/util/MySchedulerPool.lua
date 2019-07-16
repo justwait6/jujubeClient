@@ -1,8 +1,8 @@
 local scheduler = require(cc.PACKAGE_NAME .. ".scheduler")
 
-local SchedulerPool = class("SchedulerPool")
+local MySchedulerPool = class("MySchedulerPool")
 
-function SchedulerPool:ctor()
+function MySchedulerPool:ctor()
     self.pool_ = {}
     self.id_ = 0
 end
@@ -11,23 +11,23 @@ end
     @func getNextId: 封装递增变量
     @return: 返回下一个调度id
 --]]
-function SchedulerPool:getNextId()
+function MySchedulerPool:getNextId()
     self.id_ = self.id_ + 1
     return self.id_
 end
 
-function SchedulerPool.getInstance()
-    if not SchedulerPool.singleInstance then
-        SchedulerPool.singleInstance = SchedulerPool.new()
+function MySchedulerPool.getInstance()
+    if not MySchedulerPool.singleInstance then
+        MySchedulerPool.singleInstance = MySchedulerPool.new()
     end
-    return SchedulerPool.singleInstance
+    return MySchedulerPool.singleInstance
 end
 
 --[[
     @func cancel: 取消某个调度器
     @param id: 调度器句柄
 --]]
-function SchedulerPool:cancel(id)
+function MySchedulerPool:cancel(id)
     if self.pool_[id] then
         scheduler.unscheduleGlobal(self.pool_[id])
         self.pool_[id] = nil
@@ -37,7 +37,7 @@ end
 --[[
     @func cancelAll: 取消全部调度器
 --]]
-function SchedulerPool:cancelAll()
+function MySchedulerPool:cancelAll()
     for k,v in pairs(self.pool_) do 
         scheduler.unscheduleGlobal(v)
     end
@@ -50,7 +50,7 @@ end
     @param interval: 延迟时间
     @return: 返回一个调度器句柄, 可使用该句柄执行cancel等操作
 --]]
-function SchedulerPool:doDelay(callback, delay, ...)
+function MySchedulerPool:doDelay(callback, delay, ...)
     local id = self:getNextId()
     local args = {...}
     local handle = scheduler.performWithDelayGlobal(function() 
@@ -69,7 +69,7 @@ end
     @param interval: 间隔时间
     @return: 返回一个调度器句柄, 可使用该句柄执行cancel等操作
 --]]
-function SchedulerPool:doLoop(callback, interval, ...)
+function MySchedulerPool:doLoop(callback, interval, ...)
     local id = self:getNextId()
     local args = {...}
     local handle = scheduler.scheduleGlobal(function()
@@ -84,4 +84,4 @@ function SchedulerPool:doLoop(callback, interval, ...)
     return id
 end
 
-return SchedulerPool
+return MySchedulerPool

@@ -23,23 +23,10 @@ function FriendListView:initialize()
     self.friendListView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
         :pos(-250, 0)
         :addTo(self)
-
-    self:onUpdate()
 end
 
 function FriendListView:onUpdate(friendsData)
-    local friendsData = friendsData or {
-        {
-            gender = 0,
-            iconUrl = '',
-            nickname = 'xiao sh anonymous',
-        }, 
-        {
-            gender = 1,
-            iconUrl = '',
-            nickname = 'jima mama',
-        },
-    }
+    dump(friendsData, "friendsData")
     self.friendListView:removeAllItems()
 
     local itemHeight = 100
@@ -73,10 +60,6 @@ function FriendListView:onUpdate(friendsData)
         node:pos(0, itemHeight/2)
         self.friendListView:addNode(node, LIST_WIDTH, itemHeight)
     end
-end
-
-function startChat(uid)
-    -- body
 end
 
 return FriendListView
