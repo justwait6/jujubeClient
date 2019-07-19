@@ -129,7 +129,6 @@ end
 
 function MySocketBase:cancelHeartBeatTimeOut()
     self.heartBeatTimeoutCount_ = 0
-    print("self.canceling: ", self.heartBeatTimeoutCount_)
     if self.heartBeatTimeoutId_ then
         g.mySched:cancel(self.heartBeatTimeoutId_)
         self.heartBeatTimeoutId_ = nil

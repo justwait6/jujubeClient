@@ -97,12 +97,12 @@ function SocketService:onData(data)
     buf:writeBuf(data)
     buf:setPos(1)
     local success, packets = self.parser_:read(buf)
-    print("======================>? success??", success)
     if not success then
         if self.mySocket then self.mySocket:onError(data) end
     else
        for i,v in ipairs(packets) do
             if v and v.cmd then
+                dump(v, "receive pkts")
                 if self.mySocket then self.mySocket:onReceivePacket(v) end
             end
        end 

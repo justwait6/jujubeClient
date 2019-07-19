@@ -5,6 +5,8 @@
     封包
 ]]
 
+local HEAD_LEN = 11
+
 local TYPE = import(".PacketDataType")
 require("core.util.bit")
 
@@ -149,7 +151,7 @@ function PacketBuilder:cbCheckCode(buf)
     local cbCheckCode = 0
     local s = ByteArray.toString(buf, 16)
 
-    for i = 12, buf:getLen() do
+    for i = HEAD_LEN + 1, buf:getLen() do
         local x1,_ = ByteArray.toString(buf:getBytes(i, i), 16)
         buf:setPos(i)
         local x,_ = ByteArray.toString(buf:getBytes(i, i), 10)
@@ -158,10 +160,8 @@ function PacketBuilder:cbCheckCode(buf)
         if cbCheckCode >= 256 then
             cbCheckCode = cbCheckCode - 256
         end
-        -- test comment begin
-        -- local origal = Code.SocketEncode[num]
-        -- buf:writeByte(origal)
-        -- test comment end
+        local origal = Code.SocketEncode[num]
+        buf:writeByte(origal)
     end
 
     if cbCheckCode == 0 then

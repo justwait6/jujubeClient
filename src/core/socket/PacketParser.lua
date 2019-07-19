@@ -4,8 +4,9 @@
 --[[
     解包
 ]]
-local TYPE = import(".PacketDataType")
 local HEAD_LEN = 11 -- 包头长度
+
+local TYPE = import(".PacketDataType")
 local PacketParser = class("PacketParser")
 local Code = import(".Code")
 local ByteArray = require("core.utils.ByteArray")
@@ -27,11 +28,11 @@ local function verifyHeadAndGetBodyLenAndCmd(buf)
     local pos = buf:getPos()
     buf:setPos(5)
 
-    -- if buf:readStringBytes(2) == "LW" then
+    if buf:readStringBytes(2) == "LW" then
         cmd = buf:readInt()
         buf:setPos(1)
         len = buf:readInt() - HEAD_LEN
-    -- end
+    end
 
     buf:setPos(pos)
     return cmd,len
@@ -49,7 +50,7 @@ function PacketParser:read(buf)
 
         local available = buf:getAvailable()
         local buffLen = self.buf_:getLen()
-        print("available =%s, buffLen = %s", available, buffLen)
+        print("available", available, "buffLen", buffLen)
         if available <= 0 then
             break
         else
@@ -73,7 +74,7 @@ function PacketParser:read(buf)
             if headCompleted then
                 -- 包头已经完整，取包体长度并校验包头
                 local command, bodyLen = verifyHeadAndGetBodyLenAndCmd(self.buf_)
-                print("command %x bodylen %d", command, bodyLen)
+                print("command", command, "bodylen", bodyLen)
 
                 if bodyLen == 0 then
                     print("无包体，直接返回一个只有cmd字段的table")
@@ -84,7 +85,7 @@ function PacketParser:read(buf)
                     -- 有包体
                     available = buf:getAvailable()
                     buffLen = self.buf_:getLen()
-                    print("available + buffLen = %s, HEAD_LEN + bodyLen = %s", (available + buffLen), (HEAD_LEN + bodyLen))
+                    print("available + buffLen", (available + buffLen), "HEAD_LEN + bodyLen", (HEAD_LEN + bodyLen))
                     if available <= 0 then
                         break
                     elseif available + buffLen >= HEAD_LEN + bodyLen then
@@ -282,7 +283,7 @@ function PacketParser:parsePacket_(buf)
             end
         end
         if buf:getLen() ~= buf:getPos() - 1 and DEBUG > 0 then
-            print("PROTOCOL ERROR !!!! %x bufLen:%s pos:%s [%s]", cmd, buf:getLen(), buf:getPos(), ByteArray.toString(buf, 16))
+            print("PROTOCOL ERROR !!!!", cmd ,"bufLen:"..buf:getLen(), " pos:"..buf:getPos(), "length:"..ByteArray.toString(buf, 16))
         end
         ret.cmd = cmd
         return ret
@@ -297,10 +298,8 @@ function PacketParser:decryty(buf)
         buf:setPos(i)
         local x, _ = ByteArray.toString(buf:getBytes(i, i), 10)
         local num = tonumber(x) + 1
-        -- test comment begin
-        -- local origal = Code.SocketDecode[num]
-        -- buf:writeByte(origal)
-        -- test comment end
+        local origal = Code.SocketDecode[num]
+        buf:writeByte(origal)
     end
 end
 

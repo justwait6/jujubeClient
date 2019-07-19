@@ -319,7 +319,11 @@ CommandConfig.SERVER = {
     [C.SVR_HEART_BEAT] = {
         ver = 1,
         fmt = {
-            {name="random", type=T.INT}
+            {name="random",type=T.ARRAY,lengthType=T.BYTE,
+               fmt = {
+                   {name="value",type=T.INT},
+               },
+            }
         }
     },
     [C.SVR_DICE_STOP] = {
