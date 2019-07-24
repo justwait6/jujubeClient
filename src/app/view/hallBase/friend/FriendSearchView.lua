@@ -136,7 +136,7 @@ function FriendSearchView:onSearchClick()
 
     local params = {}
     params.name = username
-    params.fields = {'nickname', 'gender', 'iconUrl'}
+    params.fields = {'uid', 'nickname', 'gender', 'iconUrl'}
 
     self.mainViewObj:reqUserinfo(params,
         handler(self, self.onSearchOk),

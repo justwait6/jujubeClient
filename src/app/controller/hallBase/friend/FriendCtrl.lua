@@ -21,6 +21,19 @@ function FriendCtrl:reqFriendList(successCallback, failCallback)
         successCallback, failCallback, resetWrapHandler)
 end
 
+function FriendCtrl:reqReqAddList(successCallback, failCallback)
+	local resetWrapHandler = handler(self, function ()
+        self.httpIds['reqAddList'] = nil
+    end)
+	g.myUi.miniLoading:show()
+
+	local reqParams = {}
+	reqParams._interface 	= '/friend/reqAddList'
+
+	self.httpIds['reqAddList'] = g.http:simplePost(reqParams,
+        successCallback, failCallback, resetWrapHandler)
+end
+
 function FriendCtrl:reqSendFriendRequest(params, successCallback, failCallback)
 	params = params or {}
 	local resetWrapHandler = handler(self, function ()
@@ -29,10 +42,25 @@ function FriendCtrl:reqSendFriendRequest(params, successCallback, failCallback)
 	g.myUi.miniLoading:show()
 
 	local reqParams = {}
-	reqParams._interface 	= '/friend/addOne'
+	reqParams._interface 	= '/friend/reqAdd'
 	reqParams.friendUid 	= params.friendUid
 
 	self.httpIds['friendAdd'] = g.http:simplePost(reqParams,
+        successCallback, failCallback, resetWrapHandler)
+end
+
+function FriendCtrl:reqAcceptFriend(params, successCallback, failCallback)
+	params = params or {}
+	local resetWrapHandler = handler(self, function ()
+        self.httpIds['acceptFriend'] = nil
+    end)
+    g.myUi.miniLoading:show()
+
+    local reqParams = {}
+    reqParams._interface 	= '/friend/accpetFriend'
+    reqParams.requestUid 	= params.requestUid
+
+    self.httpIds['acceptFriend'] = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
 end
 

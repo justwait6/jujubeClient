@@ -1,5 +1,6 @@
 require("zlib")
 local HttpManager = class("HttpManager")
+local ErrorCode = require("core.protocol.ErrorCode")
 
 HttpManager.defaultURL = g.Const.HOST_URL
 HttpManager.defaultParams = {}
@@ -197,6 +198,9 @@ function HttpManager:simplePost(params, succCallback, failCallback, resetHandler
         else
             if failCallback then
                 failCallback(decodedData)
+            end
+            if type(decodedData) == "table" and decodedData.ret == ErrorCode.TOKEN_EXPIRED then
+                g.myApp:enterScene("LoginScene")
             end
         end
     end

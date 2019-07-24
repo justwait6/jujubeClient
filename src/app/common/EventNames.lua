@@ -11,5 +11,9 @@ end
 
 E.LOBBY_UPDATE = E.getName()
 E.USER_INFO_UPDATE = E.getName()
+E.SERVER_PUSH = E.getName()
+E.PACKET_RECEIVED = E.getName()
+
+E.FRIEND_REDDOT = E.getName()
 
 return E

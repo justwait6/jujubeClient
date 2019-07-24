@@ -2,12 +2,19 @@ local UserManager = class("UserManager")
 
 UserManager.VIEW_DIR_PATH = "app.view.user"
 
+local SvrPushTypeDef = require("app.model.serverPush.PushTypeDef")
+
 function UserManager:ctor()
 	self:initialize()
+    self:addEventListeners()
 end
 
 function UserManager:initialize()
     
+end
+
+function UserManager:addEventListeners()
+    g.event:on(g.eventNames.SERVER_PUSH, handler(self, self.onServerPush), self)
 end
 
 function UserManager.getInstance()
@@ -48,6 +55,16 @@ function UserManager:requestModifyUserinfo(params, successCallback, failCallback
     
     self.httpModifyUserId = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
+end
+
+function UserManager:onServerPush(data)
+    if type(data) == "table" and data.pushType == SvrPushTypeDef.FRIEND then
+        g.event:emit(g.eventNames.FRIEND_REDDOT, {isShow = true})
+    end
+end
+
+function UserManager:XXXX()
+    
 end
 
 function UserManager:XXXX()

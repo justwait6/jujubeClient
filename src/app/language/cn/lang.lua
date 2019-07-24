@@ -46,8 +46,13 @@ L.FRIEND.ADD						 		 = "添加"
 L.FRIEND.USER_NAME_EMPTY					 = "用户名为空"
 L.FRIEND.REQ_SEND_SUCC					 	 = "好友请求已发送"
 L.FRIEND.REQ_SEND_FAIL					 	 = "未知错误, 请稍后再添加"
+L.FRIEND.NO_FRIEND_TIPS					 	 = "暂无好友, 快去添加吧"
+L.FRIEND.NO_REQ_ADD_TIPS					 = "没有好友请求信息"
 L.FRIEND.ADD_SUCC					 		 = "添加好友成功"
 L.FRIEND.ADD_FAIL					 		 = "添加好友失败"
+L.FRIEND.CAN_NOT_ADD_SELF					 = "不能添加自己为好友"
+L.FRIEND.GET_FRIEND_LIST_FAIL				 = "拉取好友失败"
+L.FRIEND.ACCEPT						 		 = "接受"
 
 L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"

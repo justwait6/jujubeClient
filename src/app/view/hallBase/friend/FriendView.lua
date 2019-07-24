@@ -2,6 +2,7 @@ local FriendView = class("FriendView", g.myUi.Window)
 
 local FriendSearchView = import(".FriendSearchView")
 local FriendListView = import(".FriendListView")
+local FriendAddView = import(".FriendAddView")
 
 local FriendCtrl = require("app.controller.hallBase.friend.FriendCtrl")
 local UserCtrl = require("app.controller.user.UserCtrl")
@@ -12,6 +13,7 @@ FriendView.HEIGHT = 643
 local Tab = {}
 Tab.LIST = 1
 Tab.SEARCH = 2
+Tab.ADD = 3
 
 function FriendView:ctor()    
     self.ctrl = FriendCtrl.new()
@@ -22,7 +24,8 @@ end
 
 function FriendView:onShow()
     if self.ctrl then
-        self.ctrl:reqFriendList(handler(self, self.onFriendListSucc))
+        self.ctrl:reqFriendList(handler(self, self.onFriendListSucc), handler(self, self.onFriendListFail))
+        self.ctrl:reqReqAddList(handler(self, self.onReqAddListSucc))
     end
 end
 
@@ -37,28 +40,35 @@ function FriendView:initialize()
 
     -- 侧边栏好友按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_friendIcon, scale = 0.8})
-        :onClick(handler(self, function () self:onTab(Tab.LIST) end))
+        :onClick(handler(self, function () self:onTab(self.views[Tab.LIST]) end))
         :pos(-476, 266)
         :addTo(self)
 
     -- 侧边栏搜索好友按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_searchIcon, scale = 0.8})
-        :onClick(handler(self, function () self:onTab(Tab.SEARCH) end))
+        :onClick(handler(self, function () self:onTab(self.views[Tab.SEARCH]) end))
         :pos(-476, 180)
         :addTo(self)
 
-    self.friendListView = FriendListView.new():addTo(self)
-    self.searchView = FriendSearchView.new(self):addTo(self):hide()
+    g.myUi.ScaleButton.new({normal = g.Res.common_friendAddIcon, scale = 0.8})
+        :onClick(handler(self, function () self:onTab(self.views[Tab.ADD]) end))
+        :pos(-476, 94)
+        :addTo(self)
+
+    self.views = {}
+    self.views[Tab.LIST] = FriendListView.new(self):addTo(self):hide()
+    self.views[Tab.SEARCH] = FriendSearchView.new(self):addTo(self):hide()
+    self.views[Tab.ADD] = FriendAddView.new(self):addTo(self):hide()
+    self:onTab(self.views[Tab.LIST])
 end
 
-function FriendView:onTab(tab)
-    if tab == Tab.LIST then
-        if self.friendListView then self.friendListView:show() end
-        if self.searchView then self.searchView:hide() end
-    elseif tab == Tab.SEARCH then
-        if self.friendListView then self.friendListView:hide() end
-        if self.searchView then self.searchView:show() end
+function FriendView:onTab(view)
+    if self._curView == view then return end
+    if self._curView then
+        self._curView:hide()
     end
+    view:show()
+    self._curView = view
 end
 
 function FriendView:reqUserinfo(...)
@@ -67,10 +77,27 @@ function FriendView:reqUserinfo(...)
     end
 end
 
+function FriendView:reqAcceptFriend(...)
+    if self.ctrl then
+        self.ctrl:reqAcceptFriend(...)
+    end
+end
+
 function FriendView:onFriendListSucc(data)
     data = data or {}
-    if self.friendListView then
-        self.friendListView:onUpdate(data.friendList)
+    if self.views[Tab.LIST] then
+        self.views[Tab.LIST]:onUpdate(data.friendList)
+    end
+end
+
+function FriendView:onFriendListFail()
+    g.myUi.topTip:showText(g.lang:getText("FRIEND", "GET_FRIEND_LIST_FAIL"))
+end
+
+function FriendView:onReqAddListSucc(data)
+    data = data or {}
+    if self.views[Tab.ADD] then
+        self.views[Tab.ADD]:onUpdate(data.reqAddList)
     end
 end
 
@@ -86,8 +113,12 @@ function FriendView:onSendFriendRequestSucc()
     g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_SUCC"))
 end
 
-function FriendView:onSendFriendRequestFail()
-    g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_FAIL"))
+function FriendView:onSendFriendRequestFail(data)
+    if type(data) == "table" and data.ret == -100 then
+        g.myUi.topTip:showText(g.lang:getText("FRIEND", "CAN_NOT_ADD_SELF"))
+    else
+        g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_FAIL"))
+    end
 end
 
 function FriendView:XXXX()

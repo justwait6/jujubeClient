@@ -16,11 +16,13 @@ Res.common_headFrame	 	  			= "image/common/circle.png"
 Res.common_redCircle	 	  			= "image/common/redCircle.png"
 Res.common_searchIcon	 	  			= "image/common/searchIcon.png"
 Res.common_friendIcon	 	  			= "image/common/friendIcon.png"
+Res.common_friendAddIcon	 	  		= "image/common/friendAddIcon.png"
 Res.common_gender0	 	  				= "image/common/gender0.png"
 Res.common_gender1	 	  				= "image/common/gender1.png"
 Res.common_baseInfoIcon	 	  			= "image/common/baseInfoIcon.png"
 Res.common_editIcon	 	  				= "image/common/editIcon.png"
 Res.common_cameraIcon	 	  			= "image/common/cameraIcon.png"
+Res.common_redDot		 	  			= "image/common/redDot.png"
 
 
 Res.errorBg								= "bg2.jpg"

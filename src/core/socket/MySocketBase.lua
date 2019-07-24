@@ -6,8 +6,6 @@ local SocketService = import(".SocketService")
 local MySocketBase = class("MySocketBase")
 local CmdConfig = require("core.protocol.CommandConfig")
 
-MySocketBase.EVT_PACKET_RECEIVED  = "MySocketBase.EVT_PACKET_RECEIVED"
-
 local MAX_RETRY_LIMIT = 3
 
 function MySocketBase:ctor(socketName, CmdDef)
@@ -65,7 +63,7 @@ function MySocketBase:resume()
     self.logger_:warn("resume: resume event dispatching")
     if self.delayPackCache_ and #self.delayPackCache_ > 0 then
         for i,v in ipairs(self.delayPackCache_) do
-            g.event:emit(MySocketBase.EVT_PACKET_RECEIVED, v)
+            g.event:emit(g.eventNames.PACKET_RECEIVED, v)
         end
         self.delayPackCache_ = nil
     end
@@ -154,7 +152,10 @@ function MySocketBase:buildHeartBeatPack()
         table.insert(data, {value = math.random(0, 2147483647)})
         table.insert(data, {value = math.random(0, 2147483647)})
     end
-    return self:createPacketBuilder(self.CmdDef.CLISVR_HEART_BEAT):setParameter("random", data):build()
+    return self:createPacketBuilder(self.CmdDef.CLI_HEART_BEAT)
+        :setParameter("uid", g.user:getUid())
+        :setParameter("random", data)
+        :build()
 end
 
 function MySocketBase:onConnectFailed(evt)
@@ -229,19 +230,13 @@ function MySocketBase:reconnect_()
 end
 
 function MySocketBase:onReceivePacket(pack)
-    -- test begin
-    if true then
-        self:onHeartBeatReceived_()
-        return
-    end
-    -- test end
-
     local cmdName = CmdConfig.SERVER[pack.cmd].name
 
-    if pack.cmd == self.CmdDef.CLISVR_HEART_BEAT then
+    if pack.cmd == self.CmdDef.SVR_HEART_BEAT then
         self:onHeartBeatReceived_()
+    elseif pack.cmd == self.CmdDef.SVR_PUSH then
+        g.event:emit(g.eventNames.SERVER_PUSH, pack)
     else
-        self:onProcessPacket(pack)
         if self.isPaused_ then
             if not self.delayPackCache_ then
                 self.delayPackCache_ = {}
@@ -250,7 +245,7 @@ function MySocketBase:onReceivePacket(pack)
             self.logger_:warnf("onReceivePacket: pausd. ", cmdName)
         else
             self.logger_:warnf("onReceivePacket: dispatching. ", cmdName)
-            local ret, errMsg = pcall(function() g.event:emit(MySocketBase.EVT_PACKET_RECEIVED, pack) end)
+            local ret, errMsg = pcall(function() g.event:emit(g.eventNames.PACKET_RECEIVED, pack) end)
             if errMsg then
                 self.logger_:errorf("onReceivePacket: dispatching. ", cmdName, errMsg)
             end

@@ -9,11 +9,7 @@ function MySocket:ctor()
     MySocket.super.ctor(self, "MySocket", CmdDef)
     self.level = 0
     self.gameId = 0
-    -- test comment
-    -- self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
-    -- test begin
-    self.timerScheduleId = g.mySched:doDelay(handler(self, self.timer_), 3)
-    -- test end
+    self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
 end
 
 function MySocket.getInstance()
@@ -77,7 +73,7 @@ function MySocket:onConnected()
     
     print("g.Const.SERVER_CHANNEL = %s", g.Const.SERVER_CHANNEL)
     if tonumber(g.user:getUid()) ~= 0 then
-        -- self:sendLogin(tonumber(g.user:getUid()), g.Const.version, g.Const.SERVER_CHANNEL, g.Const.SERVER_PLATFORM, g.user:getAccessServerToken())
+        self:sendLogin(tonumber(g.user:getUid()), g.Const.version, g.Const.SERVER_CHANNEL, g.Const.SERVER_PLATFORM, g.user:getAccessServerToken())
     else
         local errorMsg = "server login success but uid id == 0"
         -- g.native:umengError(errorMsg)
@@ -90,10 +86,10 @@ end
 
 function MySocket:sendLogin(uid, version, channel, deviceId, token)
     print(uid, version, channel, deviceId, token)
-    print(CmdDef.CLI_DICE_LOGIN)
-    local pack = self:createPacketBuilder(CmdDef.CLI_DICE_LOGIN)
+    print(CmdDef.CLI_HALL_LOGIN)
+    local pack = self:createPacketBuilder(CmdDef.CLI_HALL_LOGIN)
         :setParameter("uid", uid)
-        :setParameter("token", token)
+        :setParameter("token", token or '')
         :setParameter("version", version)
         :setParameter("channel", channel)
         :setParameter("deviceId", deviceId)

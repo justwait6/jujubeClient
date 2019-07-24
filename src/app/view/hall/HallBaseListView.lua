@@ -5,7 +5,7 @@ end)
 local HallBaseListCtrl = require("app.controller.hall.HallBaseListCtrl")
 
 function HallBaseListView:ctor()
-	self.ctrl = HallBaseListCtrl.new()
+	self.ctrl = HallBaseListCtrl.new(self)
 
 	self:setNodeEventEnabled(true)
 	self:initialize()
@@ -20,6 +20,7 @@ function HallBaseListView:renderIconsList()
 	local startX = 0
 	local distanceGap = 160
 	self.icons = {}
+	self.redDots = {}
 	for i, conf in pairs(baseConfs) do
 		self.icons[i] = g.myUi.ScaleButton.new({normal = conf.hallIconRes})
 			:onClick(handler(self.ctrl, function ()
@@ -28,6 +29,10 @@ function HallBaseListView:renderIconsList()
 			:pos(startX + (i - 1) * distanceGap, 0)
 			:addTo(self)
 			:opacity(0)
+		self.redDots[i] = display.newSprite(g.Res.common_redDot)
+			:pos(startX + (i - 1) * distanceGap + 24, 0 + 20)
+			:addTo(self)
+			:hide()
 	end
 end
 
@@ -45,8 +50,32 @@ function HallBaseListView:playShowAnim()
 	end
 end
 
-function HallBaseListView:XXXX()
-	
+function HallBaseListView:updateRedDots(baseIds)
+	if not self.redDots then return end
+
+	local baseConfs = self.ctrl:getConfList()
+	for i, conf in pairs(baseConfs) do
+		if baseIds[baseConfs.id] then
+			self.redDots[i]:show()
+		else
+			self.redDots[i]:hide()
+		end
+	end
+end
+
+function HallBaseListView:updateRedDot(baseId, isShow)
+	if not self.redDots then return end
+
+	local baseConfs = self.ctrl:getConfList()
+	for i, conf in pairs(baseConfs) do
+		if conf.baseId == baseId then
+			if isShow then
+				self.redDots[i]:show()
+			else
+				self.redDots[i]:hide()
+			end
+		end
+	end
 end
 
 function HallBaseListView:XXXX()
@@ -55,6 +84,16 @@ end
 
 function HallBaseListView:XXXX()
 	
+end
+
+function HallBaseListView:XXXX()
+	
+end
+
+function HallBaseListView:onCleanup()
+	if self.ctrl then
+        self.ctrl:dispose()
+    end
 end
 
 return HallBaseListView

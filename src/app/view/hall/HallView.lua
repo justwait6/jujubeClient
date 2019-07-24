@@ -71,12 +71,8 @@ function HallView:XXXX()
 	
 end
 
-function HallView:removeEventListeners()
-	g.event:removeByTag(self)
-end
-
 function HallView:onCleanup()
-	self:removeEventListeners()
+	g.event:removeByTag(self)
 end
 
 return HallView

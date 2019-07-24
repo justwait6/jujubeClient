@@ -64,12 +64,8 @@ function HallSelfMiniView:XXXX()
 	
 end
 
-function HallSelfMiniView:removeEventListeners()
-	g.event:removeByTag(self)
-end
-
 function HallSelfMiniView:onCleanup()
-	self:removeEventListeners()
+	g.event:removeByTag(self)
 end
 
 return HallSelfMiniView

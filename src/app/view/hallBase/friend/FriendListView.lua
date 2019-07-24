@@ -16,18 +16,23 @@ end
 local LIST_WIDTH = 350
 local LIST_HEIGHT = 620
 function FriendListView:initialize()
-    -- test
-    display.newScale9Sprite(g.Res.black, 0, 0, cc.size(LIST_WIDTH, LIST_HEIGHT))
+    display.newScale9Sprite(g.Res.black, 0, 0, cc.size(LIST_WIDTH, LIST_HEIGHT + 16))
         :pos(-250, 0)
         :addTo(self)
-    self.friendListView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
+    self._friendListView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
         :pos(-250, 0)
         :addTo(self)
 end
 
 function FriendListView:onUpdate(friendsData)
-    dump(friendsData, "friendsData")
-    self.friendListView:removeAllItems()
+    friendsData = friendsData or {}
+    self._friendListView:removeAllItems()
+
+    if table.nums(friendsData) <= 0 then
+        self:showNoFriendTips()
+    else
+        self:hideNoFriendTips()
+    end
 
     local itemHeight = 100
     for k, v in pairs(friendsData) do
@@ -58,7 +63,23 @@ function FriendListView:onUpdate(friendsData)
         end
 
         node:pos(0, itemHeight/2)
-        self.friendListView:addNode(node, LIST_WIDTH, itemHeight)
+        self._friendListView:addNode(node, LIST_WIDTH, itemHeight)
+    end
+end
+
+function FriendListView:showNoFriendTips()
+    if not self._noFriendTips then
+        self._noFriendTips = display.newTTFLabel({text = g.lang:getText("FRIEND", "NO_FRIEND_TIPS"), size = 26, color = cc.c3b(137, 190, 224)})
+            :pos(-250, 0)
+            :addTo(self)
+            :hide()
+    end
+    self._noFriendTips:show()
+end
+
+function FriendListView:hideNoFriendTips()
+    if self._noFriendTips then
+        self._noFriendTips:hide()
     end
 end
 
