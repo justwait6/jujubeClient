@@ -35,48 +35,29 @@ end
 function TopTip:checkCreateTopTip()
 	local scene = display.getRunningScene()
 	if not scene then return end
-	if not self.container_ then
-		self.container_ = self:createContainer()
-			:pos(display.cx, HIDE_Y)
-			:addTo(scene, 1001)
+
+	if tolua.isnull(self.container_) then
+		self.isPlaying_ = false
+		self.container_ = display.newNode():pos(display.cx, HIDE_Y):addTo(scene, Z_ORDER)
 
 		display.newScale9Sprite(g.Res.common_topTipBg, 0, 0, BG_CONTENT_SIZE)
 			:addTo(self.container_)
 
-		local size = cc.size(MAX_SHOW_LABEL_WIDTH, BG_CONTENT_SIZE.height)
-		local stencil = display.newScale9Sprite(g.Res.blank, 0, 0, size)
-		-- local stencil = display.newScale9Sprite(g.Res.common_topTipBg, 0, 0, BG_CONTENT_SIZE)
+		local stencil = display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(MAX_SHOW_LABEL_WIDTH, BG_CONTENT_SIZE.height))
 		local clipNode = cc.ClippingNode:create():addTo(self.container_)
 		clipNode:setStencil(stencil)
 		clipNode:setAlphaThreshold(1)
 		-- clipNode:setInverted(false)
 
-		-- 文本
         self.label_ = display.newTTFLabel({size = 28}):addTo(clipNode)
 	end
-end
 
-function TopTip:createContainer()
-	-- 视图容器
-	local node = display.newNode()
-	node:setNodeEventEnabled(true)
-	node.onCleanup = handler(self, function ()
-		-- 移除图标
-		if self.currentData_ then
-			if self.currentData_.image and not tolua.isnull(self.currentData_.image) then
-				self.currentData_.image:release()
-            	g.myFunc:safeRemoveNode(self.currentData_.image)
-        	end
-		end
-		-- 移除定时器
-		if self.delayScheduleHandle_ then
-			scheduler.unscheduleGlobal(self.delayScheduleHandle_)
-			self.delayScheduleHandle_ = nil
-		end
-		print("TopTip container removed")
-	end)
-
-	return node
+	-- 检查是否重新添加到场景
+    if self.container_:getParent() ~= scene then
+    	self.container_:retain()
+    	self.container_:addTo(scene, Z_ORDER)
+	    self.container_:release()
+    end
 end
 
 function TopTip:showTopTip(topTipData)
@@ -85,12 +66,12 @@ function TopTip:showTopTip(topTipData)
 	-- 检查能否放入播放队列
 	if self:canAddToPlayList(topTipData) then
 		table.insert(self.waitQueue_, topTipData)
-		-- 初次加入时对图像数据retain一次
-		if topTipData.image and type(topTipData.image) == "userdata" then
-			topTipData.image:retain()
+		-- topTipData.imageOptions
+		
+		if not self.isPlaying_ then
+			-- 如果当前没有在播放, 消耗
+			self:consume()
 		end
-		-- 通知有新消息要播放
-		self:checkPlayNext()
 	end
 end
 
@@ -108,101 +89,92 @@ function TopTip:canAddToPlayList(tipItem)
 	return true
 end
 
-function TopTip:checkPlayNext(onPrint)
-	if not noPrint then
-		print("self.isPlaying_", self.isPlaying_)
-		print("table.nums(self.waitQueue_) == 0", table.nums(self.waitQueue_) == 0)
-	end
-	-- 正在播放, 返回
-	if self.isPlaying_ then return end
-
-	-- 播放队列为空
-	if table.nums(self.waitQueue_) == 0 then return end
-
-	self:playNext_()
-end
-
 --[[
 	播放下一条
 --]]
-function TopTip:playNext_()
+function TopTip:consume()
+	if table.nums(self.waitQueue_) <= 0 then
+		self.isPlaying_ = false
+		return
+	end
+
+	self.isPlaying_ = true
+	
+	self:checkCreateTopTip()
+
 	local currentPlayTip = table.remove(self.waitQueue_, 1)
 	assert(type(currentPlayTip) == "table", "TopTipData should be a table!")
-	self.currentData_ = currentPlayTip
-
-	self:checkCreateTopTip()
 	self.label_:setString(currentPlayTip.text)
+	self.label_:hide()
+
 	local labelWidth = self.label_:getContentSize().width
-	local scrollWidth = labelWidth - MAX_SHOW_LABEL_WIDTH
-	local scrollTime = self:calcScrollTime(scrollWidth, LABEL_ROLL_VELOCITY)
-	if scrollTime > 0 then
-		-- 居左, 左对齐
-		self.label_:align(display.LEFT_CENTER)
-		self.label_:setPositionX(LABEL_LEFT_X)
-		local targetXPos = -scrollWidth + self.label_:getPositionX()
-		transition.execute(self.label_, cc.MoveTo:create(scrollTime, cc.p(targetXPos, 0)), {delay = DEFAULT_STAY_TIME * 0.5})
-	elseif scrollTime == 0 then
-		-- 居中
-		self.label_:setAnchorPoint(0.5, 0.5)
-		self.label_:setPositionX(0)
-	end
-	self.delayScheduleHandle_ = scheduler.performWithDelayGlobal(handler(self, self.delayCallback_), DEFAULT_STAY_TIME + scrollTime)
+	local scrollWidth = self:calcScrollWidth(labelWidth, MAX_SHOW_LABEL_WIDTH)
 
-    local scene = display.getRunningScene()
-    if scene and self.container_:getParent() ~= scene then
-    	if not tolua.isnull(self.container_) then
-    		self.container_:retain()
-	    	self.container_:addTo(scene, Z_ORDER)
-		    self.container_:release()
-    	else
-    		self.container_ = self:createContainer()
-    			:pos(display.cx, HIDE_Y)
-				:addTo(scene)
-    	end
-    end
-    -- 下滑动画
-    self.isPlaying_ = true
-    self.container_:moveTo(0.3, display.cx, SHOW_Y)
-end
+	self.animCompleteCb = self.animCompleteCb or handler(self, function ()
+		self.isPlaying_ = false
+		self:consume()
+	end)
 
-function TopTip:calcScrollTime(scrollWidth, velocity)
-	local scrollTime = 0
-	if scrollWidth > 0 then
-		scrollTime = scrollWidth / velocity
-	end
-
-	return scrollTime
-end
-
-function TopTip:delayCallback_()
-	self.delayScheduleHandle_ = nil
-	self:playHideAnim(0.3)
-end
-
-function TopTip:playHideAnim(hideTime)
-	if not self.container_ then return end
-    if self.container_:getParent() then
-		self.container_:stopAllActions()
-		self.label_:stopAllActions()
-		self.container_:runAction(cc.Sequence:create({
-			cc.MoveTo:create(hideTime, cc.p(display.cx, HIDE_Y)),
-			cc.DelayTime:create(hideTime),
-			cc.CallFunc:create(handler(self, self.onHideComplete_))
-		}))
-		
+	if scrollWidth == 0 then
+		self:playNoScrollAnim(self.animCompleteCb)
 	else
-		self.container_:pos(display.cx, HIDE_Y)
-		self:onHideComplete_()
+		local targetXPos = -scrollWidth + self.label_:getPositionX()
+		self:playScrollAnim(scrollWidth, targetXPos, self.animCompleteCb)
 	end
 end
 
-function TopTip:onHideComplete_()
-    self.isPlaying_ = false
-    
-    -- 播放完一条, 检查播放队列
-    self:checkPlayNext(true)
+function TopTip:playNoScrollAnim(callback)
+	if tolua.isnull(self.container_) then return end
+
+	self.container_:stopAllActions()
+    self.container_:runAction(cc.Sequence:create({
+    	cc.MoveTo:create(0.3, cc.p(display.cx, SHOW_Y)),
+    	cc.CallFunc:create(handler(self, function ()
+    		self.label_:stopAllActions()
+			-- 默认居中
+			self.label_:setAnchorPoint(0.5, 0.5)
+			self.label_:setPositionX(0)
+			self.label_:show()
+    	end)),
+    	cc.DelayTime:create(DEFAULT_STAY_TIME),
+    	cc.MoveTo:create(0.3, cc.p(display.cx, HIDE_Y)),
+    	cc.CallFunc:create(function ()
+			if callback then callback() end
+		end)
+    }))
 end
 
+function TopTip:playScrollAnim(scrollWidth, targetXPos, callback)
+	if tolua.isnull(self.container_) then return end
+	local scrollTime = scrollWidth / LABEL_ROLL_VELOCITY
+
+	self.container_:stopAllActions()
+    self.container_:runAction(cc.Sequence:create({
+    	cc.MoveTo:create(0.3, cc.p(display.cx, SHOW_Y)),
+    	cc.CallFunc:create(handler(self, function ()
+    		self.label_:stopAllActions()
+			-- 居左, 左对齐
+			self.label_:align(display.LEFT_CENTER)
+			self.label_:setPositionX(LABEL_LEFT_X)
+    		self.label_:moveTo(scrollTime, targetXPos)
+    		self.label_:show()
+    	end)),
+    	cc.DelayTime:create(DEFAULT_STAY_TIME + scrollTime),
+    	cc.MoveTo:create(0.3, cc.p(display.cx, HIDE_Y)),
+    	cc.CallFunc:create(function ()
+			if callback then callback() end
+		end)
+    }))
+end
+
+function TopTip:calcScrollWidth(labelWidth, maxLabelWidth)
+	local scrollWidth = 0
+	if labelWidth - maxLabelWidth > 0 then
+		scrollWidth = labelWidth - maxLabelWidth
+	end
+
+	return scrollWidth
+end
 
 --------
 -- interface begin
@@ -219,19 +191,15 @@ function TopTip:showText(textContent)
 	self:showTopTip({text = textContent})
 end
 
-function TopTip:clearTipsQueue()
-    self.waitQueue_ = {}
-end
-
 function TopTip:clearAll()
-	self:clearTipsQueue()
-	-- 移除定时器
-	if self.delayScheduleHandle_ then
-		scheduler.unscheduleGlobal(self.delayScheduleHandle_)
-		self.delayScheduleHandle_ = nil
-	end
+	self.waitQueue_ = {}
 
-	self:playHideAnim(0.02)
+	self.animCompleteCb = nil
+
+	if self.container_ then
+		self.container_:stopAllActions()
+		self.container_:pos(display.cx, HIDE_Y)
+	end
 end
 
 --------
