@@ -111,4 +111,6 @@ g.imageLoader:registerCacheType(g.imageLoader.CACHE_TYPE_GIFT, {
     end,
 })
 
+g.dbMgr = require("core.db.DbManager").getInstance()
+
 return g

@@ -28,7 +28,7 @@ end
 
 function FriendAddView:onUpdate(reqAddList)
 	reqAddList = reqAddList or {}
-    dump(reqAddList, "reqAddList")
+    -- dump(reqAddList, "reqAddList")
     self._friendAddView:removeAllItems()
 
     if table.nums(reqAddList) <= 0 then

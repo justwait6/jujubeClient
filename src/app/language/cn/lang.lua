@@ -99,4 +99,13 @@ L.MONEYTREE.PRODUCE                          = "产生"
 L.MONEYTREE.COME_TOMORROW                    = "明天再来"
 L.MONEYTREE.NEED_UPDATE                      = "好友未升级到新版本"
 
+L.TIME = {}
+L.TIME.TODAY 								 = "今天"
+L.TIME.YESTERDAY 							 = "昨天"
+
+L.CHAT = {}
+L.CHAT.INPUT_TIPS 							 = "请输入聊天内容"
+L.CHAT.SEND 							 	 = "发送"
+L.CHAT.INPUT_EMPTY_TIPS 					 = "输入内容为空"
+
 return lang

@@ -78,9 +78,9 @@ function LoginView:initialize()
 
 	-- 登录测试按钮2
 	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
-		:setButtonLabel(display.newTTFLabel({size = 24, text = "Login 108"}))
+		:setButtonLabel(display.newTTFLabel({size = 24, text = "Login 111"}))
 		:onClick(function ()
-			self.nameEditBox:setText("108")
+			self.nameEditBox:setText("111")
 			self.pwdEditBox:setText("123456")
 			self.ctrl:requestGuestLogin()
 		end)

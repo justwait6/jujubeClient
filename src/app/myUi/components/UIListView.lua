@@ -40,8 +40,19 @@ function UIListView:addNode(node, width, height)
 	self.lv:pushBackCustomItem(layer)
 end
 
+function UIListView:addNodeInBegin(node, width, height)
+    local layer = ccui.Layout:create()
+    node:addTo(layer)
+    layer:setContentSize(cc.size(width, height))
+    self.lv:insertDefaultItem(layer)
+end
+
 function UIListView:setInnerSize(width, height)
 	self.lv:setInnerContainerSize(cc.size(width, height))
+end
+
+function UIListView:getInnerSize()
+    return self.lv:getInnerContainerSize()
 end
 
 function UIListView:requestRefreshView()
@@ -50,6 +61,14 @@ end
 
 function UIListView:refreshView()
     self.lv:refreshView()
+end
+
+function UIListView:jumpToBottom()
+    self.lv:jumpToBottom()
+end
+
+function UIListView:scrollToBottom(time, attenuated)
+    self.lv:scrollToBottom(time or 0.01, attenuated or false)
 end
 
 return UIListView

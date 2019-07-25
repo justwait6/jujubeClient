@@ -18,6 +18,9 @@ function EditBox:ctor(param)
 	    elseif eventType == "changed" then
 	        -- triggered when the edit box text was changed.
 	    elseif eventType == "return" then
+	    	if param.returnCallback then
+	    		param.returnCallback(self)
+	    	end
 	        -- triggered when the return button was pressed or the outside area of keyboard was touched.
 	    end
 	end

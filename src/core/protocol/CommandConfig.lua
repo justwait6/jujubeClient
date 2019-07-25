@@ -45,6 +45,7 @@ CommandConfig.SERVER = {
     [C.SVR_PUSH] = {
         ver = 1,
         fmt = {
+            {name = "uid", type = T.INT},
             {name = "pushType", type = T.INT},
         }
     },

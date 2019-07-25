@@ -16,9 +16,9 @@ function DefaulPanel:initilize(params)
 	local bgRes = params.bgRes or g.Res.blank
 	local transBg = display.newScale9Sprite(bgRes, 0, 0, cc.size(width, height))
 		:addTo(self)
+	transBg:setTouchSwallowEnabled(true)
 	transBg:addNodeEventListener(cc.NODE_TOUCH_EVENT, function() return true end)
 	transBg:setTouchEnabled(true)
-	transBg:setTouchSwallowEnabled(true)
 
 	if params.monoBg then
 		local draw = cc.DrawNode:create()

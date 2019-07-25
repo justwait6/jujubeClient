@@ -23,6 +23,7 @@ Res.common_baseInfoIcon	 	  			= "image/common/baseInfoIcon.png"
 Res.common_editIcon	 	  				= "image/common/editIcon.png"
 Res.common_cameraIcon	 	  			= "image/common/cameraIcon.png"
 Res.common_redDot		 	  			= "image/common/redDot.png"
+Res.common_back		 	  				= "image/common/back.png"
 
 
 Res.errorBg								= "bg2.jpg"
@@ -104,6 +105,7 @@ Res.moneytree_friendRank				= "platform/image/activity/moneytree/friendRank.png"
 Res.moneytree_coinSrcRecordBg			="image/activity/moneytree/coinSrcRecordBg.png"
 Res.moneytree_guideTipArrow  			="image/activity/moneytree/guideTipArrow.png"
 Res.moneytree_guideTipBg     			="image/activity/moneytree/guideTipBg.png"
+Res.moneytree_selected       			= "image/activity/moneytree/selected.png"
 
 Res.moneytreeinvite_bg			= "image/activity/moneytree/inviteBg.png"
 Res.moneytreeinvite_chipBar		= "image/activity/moneytree/inviteChipBar.png"

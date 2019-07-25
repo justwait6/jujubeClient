@@ -37,12 +37,13 @@ function WindowManager:resetContainer()
     end
     self.viewContainer_:removeAllChildren()
 
-    self.transBgCover = display.newScale9Sprite(g.Res.Common_Blank, 0, 0, cc.size(display.width, display.height))
+    self.transBgCover = display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(display.width, display.height))
+    -- self.transBgCover = display.newScale9Sprite(g.Res.black, 0, 0, cc.size(display.width, display.height))
         :pos(display.cx, display.cy)
         :addTo(self.viewContainer_)
+    self.transBgCover:setTouchSwallowEnabled(true)
     self.transBgCover:addNodeEventListener(cc.NODE_TOUCH_EVENT, handler(self, self.onBgCoverTouch_))
     self.transBgCover:setTouchEnabled(true)
-    self.transBgCover:setTouchSwallowEnabled(false)
     -- zOrder
     self.zOrder_ = 2
 end
@@ -56,6 +57,7 @@ function WindowManager:onBgCoverTouch_()
     if windowData and windowData.window and windowData.isBgCoverTouchClose then
         self:removeWindow(windowData.window)
     end
+    return true
 end
 
 --[[
@@ -73,13 +75,13 @@ function WindowManager:addWindow(window, isModal, isBgCoverTouchClose, noOpenAni
     isModal = (isModal ~= false) -- 默认为true, 当传入false时为false
     if isModal then
         if not self:isHasModal() then
-            local modalBgRes = background or g.Res.Common_halfTrans
+            local modalBgRes = background or g.Res.common_halfTrans
             self.modalBg_ = display.newScale9Sprite(modalBgRes, 0, 0, cc.size(display.width, display.height))
                 :pos(display.cx, display.cy)
                 :addTo(self.viewContainer_)
+            self.modalBg_:setTouchSwallowEnabled(true)
             self.modalBg_:addNodeEventListener(cc.NODE_TOUCH_EVENT, function () end)
             self.modalBg_:setTouchEnabled(true)
-            self.modalBg_:setTouchSwallowEnabled(true)
             self:playBgInAnim(self.modalBg_)
         end
     end

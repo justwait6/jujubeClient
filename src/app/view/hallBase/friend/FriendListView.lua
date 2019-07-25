@@ -2,8 +2,14 @@ local FriendListView = class("FriendListView", function ()
     return display.newNode()
 end)
 
+local ChatScreenView = require("app.view.chat.ChatScreenView")
+local ChatOperateView = require("app.view.chat.ChatOperateView")
+local chatMgr = require("app.model.chat.ChatManager").getInstance()
+
 function FriendListView:ctor()    
+    self:setNodeEventEnabled(true)
     self:initialize()
+    self:addEventListeners()
 end
 
 function FriendListView:setCtrl(ctrl, createIfNull)
@@ -22,6 +28,12 @@ function FriendListView:initialize()
     self._friendListView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
         :pos(-250, 0)
         :addTo(self)
+
+    self._chatViews = {}
+end
+
+function FriendListView:addEventListeners()
+    -- g.event:on(g.eventNames.CHAT_MSG, handler(self, self.onChatMsg), self)
 end
 
 function FriendListView:onUpdate(friendsData)
@@ -33,38 +45,92 @@ function FriendListView:onUpdate(friendsData)
     else
         self:hideNoFriendTips()
     end
+    self.friendSelLbls = {}
 
     local itemHeight = 100
-    for k, v in pairs(friendsData) do
-        local node = display.newNode()
-        g.myUi.AvatarView.new({
-            radius = 46,
-            gender = v.gender,
-            frameRes = g.Res.common_headFrame,
-            avatarUrl = v.iconUrl,
-            clickCallback = handler(self, function ()
-                self:startChat(uid)
-            end)
-        })
-            :addTo(node)
-            :pos(50, 0)
-            :setFrameScale(0.59)
-
-        display.newTTFLabel({text = g.nameUtil:getLimitName(v.nickname, 14), size = 28, color = cc.c3b(237, 226, 201)})
-            :setAnchorPoint(cc.p(0, 0.5))
-            :pos(120, 0)
-            :addTo(node)
+    for i, v in pairs(friendsData) do
+        local friendItem = self:newFriendItem(v, i)
+        self.friendSelLbls[i] = display.newScale9Sprite(g.Res.moneytree_selected, 0, 0, cc.size(LIST_WIDTH + 2, 100))
+            :pos(LIST_WIDTH/2, 0):addTo(friendItem):hide()
 
         -- 横向分割线
-        if k ~= 1 then
+        if i ~= 1 then
             local line = cc.DrawNode:create()
             line:drawSegment(cc.p(10, 0), cc.p(LIST_WIDTH - 10, 0), 1, cc.c4f(0.8, 0.8, 0.8, 0.8))
-            line:pos(0, itemHeight/2):addTo(node)
+            line:pos(0, itemHeight/2):addTo(friendItem)
         end
 
-        node:pos(0, itemHeight/2)
-        self._friendListView:addNode(node, LIST_WIDTH, itemHeight)
+        friendItem:pos(0, itemHeight/2)
+        self._friendListView:addNode(friendItem, LIST_WIDTH, itemHeight)
     end
+end
+
+function FriendListView:newFriendItem(v, listId)
+    local node = display.newNode()
+
+    local itemBg = display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(LIST_WIDTH - 2, 94))
+        :pos(LIST_WIDTH/2, 0):addTo(node)
+    g.myUi.TouchHelper.new(itemBg, function (target, evt)
+        self:onFriendItemClick(target, evt, listId, v.uid)
+    end)
+        :enableTouch()
+        :setTouchSwallowEnabled(false)
+        :setMoveNoResponse(true)
+
+    g.myUi.AvatarView.new({
+        radius = 46,
+        gender = v.gender,
+        frameRes = g.Res.common_headFrame,
+        avatarUrl = v.iconUrl,
+        clickCallback = handler(self, function () self:showOtherUserinfo(uid) end)
+    })
+        :addTo(node)
+        :pos(50, 0)
+        :setFrameScale(0.59)
+
+    display.newTTFLabel({text = g.nameUtil:getLimitName(v.nickname, 14), size = 28, color = cc.c3b(237, 226, 201)})
+        :setAnchorPoint(cc.p(0, 0.5))
+        :pos(120, 0)
+        :addTo(node)
+
+    return node
+end
+
+function FriendListView:onFriendItemClick(target, evt, id, uid)
+    if evt ~= g.myUi.TouchHelper.CLICK then return end
+    if self.lastItemSelected then
+        if self.friendSelLbls and self.friendSelLbls[self.lastItemSelected] then
+            self.friendSelLbls[self.lastItemSelected]:hide()
+        end
+    end
+    if self.friendSelLbls and self.friendSelLbls[id] then
+        self.friendSelLbls[id]:show()
+    end
+    self.lastItemSelected = id
+
+    self:showUserChatView(uid)
+end
+
+function FriendListView:showUserChatView(uid)
+    if self.lastChatSelected then
+        if self._chatViews and self._chatViews[self.lastChatSelected] then
+            self._chatViews[self.lastChatSelected]:hide()
+        end
+    end
+    if self._chatViews and self._chatViews[uid] then
+        self._chatViews[uid]:show()
+    end
+    self.lastChatSelected = uid
+
+    if not self._chatViews[uid] then
+        self._chatViews[uid] = ChatScreenView.new(uid):pos(220, 50):addTo(self)
+        chatMgr:registerChatView(uid, self._chatViews[uid])
+    end
+
+    if not self._chatOpView then
+        self._chatOpView = ChatOperateView.new():pos(220, -270):addTo(self)
+    end
+    self._chatOpView:bindChatUser(uid)
 end
 
 function FriendListView:showNoFriendTips()
@@ -81,6 +147,14 @@ function FriendListView:hideNoFriendTips()
     if self._noFriendTips then
         self._noFriendTips:hide()
     end
+end
+
+function FriendListView:showOtherUserinfo(uid)
+    print("待完成")
+end
+
+function FriendListView:onCleanUp(uid)
+    g.event:removeByTag(self)
 end
 
 return FriendListView

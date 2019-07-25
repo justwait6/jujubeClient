@@ -18,7 +18,7 @@ Tab.ADD = 3
 function FriendView:ctor()    
     self.ctrl = FriendCtrl.new()
     self.userCtrl = UserCtrl.new()
-    FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = true})
+    FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = false})
     self:initialize()
 end
 
@@ -30,29 +30,33 @@ function FriendView:onShow()
 end
 
 function FriendView:initialize()
-    -- Close
-    self:addClose(cc.p(482, 288))
-
     -- 纵向分割线
     local line = cc.DrawNode:create()
     line:drawSegment(cc.p(0, 316), cc.p(0, -316), 2, cc.c4f(0.8, 0.8, 0.8, 0.8))
     line:pos(-430, 0):addTo(self)
 
+    -- 关闭按钮
+    g.myUi.ScaleButton.new({normal = g.Res.common_back, scale = 0.8})
+        :onClick(handler(self, self.close))
+        :pos(-476, 266)
+        :addTo(self)
+
     -- 侧边栏好友按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_friendIcon, scale = 0.8})
         :onClick(handler(self, function () self:onTab(self.views[Tab.LIST]) end))
-        :pos(-476, 266)
+        :pos(-476, 180)
         :addTo(self)
 
     -- 侧边栏搜索好友按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_searchIcon, scale = 0.8})
         :onClick(handler(self, function () self:onTab(self.views[Tab.SEARCH]) end))
-        :pos(-476, 180)
+        :pos(-476, 94)
         :addTo(self)
 
+    -- 侧边栏添加好友按钮
     g.myUi.ScaleButton.new({normal = g.Res.common_friendAddIcon, scale = 0.8})
         :onClick(handler(self, function () self:onTab(self.views[Tab.ADD]) end))
-        :pos(-476, 94)
+        :pos(-476, 8)
         :addTo(self)
 
     self.views = {}

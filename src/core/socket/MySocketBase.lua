@@ -235,7 +235,9 @@ function MySocketBase:onReceivePacket(pack)
     if pack.cmd == self.CmdDef.SVR_HEART_BEAT then
         self:onHeartBeatReceived_()
     elseif pack.cmd == self.CmdDef.SVR_PUSH then
-        g.event:emit(g.eventNames.SERVER_PUSH, pack)
+        if pack.uid == g.user:getUid() then
+            g.event:emit(g.eventNames.SERVER_PUSH, pack)
+        end
     else
         if self.isPaused_ then
             if not self.delayPackCache_ then

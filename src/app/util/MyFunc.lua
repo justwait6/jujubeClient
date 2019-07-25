@@ -115,4 +115,10 @@ function MyFunc:findLast(haystack, needle)
     if i==nil then return nil else return i-1 end
 end
 
+function MyFunc:getTodayTimeStamp()
+    local cDateCurrectTime = os.date("*t")
+    local cDateTodayTime = os.time({year=cDateCurrectTime.year, month=cDateCurrectTime.month, day=cDateCurrectTime.day, hour=0,min=0,sec=0})
+    return cDateTodayTime
+end
+
 return MyFunc
