@@ -17,7 +17,7 @@ function MySocketBase:ctor(socketName, CmdDef)
     self.isConnected_ = false
     self.isConnecting_ = false
     self.isPaused_ = false
-    self.delayPackCache_ = nil
+    self.delayPackCache_ = {}
     self.logger_ = g.Logger.new(self.socketName_)
 end
 
@@ -65,7 +65,7 @@ function MySocketBase:resume()
         for i,v in ipairs(self.delayPackCache_) do
             g.event:emit(g.eventNames.PACKET_RECEIVED, v)
         end
-        self.delayPackCache_ = nil
+        self.delayPackCache_ = {}
     end
 end
 
@@ -238,15 +238,14 @@ function MySocketBase:onReceivePacket(pack)
         if pack.uid == g.user:getUid() then
             g.event:emit(g.eventNames.SERVER_PUSH, pack)
         end
+    elseif pack.cmd == self.CmdDef.SVR_FORWARD_CHAT then
+        if pack.destUid == g.user:getUid() then
+            g.event:emit(g.eventNames.CHAT_MSG, pack)
+        end
     else
         if self.isPaused_ then
-            if not self.delayPackCache_ then
-                self.delayPackCache_ = {}
-            end
             self.delayPackCache_[#self.delayPackCache_ + 1] = pack
-            self.logger_:warnf("onReceivePacket: pausd. ", cmdName)
         else
-            self.logger_:warnf("onReceivePacket: dispatching. ", cmdName)
             local ret, errMsg = pcall(function() g.event:emit(g.eventNames.PACKET_RECEIVED, pack) end)
             if errMsg then
                 self.logger_:errorf("onReceivePacket: dispatching. ", cmdName, errMsg)

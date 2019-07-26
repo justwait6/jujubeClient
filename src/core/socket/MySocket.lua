@@ -85,14 +85,20 @@ function MySocket:onConnected()
 end
 
 function MySocket:sendLogin(uid, version, channel, deviceId, token)
-    print(uid, version, channel, deviceId, token)
-    print(CmdDef.CLI_HALL_LOGIN)
     local pack = self:createPacketBuilder(CmdDef.CLI_HALL_LOGIN)
         :setParameter("uid", uid)
         :setParameter("token", token or '')
         :setParameter("version", version)
         :setParameter("channel", channel)
         :setParameter("deviceId", deviceId)
+        :build()
+    self:send(pack)
+end
+
+function MySocket:sendChat(params)
+    params = params or {}
+    local pack = self:createPacketBuilder(CmdDef.CLI_SEND_CHAT)
+        :setParameters(params)
         :build()
     self:send(pack)
 end

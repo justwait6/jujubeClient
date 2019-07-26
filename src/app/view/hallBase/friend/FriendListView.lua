@@ -33,7 +33,7 @@ function FriendListView:initialize()
 end
 
 function FriendListView:addEventListeners()
-    -- g.event:on(g.eventNames.CHAT_MSG, handler(self, self.onChatMsg), self)
+    -- g.event:on(g.eventNames.XXXX, handler(self, self.XXXX), self)
 end
 
 function FriendListView:onUpdate(friendsData)

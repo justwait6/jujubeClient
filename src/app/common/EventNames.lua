@@ -14,6 +14,7 @@ E.USER_INFO_UPDATE = E.getName()
 E.SERVER_PUSH = E.getName()
 E.PACKET_RECEIVED = E.getName()
 E.CHAT_MSG = E.getName()
+E.XXXX = E.getName()
 
 E.FRIEND_REDDOT = E.getName()
 

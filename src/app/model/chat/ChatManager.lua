@@ -27,9 +27,18 @@ end
 
 function ChatManager:onChatMsg(data)
     data = data or {}
+    -- 确保消息是: 我发出的消息 OR 我收到的消息
+    if data.srcUid ~= g.user:getUid() and data.destUid ~= g.user:getUid() then
+        return
+    end
+
+    local targetUid = data.srcUid
+    if targetUid == g.user:getUid() then
+        targetUid = data.destUid
+    end
 
     for uid, view in pairs(self._chatViews) do
-        if (uid == data.uid) and not tolua.isnull(view) then
+        if targetUid == uid and not tolua.isnull(view) then
             view:addChatItem(data)
         end
     end

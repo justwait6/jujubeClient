@@ -18,7 +18,7 @@ CommandConfig.CLIENT = {
             }
         }
     },
-    -- 骰子协议
+    -- 大厅登录协议
     [C.CLI_HALL_LOGIN] = {
         ver = 1,
         fmt = {
@@ -27,6 +27,15 @@ CommandConfig.CLIENT = {
             {name = "version", type = T.STRING},
             {name = "channel", type = T.STRING},
             {name = "deviceId", type = T.SHORT}
+        }
+    },
+    [C.CLI_SEND_CHAT] = {
+        ver = 1,
+        fmt = {
+            {name = "srcUid", type = T.INT},
+            {name = "destUid", type = T.INT},
+            {name = "time", type = T.INT},
+            {name = "text", type = T.STRING},
         }
     },
 }
@@ -47,6 +56,15 @@ CommandConfig.SERVER = {
         fmt = {
             {name = "uid", type = T.INT},
             {name = "pushType", type = T.INT},
+        }
+    },
+    [C.SVR_FORWARD_CHAT] = {
+        ver = 1,
+        fmt = {
+            {name = "srcUid", type = T.INT},
+            {name = "destUid", type = T.INT},
+            {name = "time", type = T.INT},
+            {name = "text", type = T.STRING},
         }
     },
 }

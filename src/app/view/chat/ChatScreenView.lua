@@ -22,61 +22,35 @@ function ChatScreenView:initialize()
 end
 
 function ChatScreenView:addEventListeners()
-	-- g.event:on(g.eventNames.CHAT_MSG, handler(self, self.on), self)
+	-- g.event:on(g.eventNames.XXXX, handler(self, self.XXXX), self)
 end
 
 local DEFAULT_ITEM_HEIGHT = 50
 local MAX_CHAT_LBL_WIDTH = 450
 function ChatScreenView:onUpdate(historyList)
-	local historyList = historyList or {
-		{
-			uid = 1,
-			text = "你好",
-			time = 1562014437,
-		}, {
-			uid = 3,
-			text = "你好呀, 合肥将暗示法法赛佛金佛山解放路附近哦啊接发上来附加按附件阿克苏佛我就是附属卡金佛按揭付款司法局佛教啊剪短发搜福建省都放假哦sad佛按实际发生的金佛阿斯加德佛啊",
-			time = 1563914933,
-		}, {
-			uid = 1,
-			text = "抱歉没听懂",
-			time = 1564024437,
-		}, {
-			uid = 3,
-			text = "这都听不懂?",
-			time = 1564024438,
-		}, {
-			uid = 3,
-			text = "就是听不懂啊, 怎么了",
-			time = 1564024438,
-		}, {
-			uid = 1,
-			text = "自己琢磨琢磨",
-			time = 1564024438,
-		}, {
-			uid = 1,
-			text = "没意思",
-			time = 1564024438,
-		},
-	}
+	local historyList = historyList or {}
 
 	self._chatHistoryView:removeAllItems()
 
 	for i, v in pairs(historyList) do
-		-- 时间
-        if self:isShowTime(v.time) then
-        	local timeLbl = display.newTTFLabel({text = self:getTimeFormat(v.time), size = 20, color = cc.c3b(208, 198, 202)})
-	        	:pos(LIST_WIDTH/2, 15)
-	        self._chatHistoryView:addNode(timeLbl, LIST_WIDTH, 30)
-        end
-
-        -- 聊天项
-		local chatItem = self:_newChatItem(v)
-		local itemHeight = self:getCurItemHeight()
-		chatItem:pos(0, itemHeight/2)
-        self._chatHistoryView:addNode(chatItem, LIST_WIDTH, itemHeight)
+		self:_addItem(v)
 	end
 	self._delayShowId = g.mySched:doDelay(handler(self, self.delayScroll), 0.05)
+end
+
+function ChatScreenView:_addItem(data)
+	-- 时间
+    if self:isShowTime(data.time) then
+    	local timeLbl = display.newTTFLabel({text = self:getTimeFormat(data.time), size = 20, color = cc.c3b(208, 198, 202)})
+        	:pos(LIST_WIDTH/2, 15)
+        self._chatHistoryView:addNode(timeLbl, LIST_WIDTH, 30)
+    end
+
+	-- 聊天项
+	local chatItem = self:_newChatItem(data)
+	local itemHeight = self:getCurItemHeight()
+	chatItem:pos(0, itemHeight/2)
+    self._chatHistoryView:addNode(chatItem, LIST_WIDTH, itemHeight)    
 end
 
 function ChatScreenView:_newChatItem(data)
@@ -102,7 +76,7 @@ function ChatScreenView:_newChatItem(data)
     else
     	self._curItemHeight = self._curItemHeight + 20
     end
-	if data.uid == g.user:getUid() then
+	if data.srcUid == g.user:getUid() then
 		lbl:pos(LIST_WIDTH - lblWidth - 20, 0)
 	else
 		lbl:pos(20, 0)
@@ -139,13 +113,8 @@ function ChatScreenView:getTimeFormat(time)
 end
 
 function ChatScreenView:addChatItem(data)
-	-- 聊天项
-	local chatItem = self:_newChatItem(data)
-	local itemHeight = self:getCurItemHeight()
-	chatItem:pos(0, itemHeight/2)
-    self._chatHistoryView:addNode(chatItem, LIST_WIDTH, itemHeight)
-
-	self._delayShowId = g.mySched:doDelay(handler(self, self.delayScroll), 0.05)    
+	self:_addItem(data)
+	self._delayShowId = g.mySched:doDelay(handler(self, self.delayScroll), 0.05)
 end
 
 function ChatScreenView:getCurItemHeight()

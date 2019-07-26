@@ -27,13 +27,17 @@ function ChatOperateCtrl:bindChatUser(uid)
 end
 
 function ChatOperateCtrl:sendChat(msg)
-    -- test begin
-    -- ONSUCC
+    local data = {srcUid = g.user:getUid(), destUid = self._chatUid, text = msg, time = os.time()}
+    -- 发送给对方自己的消息
+    g.mySocket:sendChat(data)
+
+    -- 清空输入框
     if self.viewObj then
         self.viewObj:resetInput()
     end
-    g.event:emit(g.eventNames.CHAT_MSG, {uid = self._chatUid, text = msg, time = os.time()})
-    -- test end
+
+    -- 显示我发送的消息
+    g.event:emit(g.eventNames.CHAT_MSG, data)
 end
 
 function ChatOperateCtrl:XXXX()
