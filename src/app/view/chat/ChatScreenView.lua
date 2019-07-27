@@ -17,8 +17,6 @@ function ChatScreenView:initialize()
     self._chatHistoryView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
         :pos(0, 0)
         :addTo(self)
-
-    self:onUpdate()
 end
 
 function ChatScreenView:addEventListeners()
@@ -60,7 +58,7 @@ function ChatScreenView:_newChatItem(data)
 
 	local node = display.newNode()
 	-- 聊天文字
-	local lbl = display.newTTFLabel({text = data.text, size = 20, color = cc.c3b(248, 248, 242)})
+	local lbl = display.newTTFLabel({text = data.msg, size = 20, color = cc.c3b(248, 248, 242)})
         :setAnchorPoint(cc.p(0, 0.5))
         :addTo(node)
     local lblWidth = lbl:getContentSize().width

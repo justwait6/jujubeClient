@@ -3,3 +3,6 @@ debug.log
 
 # local user storage file
 UserDefault.xml
+
+# local database file
+test.db

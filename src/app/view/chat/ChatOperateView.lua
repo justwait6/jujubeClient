@@ -27,9 +27,6 @@ function ChatOperateView:initialize()
 			maxLength = 600,
 			placeHolder = g.lang:getText("CHAT", "INPUT_TIPS"),
 			holderColor = cc.c3b(64, 97, 179),
-			returnCallback = function (editBox)
-				print(111)
-			end
 		})
 		:pos(-450/2, 0)
 		:addTo(self)

@@ -123,8 +123,8 @@ function FriendListView:showUserChatView(uid)
     self.lastChatSelected = uid
 
     if not self._chatViews[uid] then
-        self._chatViews[uid] = ChatScreenView.new(uid):pos(220, 50):addTo(self)
-        chatMgr:registerChatView(uid, self._chatViews[uid])
+        self._chatViews[uid] = ChatScreenView.new():pos(220, 50):addTo(self)
+        chatMgr:initChatView(uid, self._chatViews[uid])
     end
 
     if not self._chatOpView then

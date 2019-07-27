@@ -1,5 +1,7 @@
 local ChatManager = class("ChatManager")
 
+local _store = import(".ChatStoreUtil")
+
 function ChatManager:ctor()
 	self:initialize()
     self:addEventListeners()
@@ -9,9 +11,13 @@ function ChatManager:initialize()
     
 end
 
-function ChatManager:registerChatView(uid, view)
+function ChatManager:initChatView(uid, view)
     self._chatViews = self._chatViews or {}
     self._chatViews[uid] = view
+
+    self:fetchFriendChat(uid, function (data)
+        view:onUpdate(data)
+    end)
 end
 
 function ChatManager:addEventListeners()
@@ -32,20 +38,27 @@ function ChatManager:onChatMsg(data)
         return
     end
 
-    local targetUid = data.srcUid
-    if targetUid == g.user:getUid() then
-        targetUid = data.destUid
+    local friendUid = data.srcUid
+    if friendUid == g.user:getUid() then
+        friendUid = data.destUid
     end
 
+    -- 存入数据库
+    self:storeFriendChat(friendUid, data)
+
     for uid, view in pairs(self._chatViews) do
-        if targetUid == uid and not tolua.isnull(view) then
+        if friendUid == uid and not tolua.isnull(view) then
             view:addChatItem(data)
         end
     end
 end
 
-function ChatManager:XXXX()
-    
+function ChatManager:storeFriendChat(friendUid, data)
+    _store:storeFriendChat(friendUid, data)
+end
+
+function ChatManager:fetchFriendChat(friendUid, callback)
+    _store:fetchFriendChat(friendUid, callback)
 end
 
 function ChatManager:XXXX()

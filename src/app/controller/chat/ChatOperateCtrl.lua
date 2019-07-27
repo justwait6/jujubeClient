@@ -27,7 +27,7 @@ function ChatOperateCtrl:bindChatUser(uid)
 end
 
 function ChatOperateCtrl:sendChat(msg)
-    local data = {srcUid = g.user:getUid(), destUid = self._chatUid, text = msg, time = os.time()}
+    local data = {srcUid = g.user:getUid(), destUid = self._chatUid, msg = msg, time = os.time()}
     -- 发送给对方自己的消息
     g.mySocket:sendChat(data)
 

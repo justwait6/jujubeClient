@@ -15,11 +15,14 @@ function DbManager:openDb()
    	local dbFilePath = device.writablePath..'test.db'
     local isExist = cc.FileUtils:getInstance():isFileExist(dbFilePath)
 
-    _db = sqlite3.open(dbFilePath)
+    if not _db then
+        print('[SQLite] DB Open')
+        _db = sqlite3.open(dbFilePath)
+    end
     if isExist then
-        print('[SQLite] DB File is exist')
+        print('[SQLite] DB File already exists')
     else
-        print('[SQLite] DB File is not exist, created it')
+        print('[SQLite] DB File not exist, created it')
         --初始化表结构
         self:initDb()
     end
@@ -27,8 +30,65 @@ end
 
 function DbManager:closeDb()
     if _db then
+        print('[SQLite] DB Close')
     	_db:close()
+        _db = nil
     end
+end
+
+function DbManager:isTableExist(tableName, callback)
+    local isExist = false
+
+    self:openDb()
+    local stmt = _db:prepare([[
+        SELECT count(*) FROM sqlite_master WHERE type='table' and name=$tableName;
+    ]]) --前导声明
+    stmt:bind_names({tableName = tableName})
+    for row in stmt:nrows() do
+        isExist = row and row['count(*)'] > 0
+        self:closeDb()
+        break
+    end
+
+    if callback then callback(isExist) end
+end
+
+function DbManager:dropTable(tableName, callback)
+    self:openDb()
+    local t_drop_template = [=[
+        DROP TABLE $tableName;
+    ]=]
+
+    local t_drop_sql = string.gsub(t_drop_template, '$tableName', tableName)
+
+    local ret = _db:exec(t_drop_sql)
+    if ret == sqlite3.OK then
+        print("[SQLite] drop table " .. tableName .. " success!")
+        if callback then callback(true) end
+    else
+        self:showError()
+        if callback then callback(false) end
+    end
+end
+
+function DbManager:executeSql(sql, callback)
+    self:openDb()
+
+    local stmt = _db:prepare(sql) --前导声明
+    self:showError()
+    if stmt then
+        local ret = stmt:step()
+        if ret == sqlite3.DONE then
+            if callback then callback(true) end
+        else
+            self:showError()
+            if callback then callback(false) end
+        end
+    end
+end
+
+function DbManager:showError()
+    print("[SQLite] " .. _db:errmsg())
 end
 
 function DbManager:getDbVersion()
@@ -58,27 +118,26 @@ function DbManager:initDb()
     _db:exec(t_demo_sql, showrow, 't_demo_create')
 end
 
-function DbManager:insert( tableName, tableParas)
+function DbManager:query(sql, sql_tag, callback)
+    self:openDb()
 
-    local t_demo_sql =
-    [=[
-        INSERT INTO tableName VALUES(tableParas);
-        SELECT * FROM numbers;
-    ]=]
+    print("[SQLite] start query:\n" .. sql)
+    local data = {}
 
     local showrow = function(udata,cols,values,names)
-        assert(udata == 't_demo_create')
-
-        print('[SQLite] %s rows %s', udata,table.concat( values, "-"))
-
+        assert(udata == sql_tag)
+        table.insert(data, clone(values))
         return 0
     end
-    local ret = _db:exec(t_demo_sql, showrow, 't_demo_create')
+
+    local ret = _db:exec(sql, showrow, sql_tag)
     if ret ~= sqlite3.OK then
         print('error')
+    else
+        dump(data, "query data")
+        if callback then callback(data) end
     end
 end
-
 
 --[[test]]
 function DbManager:test()

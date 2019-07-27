@@ -35,7 +35,7 @@ CommandConfig.CLIENT = {
             {name = "srcUid", type = T.INT},
             {name = "destUid", type = T.INT},
             {name = "time", type = T.INT},
-            {name = "text", type = T.STRING},
+            {name = "msg", type = T.STRING},
         }
     },
 }
@@ -64,7 +64,7 @@ CommandConfig.SERVER = {
             {name = "srcUid", type = T.INT},
             {name = "destUid", type = T.INT},
             {name = "time", type = T.INT},
-            {name = "text", type = T.STRING},
+            {name = "msg", type = T.STRING},
         }
     },
 }
