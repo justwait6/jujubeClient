@@ -2,11 +2,10 @@ local FriendListView = class("FriendListView", function ()
     return display.newNode()
 end)
 
-local ChatScreenView = require("app.view.chat.ChatScreenView")
-local ChatOperateView = require("app.view.chat.ChatOperateView")
-local chatMgr = require("app.model.chat.ChatManager").getInstance()
+local FriendInfoView = import(".FriendInfoView")
 
-function FriendListView:ctor()    
+function FriendListView:ctor(mainViewObj)
+	self.mainViewObj = mainViewObj
     self:setNodeEventEnabled(true)
     self:initialize()
     self:addEventListeners()
@@ -28,8 +27,6 @@ function FriendListView:initialize()
     self._friendListView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
         :pos(-250, 0)
         :addTo(self)
-
-    self._chatViews = {}
 end
 
 function FriendListView:addEventListeners()
@@ -88,7 +85,8 @@ function FriendListView:newFriendItem(v, listId)
         :pos(50, 0)
         :setFrameScale(0.59)
 
-    display.newTTFLabel({text = g.nameUtil:getLimitName(v.nickname, 14), size = 28, color = cc.c3b(237, 226, 201)})
+	-- 备注(无备注则显示昵称)
+    display.newTTFLabel({text = g.nameUtil:getLimitName(v.remark or v.nickname, 14), size = 28, color = cc.c3b(237, 226, 201)})
         :setAnchorPoint(cc.p(0, 0.5))
         :pos(120, 0)
         :addTo(node)
@@ -108,29 +106,23 @@ function FriendListView:onFriendItemClick(target, evt, id, uid)
     end
     self.lastItemSelected = id
 
-    self:showUserChatView(uid)
+    self:showUserInfoView(uid)
 end
 
-function FriendListView:showUserChatView(uid)
-    if self.lastChatSelected then
-        if self._chatViews and self._chatViews[self.lastChatSelected] then
-            self._chatViews[self.lastChatSelected]:hide()
-        end
-    end
-    if self._chatViews and self._chatViews[uid] then
-        self._chatViews[uid]:show()
-    end
-    self.lastChatSelected = uid
+function FriendListView:showUserInfoView(uid)
+	if not self._friendInfoView then
+		self._friendInfoView = FriendInfoView.new(self.mainViewObj):pos(220, 50):show():addTo(self)
+	end
+	self._friendInfoView:refreshByUid(uid)
 
-    if not self._chatViews[uid] then
-        self._chatViews[uid] = ChatScreenView.new():pos(220, 50):addTo(self)
-        chatMgr:initChatView(uid, self._chatViews[uid])
+	self.goToChatUid = uid
+    if not self._goChatBtn then
+		self._goChatBtn = g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS, scale = 0.8})
+		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("FRIEND", "GO_CHAT")}))
+		:onClick(function () print("todo: chat with uid " .. self.goToChatUid) end)
+		:pos(220, -266)
+		:addTo(self)
     end
-
-    if not self._chatOpView then
-        self._chatOpView = ChatOperateView.new():pos(220, -270):addTo(self)
-    end
-    self._chatOpView:bindChatUser(uid)
 end
 
 function FriendListView:showNoFriendTips()

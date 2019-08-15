@@ -2,6 +2,7 @@ local FriendView = class("FriendView", g.myUi.Window)
 
 local FriendSearchView = import(".FriendSearchView")
 local FriendListView = import(".FriendListView")
+local ChatListView = import(".ChatListView")
 local FriendAddView = import(".FriendAddView")
 
 local FriendCtrl = require("app.controller.hallBase.friend.FriendCtrl")
@@ -11,9 +12,18 @@ FriendView.WIDTH = 1035
 FriendView.HEIGHT = 643
 
 local Tab = {}
-Tab.LIST = 1
-Tab.SEARCH = 2
-Tab.ADD = 3
+Tab.MSG = 1
+Tab.LIST = 2
+Tab.SEARCH = 3
+Tab.ADD = 4
+
+local LeftBarConf = {
+	{iconRes = g.Res.common_back, funcName = "close", tab = nil},
+	{iconRes = g.Res.common_chatIcon, funcName = "onTab", tab = Tab.MSG},
+	{iconRes = g.Res.common_friendIcon, funcName = "onTab", tab = Tab.LIST},
+	{iconRes = g.Res.common_searchIcon, funcName = "onTab", tab = Tab.SEARCH},
+	{iconRes = g.Res.common_friendAddIcon, funcName = "onTab", tab = Tab.ADD},
+}
 
 function FriendView:ctor()    
     self.ctrl = FriendCtrl.new()
@@ -35,38 +45,24 @@ function FriendView:initialize()
     line:drawSegment(cc.p(0, 316), cc.p(0, -316), 2, cc.c4f(0.8, 0.8, 0.8, 0.8))
     line:pos(-430, 0):addTo(self)
 
-    -- 关闭按钮
-    g.myUi.ScaleButton.new({normal = g.Res.common_back, scale = 0.8})
-        :onClick(handler(self, self.close))
-        :pos(-476, 266)
-        :addTo(self)
-
-    -- 侧边栏好友按钮
-    g.myUi.ScaleButton.new({normal = g.Res.common_friendIcon, scale = 0.8})
-        :onClick(handler(self, function () self:onTab(self.views[Tab.LIST]) end))
-        :pos(-476, 180)
-        :addTo(self)
-
-    -- 侧边栏搜索好友按钮
-    g.myUi.ScaleButton.new({normal = g.Res.common_searchIcon, scale = 0.8})
-        :onClick(handler(self, function () self:onTab(self.views[Tab.SEARCH]) end))
-        :pos(-476, 94)
-        :addTo(self)
-
-    -- 侧边栏添加好友按钮
-    g.myUi.ScaleButton.new({normal = g.Res.common_friendAddIcon, scale = 0.8})
-        :onClick(handler(self, function () self:onTab(self.views[Tab.ADD]) end))
-        :pos(-476, 8)
-        :addTo(self)
+	-- 侧边栏按钮(依次往下): 关闭按钮, 消息列表按钮, 好友列表按钮, 添加好友按钮
+	for i = 1, #LeftBarConf do
+		g.myUi.ScaleButton.new({normal = LeftBarConf[i].iconRes, scale = 0.8})
+			:onClick(function () self[LeftBarConf[i].funcName](self, LeftBarConf[i].tab) end)
+			:pos(-476, 266 - (i - 1) * 86)
+			:addTo(self)
+	end
 
     self.views = {}
+    self.views[Tab.MSG] = ChatListView.new(self):addTo(self):hide()
     self.views[Tab.LIST] = FriendListView.new(self):addTo(self):hide()
     self.views[Tab.SEARCH] = FriendSearchView.new(self):addTo(self):hide()
     self.views[Tab.ADD] = FriendAddView.new(self):addTo(self):hide()
-    self:onTab(self.views[Tab.LIST])
+    self:onTab(Tab.MSG)
 end
 
-function FriendView:onTab(view)
+function FriendView:onTab(tab)
+	local view = self.views[tab]
     if self._curView == view then return end
     if self._curView then
         self._curView:hide()
@@ -88,7 +84,7 @@ function FriendView:reqAcceptFriend(...)
 end
 
 function FriendView:onFriendListSucc(data)
-    data = data or {}
+	data = data or {}
     if self.views[Tab.LIST] then
         self.views[Tab.LIST]:onUpdate(data.friendList)
     end
@@ -125,6 +121,18 @@ function FriendView:onSendFriendRequestFail(data)
     end
 end
 
+function FriendView:onFriendRemarkModify(...)
+    if self.ctrl then
+        self.ctrl:onFriendRemarkModify(...)
+    end
+end
+
+function FriendView:getFriendInfo(...)
+    if self.ctrl then
+        return self.ctrl:getFriendInfo(...)
+    end
+end
+
 function FriendView:XXXX()
 end
 
@@ -132,6 +140,9 @@ function FriendView:XXXX()
 end
 
 function FriendView:onWindowRemove()
+	if self.ctrl then
+        self.ctrl:checkFriendsRemarkChange()
+    end
     if self.userCtrl then
         self.userCtrl:dispose()
     end
