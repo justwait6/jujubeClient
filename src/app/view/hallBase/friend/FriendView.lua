@@ -26,24 +26,24 @@ local LeftBarConf = {
 }
 
 function FriendView:ctor()    
-    self.ctrl = FriendCtrl.new()
-    self.userCtrl = UserCtrl.new()
-    FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = false})
-    self:initialize()
+	self.ctrl = FriendCtrl.new()
+	self.userCtrl = UserCtrl.new()
+	FriendView.super.ctor(self, {width = self.WIDTH, height = self.HEIGHT, monoBg = true, bgColor = cc.c3b(40, 41, 35), isCoverClose = false})
+	self:initialize()
 end
 
 function FriendView:onShow()
-    if self.ctrl then
-        self.ctrl:reqFriendList(handler(self, self.onFriendListSucc), handler(self, self.onFriendListFail))
-        self.ctrl:reqReqAddList(handler(self, self.onReqAddListSucc))
-    end
+	if self.ctrl then
+		self.ctrl:reqFriendList(handler(self, self.onFriendListSucc), handler(self, self.onFriendListFail))
+		self.ctrl:reqReqAddList(handler(self, self.onReqAddListSucc))
+	end
 end
 
 function FriendView:initialize()
-    -- 纵向分割线
-    local line = cc.DrawNode:create()
-    line:drawSegment(cc.p(0, 316), cc.p(0, -316), 2, cc.c4f(0.8, 0.8, 0.8, 0.8))
-    line:pos(-430, 0):addTo(self)
+	-- 纵向分割线
+	local line = cc.DrawNode:create()
+	line:drawSegment(cc.p(0, 316), cc.p(0, -316), 2, cc.c4f(0.8, 0.8, 0.8, 0.8))
+	line:pos(-430, 0):addTo(self)
 
 	-- 侧边栏按钮(依次往下): 关闭按钮, 消息列表按钮, 好友列表按钮, 添加好友按钮
 	for i = 1, #LeftBarConf do
@@ -53,84 +53,84 @@ function FriendView:initialize()
 			:addTo(self)
 	end
 
-    self.views = {}
-    self.views[Tab.MSG] = ChatListView.new(self):addTo(self):hide()
-    self.views[Tab.LIST] = FriendListView.new(self):addTo(self):hide()
-    self.views[Tab.SEARCH] = FriendSearchView.new(self):addTo(self):hide()
-    self.views[Tab.ADD] = FriendAddView.new(self):addTo(self):hide()
-    self:onTab(Tab.MSG)
+	self.views = {}
+	self.views[Tab.MSG] = ChatListView.new(self):addTo(self):hide()
+	self.views[Tab.LIST] = FriendListView.new(self):addTo(self):hide()
+	self.views[Tab.SEARCH] = FriendSearchView.new(self):addTo(self):hide()
+	self.views[Tab.ADD] = FriendAddView.new(self):addTo(self):hide()
+	self:onTab(Tab.MSG)
 end
 
 function FriendView:onTab(tab)
 	local view = self.views[tab]
     if self._curView == view then return end
     if self._curView then
-        self._curView:hide()
+			self._curView:hide()
     end
     view:show()
     self._curView = view
 end
 
 function FriendView:reqUserinfo(...)
-    if self.userCtrl then
-        self.userCtrl:reqUserinfo(...)
-    end
+	if self.userCtrl then
+		self.userCtrl:reqUserinfo(...)
+	end
 end
 
 function FriendView:reqAcceptFriend(...)
-    if self.ctrl then
-        self.ctrl:reqAcceptFriend(...)
-    end
+	if self.ctrl then
+		self.ctrl:reqAcceptFriend(...)
+	end
 end
 
 function FriendView:onFriendListSucc(data)
 	data = data or {}
-    if self.views[Tab.LIST] then
-        self.views[Tab.LIST]:onUpdate(data.friendList)
-    end
+	if self.views[Tab.LIST] then
+		self.views[Tab.LIST]:onUpdate(data.friendList)
+	end
 end
 
 function FriendView:onFriendListFail()
-    g.myUi.topTip:showText(g.lang:getText("FRIEND", "GET_FRIEND_LIST_FAIL"))
+	g.myUi.topTip:showText(g.lang:getText("FRIEND", "GET_FRIEND_LIST_FAIL"))
 end
 
 function FriendView:onReqAddListSucc(data)
-    data = data or {}
-    if self.views[Tab.ADD] then
-        self.views[Tab.ADD]:onUpdate(data.reqAddList)
-    end
+	data = data or {}
+	if self.views[Tab.ADD] then
+		self.views[Tab.ADD]:onUpdate(data.reqAddList)
+	end
 end
 
 function FriendView:onAddFriendClick(friendUid)
-    if self.ctrl then
-        self.ctrl:reqSendFriendRequest({friendUid = friendUid}, 
-            handler(self, self.onSendFriendRequestSucc),
-            handler(self, self.onSendFriendRequestFail))
-    end
+	if self.ctrl then
+		self.ctrl:reqSendFriendRequest({friendUid = friendUid}, 
+		handler(self, self.onSendFriendRequestSucc),
+		handler(self, self.onSendFriendRequestFail))
+	end
 end
 
 function FriendView:onSendFriendRequestSucc()
-    g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_SUCC"))
+	g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_SUCC"))
 end
 
 function FriendView:onSendFriendRequestFail(data)
-    if type(data) == "table" and data.ret == -100 then
-        g.myUi.topTip:showText(g.lang:getText("FRIEND", "CAN_NOT_ADD_SELF"))
-    else
-        g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_FAIL"))
-    end
+	if type(data) == "table" and data.ret == -100 then
+		g.myUi.topTip:showText(g.lang:getText("FRIEND", "CAN_NOT_ADD_SELF"))
+	else
+		g.myUi.topTip:showText(g.lang:getText("FRIEND", "REQ_SEND_FAIL"))
+	end
 end
 
 function FriendView:onFriendRemarkModify(...)
-    if self.ctrl then
-        self.ctrl:onFriendRemarkModify(...)
-    end
+	if self.ctrl then
+		self.ctrl:onFriendRemarkModify(...)
+	end
 end
 
 function FriendView:getFriendInfo(...)
-    if self.ctrl then
-        return self.ctrl:getFriendInfo(...)
-    end
+	if self.ctrl then
+		return self.ctrl:getFriendInfo(...)
+	end
 end
 
 function FriendView:XXXX()
@@ -141,14 +141,14 @@ end
 
 function FriendView:onWindowRemove()
 	if self.ctrl then
-        self.ctrl:checkFriendsRemarkChange()
-    end
-    if self.userCtrl then
-        self.userCtrl:dispose()
-    end
-    if self.ctrl then
-        self.ctrl:dispose()
-    end
+		self.ctrl:checkFriendsRemarkChange()
+	end
+	if self.userCtrl then
+		self.userCtrl:dispose()
+	end
+	if self.ctrl then
+		self.ctrl:dispose()
+	end
 end
 
 return FriendView
