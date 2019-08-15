@@ -43,9 +43,8 @@ function UserInfoView:initialize(uid)
     g.myUi.ScaleButton.new({normal = g.Res.common_searchIcon, scale = 0.8})
         :onClick(handler(self, function () self:onTab(Tab.SEARCH) end))
         :pos(-476, 180)
-        :addTo(self)
-
-    -- self.friendListView = FriendListView.new():addTo(self)
+		:addTo(self)
+		
     self.myInfoView = MyInfoView.new(self):addTo(self):hide()
     if tonumber(uid) == g.user:getUid() then
         self.myInfoView:show()

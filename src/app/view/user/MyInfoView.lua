@@ -124,20 +124,20 @@ function MyInfoView:hideWhenEditStart()
 end
 
 function MyInfoView:onEditOk()
-    local newName = self.nameEditBox:getText()
+		local newName = self.nameEditBox:getText()
+		-- reset edit name to empty
+    if self.nameEditBox then
+			self.nameEditBox:setText('')
+		end
+		
     if newName == "" or newName == g.user:getName() then
-        self:showWhenEditOk()
+				self:showWhenEditOk()
         return
     end
 
     self.name:setString(newName)
     self:onRecordModify('nickname', newName)
     self:showWhenEditOk()
-
-    -- reset edit name to empty
-    if self.nameEditBox then
-        self.nameEditBox:setText('')
-    end
 end
 
 function MyInfoView:onRecordModify(...)
