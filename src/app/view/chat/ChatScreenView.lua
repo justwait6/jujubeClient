@@ -13,10 +13,10 @@ end
 
 function ChatScreenView:initialize()
 	local itemBg = display.newScale9Sprite(g.Res.black, 0, 0, cc.size(LIST_WIDTH, LIST_HEIGHT))
-        :pos(0, 0):addTo(self)
-    self._chatHistoryView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
-        :pos(0, 0)
-        :addTo(self)
+    :pos(0, 0):addTo(self)
+  self._chatHistoryView = g.myUi.UIListView.new(LIST_WIDTH, LIST_HEIGHT)
+    :pos(0, 0)
+    :addTo(self)
 end
 
 function ChatScreenView:addEventListeners()
@@ -38,17 +38,17 @@ end
 
 function ChatScreenView:_addItem(data)
 	-- 时间
-    if self:isShowTime(data.time) then
-    	local timeLbl = display.newTTFLabel({text = self:getTimeFormat(data.sentTime), size = 20, color = cc.c3b(208, 198, 202)})
-        	:pos(LIST_WIDTH/2, 15)
-        self._chatHistoryView:addNode(timeLbl, LIST_WIDTH, 30)
-    end
+  if self:isShowTime(data.time) then
+    local timeLbl = display.newTTFLabel({text = self:getTimeFormat(data.sentTime), size = 20, color = cc.c3b(208, 198, 202)})
+      :pos(LIST_WIDTH/2, 15)
+      self._chatHistoryView:addNode(timeLbl, LIST_WIDTH, 30)
+  end
 
 	-- 聊天项
 	local chatItem = self:_newChatItem(data)
 	local itemHeight = self:getCurItemHeight()
 	chatItem:pos(0, itemHeight/2)
-    self._chatHistoryView:addNode(chatItem, LIST_WIDTH, itemHeight)    
+  self._chatHistoryView:addNode(chatItem, LIST_WIDTH, itemHeight)    
 end
 
 function ChatScreenView:_newChatItem(data)
@@ -59,21 +59,21 @@ function ChatScreenView:_newChatItem(data)
 	local node = display.newNode()
 	-- 聊天文字
 	local lbl = display.newTTFLabel({text = data.msg, size = 20, color = cc.c3b(248, 248, 242)})
-        :setAnchorPoint(cc.p(0, 0.5))
-        :addTo(node)
-    local lblWidth = lbl:getContentSize().width
+    :setAnchorPoint(cc.p(0, 0.5))
+    :addTo(node)
+  local lblWidth = lbl:getContentSize().width
 
-    if lbl:getContentSize().width > MAX_CHAT_LBL_WIDTH then
-    	lblWidth = MAX_CHAT_LBL_WIDTH
-    	lbl:setDimensions(MAX_CHAT_LBL_WIDTH, 0)
-    end
+  if lbl:getContentSize().width > MAX_CHAT_LBL_WIDTH then
+    lblWidth = MAX_CHAT_LBL_WIDTH
+    lbl:setDimensions(MAX_CHAT_LBL_WIDTH, 0)
+  end
 
-    self._curItemHeight = lbl:getContentSize().height
-    if self._curItemHeight < DEFAULT_ITEM_HEIGHT then
-    	self._curItemHeight = DEFAULT_ITEM_HEIGHT
-    else
-    	self._curItemHeight = self._curItemHeight + 20
-    end
+  self._curItemHeight = lbl:getContentSize().height
+  if self._curItemHeight < DEFAULT_ITEM_HEIGHT then
+   	self._curItemHeight = DEFAULT_ITEM_HEIGHT
+  else
+   	self._curItemHeight = self._curItemHeight + 20
+  end
 	if data.srcUid == g.user:getUid() then
 		lbl:pos(LIST_WIDTH - lblWidth - 20, 0)
 	else
