@@ -13,7 +13,7 @@ function HallBaseListCtrl:initialize()
 end
 
 function HallBaseListCtrl:addEventListeners()
-	g.event:on(g.eventNames.FRIEND_REDDOT, handler(self, self.updateFriendRedDot), self)
+	g.event:on(g.eventNames.FRIEND_RED_DOT, handler(self, self.updateFriendRedDot), self)
 end
 
 function HallBaseListCtrl:getConfList()
