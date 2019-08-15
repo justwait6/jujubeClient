@@ -199,7 +199,11 @@ function HttpManager:simplePost(params, succCallback, failCallback, resetHandler
             if failCallback then
                 failCallback(decodedData)
             end
-            if type(decodedData) == "table" and decodedData.ret == ErrorCode.TOKEN_EXPIRED then
+						if type(decodedData) == "table" and decodedData.ret == ErrorCode.TOKEN_EXPIRED then
+								local tokenTipsDelayId = g.mySched:doDelay(function ()
+									g.myUi.topTip:showText(g.lang:getText("HTTP", "TOKEN_EXPIRED_TIPS"))
+									g.mySched:cancel(tokenTipsDelayId)
+								end, 0.5)
                 g.myApp:enterScene("LoginScene")
             end
         end
