@@ -28,7 +28,6 @@ function UserCtrl:reqUserinfo(params, successCallback, failCallback, noLoading)
 end
 
 function UserCtrl:onRecordModify(key, value)
-    print(key, value)
 	self.toModifys = self.toModifys or {}
     if self.toModifys[key] ~= value then
         self.toModifys[key] = value
@@ -36,7 +35,6 @@ function UserCtrl:onRecordModify(key, value)
 end
 
 function UserCtrl:checkUserInfoChange()
-    dump(self.toModifys, "self.toModifys")
     if not self.toModifys then return end
     local fields = {}
     if self.toModifys['gender'] and g.user:getGender() ~= self.toModifys['gender'] then
