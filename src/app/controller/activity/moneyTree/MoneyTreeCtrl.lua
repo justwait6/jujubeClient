@@ -1,7 +1,8 @@
 local MoneyTreeCtrl = class("MoneyTreeCtrl")
 
 function MoneyTreeCtrl:ctor(viewObj)
-    self.viewObj = viewObj
+	self.viewObj = viewObj
+	self.httpIds = {}
 	self:initialize()
 end
 
@@ -40,9 +41,9 @@ function MoneyTreeCtrl:showMoneyTreeInvitePopup()
 end
 
 function MoneyTreeCtrl:requestBaseInfo(successCallback, failCallback, noLoading)
-    if self.httpBaseInfoId then return end
+    if self.httpIds['baseInfo'] then return end
     local resetWrapHandler = handler(self, function ()
-        self.httpBaseInfoId = nil
+        self.httpIds['baseInfo'] = nil
     end)
 
     if not noLoading then
@@ -55,19 +56,14 @@ function MoneyTreeCtrl:requestBaseInfo(successCallback, failCallback, noLoading)
     param.param.type = self.treeType
     param.param.gid = g.Const.GID
     
-    self.httpBaseInfoId = g.http:simplePost(param,
+    self.httpIds['baseInfo'] = g.http:simplePost(param,
         successCallback, failCallback, resetWrapHandler)
 end
 
-function MoneyTreeCtrl:cancelRequestBaseInfo()
-    g.http:cancel(self.httpBaseInfoId)
-    self.httpBaseInfoId = nil
-end
-
 function MoneyTreeCtrl:requestInviteCodeInfo(successCallback, failCallback, noLoading)
-    if self.httpInviteInfoId then return end
+    if self.httpIds['inviteCodeInfo'] then return end
     local resetWrapHandler = handler(self, function ()
-        self.httpInviteInfoId = nil
+        self.httpIds['inviteCodeInfo'] = nil
     end)
 
     if not noLoading then
@@ -79,15 +75,10 @@ function MoneyTreeCtrl:requestInviteCodeInfo(successCallback, failCallback, noLo
     param.param = {}
     param.param.type = self.treeType
     param.param.gid = g.Const.GID
-    self.httpInviteInfoId = g.http:simplePost(param,
+    self.httpIds['inviteCodeInfo'] = g.http:simplePost(param,
         successCallback, failCallback, resetWrapHandler)
 end
 
-function MoneyTreeCtrl:cancelRequestInviteCodeInfo()
-	g.http:cancel(self.httpInviteInfoId)
-    self.httpInviteInfoId = nil
-end
-
 function MoneyTreeCtrl:XXXX()
     
 end
@@ -100,8 +91,8 @@ function MoneyTreeCtrl:XXXX()
     
 end
 
-function MoneyTreeCtrl:XXXX()
-    
+function MoneyTreeCtrl:dispose()
+    g.http:cancelBatch(self.httpIds)
 end
 
 return MoneyTreeCtrl
