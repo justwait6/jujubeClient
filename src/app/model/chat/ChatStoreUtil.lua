@@ -19,7 +19,6 @@ function ChatStoreUtil:storeFriendChat(friendUid, data)
     local tableName = self:getFriendChatTableName(friendUid)
 
     -- test begin
-    --[[
 	if data.msg == '1' then
     	local t_search_sql = string.format([=[
 			SELECT * FROM %s;
@@ -33,14 +32,14 @@ function ChatStoreUtil:storeFriendChat(friendUid, data)
     	g.dbMgr:dropTable(tableName);
     	return
     end
-    --]]
     -- test end
 
     local function insert()
     	local changedMsg = self:replaceString(data.msg)
     	local t_insert_sql = string.format([=[
-			INSERT INTO %s (ID, SRCUID, DESTUID, TIME, MSG) VALUES ( NULL, %d, %d, %d, '%s' );
-		]=], tableName, data.srcUid, data.destUid, data.time, changedMsg);
+			INSERT INTO %s (MSG_ID, SVR_MSG_ID, TYPE, SRCUID, DESTUID, SENTTIME, MSG)
+			VALUES ( NULL, %d, %d, %d, %d, %d, '%s' );
+		]=], tableName, data.msgId, data.type, data.srcUid, data.destUid, data.sentTime, changedMsg);
 
     	print(t_insert_sql);
 		g.dbMgr:executeSql(t_insert_sql, function (isOk)
@@ -64,10 +63,12 @@ function ChatStoreUtil:createFriendChatTable(tableName, callback)
     local template = 
 	[=[
 		CREATE TABLE $tableName (
-			ID INTEGER PRIMARY KEY AUTOINCREMENT,
+			MSG_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+			SVR_MSG_ID INTEGER,
+			TYPE TINYINT,
 			SRCUID INT NOT NULL,
 			DESTUID INT NOT NULL,
-			TIME INT NOT NULL,
+			SENTTIME INT NOT NULL,
 			MSG TEXT
 		);
 	]=]
@@ -81,17 +82,18 @@ function ChatStoreUtil:fetchFriendChat(friendUid, callback)
 
 	-- query (at most) last 20 messages
     local t_search_sql = string.format([=[
-		SELECT * FROM (SELECT * FROM %s ORDER BY ID DESC LIMIT 20) AA ORDER BY ID
+		SELECT * FROM (SELECT * FROM %s ORDER BY MSG_ID DESC LIMIT 20) AA ORDER BY MSG_ID;
 	]=], tableName);
 
 	g.dbMgr:query(t_search_sql, 'search_' .. tableName, function (data)
 		local retData = {}
 		for _, v in pairs(data) do
-			local changedMsg = self:unreplaceString(v[5]);			
+			local changedMsg = self:unreplaceString(v[7]);			
 			table.insert(retData, {
-				srcUid = tonumber(v[2]),
-				destUid = tonumber(v[3]),
-				time = tonumber(v[4]),
+				type = tonumber(v[3]),
+				srcUid = tonumber(v[4]),
+				destUid = tonumber(v[5]),
+				sentTime = tonumber(v[6]),
 				msg = changedMsg,
 			})
 		end
@@ -100,7 +102,7 @@ function ChatStoreUtil:fetchFriendChat(friendUid, callback)
 end
 
 function ChatStoreUtil:getFriendChatTableName(friendUid)
-    return "ChatFriend" .. g.user:getUid() .. "_" .. friendUid .. "test"
+    return "ChatFriend" .. g.user:getUid() .. "_" .. friendUid
 end
 
 function ChatStoreUtil:replaceString(msg)

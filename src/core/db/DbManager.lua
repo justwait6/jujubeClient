@@ -132,7 +132,7 @@ function DbManager:query(sql, sql_tag, callback)
 
     local ret = _db:exec(sql, showrow, sql_tag)
     if ret ~= sqlite3.OK then
-        print('error')
+        self:showError()
     else
         dump(data, "query data")
         if callback then callback(data) end

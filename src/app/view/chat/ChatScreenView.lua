@@ -39,7 +39,7 @@ end
 function ChatScreenView:_addItem(data)
 	-- 时间
     if self:isShowTime(data.time) then
-    	local timeLbl = display.newTTFLabel({text = self:getTimeFormat(data.time), size = 20, color = cc.c3b(208, 198, 202)})
+    	local timeLbl = display.newTTFLabel({text = self:getTimeFormat(data.sentTime), size = 20, color = cc.c3b(208, 198, 202)})
         	:pos(LIST_WIDTH/2, 15)
         self._chatHistoryView:addNode(timeLbl, LIST_WIDTH, 30)
     end
