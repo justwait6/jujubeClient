@@ -5,8 +5,9 @@ UserManager.VIEW_DIR_PATH = "app.view.user"
 local SvrPushTypeDef = require("app.model.serverPush.PushTypeDef")
 
 function UserManager:ctor()
+	self.httpIds = {}
 	self:initialize()
-    self:addEventListeners()
+	self:addEventListeners()
 end
 
 function UserManager:initialize()
@@ -40,9 +41,9 @@ function UserManager:uploadUserinfo(updFields)
 end
 
 function UserManager:requestModifyUserinfo(params, successCallback, failCallback, noLoading)
-	if self.httpModifyUserId then return end
+	if self.httpIds["modifyUser"] then return end
     local resetWrapHandler = handler(self, function ()
-        self.httpModifyUserId = nil
+        self.httpIds["modifyUser"] = nil
     end)
 
     if not noLoading then
@@ -53,13 +54,13 @@ function UserManager:requestModifyUserinfo(params, successCallback, failCallback
     reqParams._interface = "/users/modifyBaseInfo"
     reqParams.fields = params.fields or {}
     
-    self.httpModifyUserId = g.http:simplePost(reqParams,
+    self.httpIds["modifyUser"] = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
 end
 
 function UserManager:onServerPush(data)
     if type(data) == "table" and data.pushType == SvrPushTypeDef.FRIEND then
-        g.event:emit(g.eventNames.FRIEND_REDDOT, {isShow = true})
+        g.event:emit(g.eventNames.FRIEND_RED_DOT, {isShow = true})
     end
 end
 
