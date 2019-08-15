@@ -1,12 +1,19 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 23
+    signingConfigs {
+        config {
+            keyAlias 'jujubeKeyAlias'
+            keyPassword '123456'
+            storeFile file('D:/source/jujubeClient/jujubeKey/jujubeKey.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
-
     defaultConfig {
         applicationId "com.agalee.jujube"
-        minSdkVersion 10
-        targetSdkVersion 23
+        minSdkVersion 15
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -14,9 +21,9 @@ android {
             abiFilters "armeabi-v7a"
         }
     }
-
     buildTypes {
         release {
+            debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
