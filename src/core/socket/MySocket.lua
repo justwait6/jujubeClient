@@ -81,7 +81,7 @@ function MySocket:onConnected()
 
     -- 发送心跳包
     -- test comment
-    -- self:startHeartBeat()
+    self:startHeartBeat()
     -- g.umeng:report(KUmengServerLoginOk)
 end
 

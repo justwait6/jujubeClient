@@ -230,7 +230,7 @@ function MySocketBase:reconnect_()
 end
 
 function MySocketBase:onReceivePacket(pack)
-    local cmdName = CmdConfig.SERVER[pack.cmd].name
+    local cmdName = CmdConfig[pack.cmd].name
 
     if pack.cmd == self.CmdDef.SVR_HEART_BEAT then
         self:onHeartBeatReceived_()
@@ -238,9 +238,9 @@ function MySocketBase:onReceivePacket(pack)
         if pack.uid == g.user:getUid() then
             g.event:emit(g.eventNames.SERVER_PUSH, pack)
         end
-    elseif pack.cmd == self.CmdDef.SVR_FORWARD_CHAT then
-        if pack.destUid == g.user:getUid() then
-            g.event:emit(g.eventNames.CHAT_MSG, pack)
+    elseif pack.cmd == self.CmdDef.SVR_SEND_CHAT_RESP then
+        if pack.uid == g.user:getUid() then
+            g.event:emit(g.eventNames.SEND_CHAT_RESP, pack)
         end
     else
         if self.isPaused_ then

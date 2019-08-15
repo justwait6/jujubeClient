@@ -3,10 +3,10 @@ local CommandConfig = {}
 local C = import(".CommandDef")
 local T = require("core.socket.PacketDataType")
 
-CommandConfig.CLIENT = {
+CommandConfig = {
     --[[
         客户端包，对于空包体，可以永许不定义协议内容，将默认版本号为1， 包体长度为0
-    ]]
+    --]]
     [C.CLI_HEART_BEAT] = {
         ver = 1,
         fmt = {
@@ -32,15 +32,19 @@ CommandConfig.CLIENT = {
     [C.CLI_SEND_CHAT] = {
         ver = 1,
         fmt = {
+            {name = "keyId", type = T.INT},
+            {name = "type", type = T.BYTE},
             {name = "srcUid", type = T.INT},
             {name = "destUid", type = T.INT},
-            {name = "time", type = T.INT},
+            {name = "sentTime", type = T.INT},
             {name = "msg", type = T.STRING},
         }
     },
-}
 
-CommandConfig.SERVER = {
+
+    --[[
+        服务器包
+    --]]
     [C.SVR_HEART_BEAT] = {
         ver = 1,
         fmt = {
@@ -56,6 +60,15 @@ CommandConfig.SERVER = {
         fmt = {
             {name = "uid", type = T.INT},
             {name = "pushType", type = T.INT},
+        }
+    },
+    [C.SVR_SEND_CHAT_RESP] = {
+        ver = 1,
+        fmt = {
+            {name = "ret", type = T.BYTE},
+            {name = "keyId", type = T.INT, depends = function(ctx) return ctx.ret == 0 end},
+            {name = "msgId", type = T.INT, depends = function(ctx) return ctx.ret == 0 end},
+            {name = "uid", type = T.INT},
         }
     },
     [C.SVR_FORWARD_CHAT] = {

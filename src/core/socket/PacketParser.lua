@@ -12,7 +12,7 @@ local Code = import(".Code")
 local ByteArray = require("core.utils.ByteArray")
 
 function PacketParser:ctor(CmdConfig, socketName)
-    self.config_ = CmdConfig.SERVER
+    self.config_ = CmdConfig
 end
 
 function PacketParser:reset()

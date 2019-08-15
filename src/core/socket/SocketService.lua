@@ -26,7 +26,7 @@ function SocketService:setMySocket(mySocket)
 end
 
 function SocketService:createPacketBuilder(cmd)
-    return PacketBuilder.new(cmd, CmdConfig.CLIENT[cmd], self.socketName_)
+    return PacketBuilder.new(cmd, CmdConfig[cmd], self.socketName_)
 end
 
 function SocketService:connect(host, port)
