@@ -12,6 +12,8 @@ L.COMMON.SEND 								 = "发送"
 L.COMMON.UPDATE_FAIL 						 = "同步/更新失败"
 L.COMMON.COPY                             	 = "复制"
 L.COMMON.COPY_SUCC                           = "复制成功"
+L.COMMON.NICKNAME                            = "昵称"
+L.COMMON.NOT_HAVE                            = "无"
 
 L.TEST = {}
 L.TEST.HELLO_WORLD 							 = "你好, 世界"
@@ -33,6 +35,7 @@ L.HALL.HALL_TIPS 							 = "你果然来了, 这是大厅, 我告诉你下一步
 
 L.HTTP = {}
 L.HTTP.TIMEOUT 								 = "连接超时"
+L.HTTP.TOKEN_EXPIRED_TIPS 					 = "长时间未操作, 请重新登录"
 
 L.USER = {}
 L.USER.IDENTIFY_NAME 						 = "青果名"
@@ -53,6 +56,8 @@ L.FRIEND.ADD_FAIL					 		 = "添加好友失败"
 L.FRIEND.CAN_NOT_ADD_SELF					 = "不能添加自己为好友"
 L.FRIEND.GET_FRIEND_LIST_FAIL				 = "拉取好友失败"
 L.FRIEND.ACCEPT						 		 = "接受"
+L.FRIEND.GO_CHAT						 	 = "去聊天"
+L.FRIEND.REMARK						 	 	 = "备注"
 
 L.MONEYTREE = {}
 L.MONEYTREE.MONEYTREE                        = "摇钱树"
