@@ -1,5 +1,7 @@
 local FriendCtrl = class("FriendCtrl")
 
+local friendMgr = require("app.model.hallbase.friend.FriendManager").getInstance()
+
 function FriendCtrl:ctor()
 	self.httpIds = {}
 	self:initialize()
@@ -14,11 +16,16 @@ function FriendCtrl:reqFriendList(successCallback, failCallback)
     end)
 	g.myUi.miniLoading:show()
 
+	local ctrlSuccCb = function (data)
+		friendMgr:storeFriendList(data.friendList or {})
+		if successCallback then successCallback(data) end
+	end
+
 	local reqParams = {}
 	reqParams._interface 	= '/friend/friendList'
 
 	self.httpIds['friendList'] = g.http:simplePost(reqParams,
-        successCallback, failCallback, resetWrapHandler)
+		ctrlSuccCb, failCallback, resetWrapHandler)
 end
 
 function FriendCtrl:reqReqAddList(successCallback, failCallback)
@@ -77,6 +84,27 @@ function FriendCtrl:reqDeleteFriend(friendUid, successCallback, failCallback)
 
 	self.httpIds['friendDelete'] = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
+end
+
+function FriendCtrl:onFriendRemarkModify(friendUid, newRemark)
+	self.friendsRemarkModifys = self.friendsRemarkModifys or {}
+	if friendUid and newRemark then
+		self.friendsRemarkModifys[tostring(friendUid)] = newRemark
+	end
+end
+
+function FriendCtrl:checkFriendsRemarkChange()
+	if type(self.friendsRemarkModifys) == "table" and table.nums(self.friendsRemarkModifys) > 0 then
+		friendMgr:uploadFriendRemarkList(self.friendsRemarkModifys)
+	end
+end
+
+function FriendCtrl:getFriendInfo(...)
+	return friendMgr:getFriendInfo(...)
+end
+
+function FriendCtrl:XXXX()
+	
 end
 
 function FriendCtrl:XXXX()
