@@ -29,6 +29,52 @@ function UIListView:getItems()
 	return self.lv:getItems()
 end
 
+function UIListView:getAddedBeginNode()
+	local node = nil
+	local item = self.lv:getItem(0)
+	if not tolua.isnull(item) then
+		local childs = item:getChildren()
+		if childs[1] then
+			node = childs[1]
+		end
+	end
+
+	return node
+end
+
+function UIListView:getAddedNodes()
+	local nodes = {}
+	local items = self:getItems()
+	for _, item in pairs(items) do
+		local childs = item:getChildren()
+		for _, child in pairs(childs) do
+			table.insert(nodes, child)
+		end
+	end
+
+	return nodes
+end
+
+function UIListView:getAddedNodeByTag(tag)
+	local selNodeIf = nil
+	local nodes = self:getAddedNodes() or {}
+	for _, node in pairs(nodes) do
+		if node and tonumber(node:getTag()) == tag then
+			selNodeIf = node
+			break
+		end
+	end
+
+	return selNodeIf
+end
+
+function UIListView:removeAddedNode(node)
+	if not tolua.isnull(node) then
+		local viewLayout = node:getParent()
+		self.lv:removeItem(self.lv:getIndex(viewLayout))
+	end
+end
+
 function UIListView:removeAllItems()
 	self.lv:removeAllItems()
 end
@@ -44,7 +90,7 @@ function UIListView:addNodeInBegin(node, width, height)
     local layer = ccui.Layout:create()
     node:addTo(layer)
     layer:setContentSize(cc.size(width, height))
-    self.lv:insertDefaultItem(layer)
+    self.lv:insertCustomItem(layer, 0)
 end
 
 function UIListView:setInnerSize(width, height)
