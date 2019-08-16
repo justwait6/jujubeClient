@@ -1,6 +1,7 @@
 local FriendCtrl = class("FriendCtrl")
 
 local friendMgr = require("app.model.hallbase.friend.FriendManager").getInstance()
+local chatMgr = require("app.model.chat.ChatManager").getInstance()
 
 function FriendCtrl:ctor()
 	self.httpIds = {}
@@ -99,8 +100,19 @@ function FriendCtrl:checkFriendsRemarkChange()
 	end
 end
 
-function FriendCtrl:getFriendInfo(...)
-	return friendMgr:getFriendInfo(...)
+function FriendCtrl:asyncGetFriendInfo(...)
+	friendMgr:asyncGetFriendInfo(...)
+end
+
+function FriendCtrl:asyncFetchChatUserInfos(callback)
+	local uids = chatMgr:fetchChatUids()
+	if type(uids) ~= "table" then return end
+
+	friendMgr:asyncGetFriendInfoBatch(uids, callback)
+end
+
+function FriendCtrl:XXXX()
+	
 end
 
 function FriendCtrl:XXXX()

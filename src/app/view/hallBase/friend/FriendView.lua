@@ -36,6 +36,7 @@ function FriendView:onShow()
 	if self.ctrl then
 		self.ctrl:reqFriendList(handler(self, self.onFriendListSucc), handler(self, self.onFriendListFail))
 		self.ctrl:reqReqAddList(handler(self, self.onReqAddListSucc))
+		self.ctrl:asyncFetchChatUserInfos(handler(self, self.onChatUserInfos))
 	end
 end
 
@@ -94,6 +95,13 @@ function FriendView:onFriendListFail()
 	g.myUi.topTip:showText(g.lang:getText("FRIEND", "GET_FRIEND_LIST_FAIL"))
 end
 
+function FriendView:onChatUserInfos(chatList)
+	if self.views[Tab.CHAT] then
+		self.views[Tab.CHAT]:onUpdate(chatList)
+	end
+end
+
+
 function FriendView:onReqAddListSucc(data)
 	data = data or {}
 	if self.views[Tab.ADD] then
@@ -127,10 +135,8 @@ function FriendView:onFriendRemarkModify(...)
 	end
 end
 
-function FriendView:getFriendInfo(...)
-	if self.ctrl then
-		return self.ctrl:getFriendInfo(...)
-	end
+function FriendView:asyncGetFriendInfo(...)
+	if self.ctrl then self.ctrl:asyncGetFriendInfo(...) end
 end
 
 function FriendView:goToChat(...)

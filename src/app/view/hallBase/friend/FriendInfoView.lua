@@ -90,8 +90,10 @@ end
 
 function FriendInfoView:refreshByUid(uid)
 	self.curUid = uid
-	local userInfos = self:getFriendInfo(uid) or {}
+	self:asyncGetFriendInfo(uid, handler(self, self._refresh))
+end
 
+function FriendInfoView:_refresh(userInfos)
 	if self.avatar then
 		self.avatar:updateGender(userInfos.gender)
 		self.avatar:setAvatarUrl(userInfos.iconUrl)
@@ -169,10 +171,8 @@ function FriendInfoView:showWhenEditOk()
     end
 end
 
-function FriendInfoView:getFriendInfo(...)
-	if self.mainViewObj then
-		return self.mainViewObj:getFriendInfo(...)
-	end
+function FriendInfoView:asyncGetFriendInfo(...)
+	if self.mainViewObj then self.mainViewObj:asyncGetFriendInfo(...) end
 end
 
 function FriendInfoView:XXXX()

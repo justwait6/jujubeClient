@@ -151,7 +151,7 @@ function FriendListView:goToChat(...)
 	end
 end
 
-function FriendListView:onCleanUp(uid)
+function FriendListView:onCleanup(uid)
 	g.event:removeByTag(self)
 end
 

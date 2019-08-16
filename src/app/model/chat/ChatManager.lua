@@ -4,6 +4,7 @@ local _store = import(".ChatStoreUtil")
 
 function ChatManager:ctor()
 	self._cacheSentMsg = {}
+	self._chatUids = {}
 
 	self:initialize()
   self:addEventListeners()
@@ -37,7 +38,6 @@ function ChatManager:onSentChatResp(data)
 	
 	table.merge(data, clone(cachedMsg))
 	self:clearSentMessage(data.keyId)
-	dump(data, 'data')
 
 	local friendUid = data.destUid
 
@@ -77,6 +77,31 @@ end
 
 function ChatManager:clearSentMessage(keyId)
 	self._cacheSentMsg[keyId] = nil
+end
+
+function ChatManager:insertChatUid(index, uid)
+	table.insert(self._chatUids, index, uid)
+end
+
+function ChatManager:pushBackChatUid(uid)
+	table.insert(self._chatUids, uid)
+end
+
+function ChatManager:deleteChatUidIf(toDeleteUid)
+	for i, uid in pairs(self._chatUids) do
+		if tonumber(uid) == tonumber(toDeleteUid) then
+			table.remove(self._chatUids, i)
+			break
+		end
+	end
+end
+
+function ChatManager:storeChatUids()
+	g.userDefault:setStringForKey(g.cookieKey.CHAT_UIDS, json.encode(self._chatUids))
+end
+
+function ChatManager:fetchChatUids()
+	return json.decode(g.userDefault:getStringForKey(g.cookieKey.CHAT_UIDS) or "")
 end
 
 function ChatManager:XXXX()

@@ -15,8 +15,8 @@ local Tag = {}
 Tag.SEP_LINE = 1
 
 function ChatListView:ctor(mainViewObj)
-	self.mainViewObj = mainViewObj
 	self:setNodeEventEnabled(true)
+	self.mainViewObj = mainViewObj
 	self.ctrl = ChatListCtrl.new()
   self:initialize()
   self:addEventListeners()
@@ -44,17 +44,19 @@ function ChatListView:checkAndStickTop(uid)
 	-- 先删除(如果存在)再置顶(简单粗暴)
 	if selNodeIf then
 		self._chatListView:removeAddedNode(selNodeIf)
+		if self.ctrl then self.ctrl:deleteChatUidIf(uid) end
 	end
 	-- 如果原来存在第一个item, 要将该item的seprate line显示
 	local beginNode = self._chatListView:getAddedBeginNode()
 	if not tolua.isnull(beginNode) then beginNode:getChildByTag(Tag.SEP_LINE):show() end
 
-	local data = self:getFriendInfo(uid) or {}
-	self:_addItem(data, false, true) -- 新加item置顶
-
-	-- 模拟点击
-	self:onFriendItemClick(nil, g.myUi.TouchHelper.CLICK, uid)
-
+	self:asyncGetFriendInfo(uid, handler(self, function(self, data)
+			self:_addItem(data, false, true) -- 新加item置顶
+			if self.ctrl then self.ctrl:insertChatUid(1, uid) end
+			-- 模拟点击
+			self:onFriendItemClick(nil, g.myUi.TouchHelper.CLICK, uid)
+		end
+	))
 end
 
 function ChatListView:onUpdate(friendsData)
@@ -68,7 +70,7 @@ function ChatListView:onUpdate(friendsData)
 	end
 
 	for i, v in pairs(friendsData) do
-		self:_addItem(v, listId ~= 1)
+		self:_addItem(v, i ~= 1)
 	end
 end
 
@@ -185,10 +187,8 @@ function ChatListView:showNoFriendTips()
 	self._noFriendTips:show()
 end
 
-function ChatListView:getFriendInfo(...)
-	if self.mainViewObj then
-		return self.mainViewObj:getFriendInfo(...)
-	end
+function ChatListView:asyncGetFriendInfo(...)
+	if self.mainViewObj then self.mainViewObj:asyncGetFriendInfo(...) end
 end
 
 function ChatListView:hideNoFriendTips()
@@ -201,8 +201,9 @@ function ChatListView:showOtherUserinfo(uid)
 	print("待完成")
 end
 
-function ChatListView:onCleanUp(uid)
+function ChatListView:onCleanup(uid)
 	g.event:removeByTag(self)
+	if self.ctrl then self.ctrl:dispose() end
 end
 
 return ChatListView

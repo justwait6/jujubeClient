@@ -2,6 +2,8 @@ local FriendManager = class("FriendManager")
 
 function FriendManager:ctor()
 	self.httpIds = {}
+	self.friendList = {}
+	self.friendUidIdxMap = {}
 	self:initialize()
 end
 
@@ -16,21 +18,54 @@ function FriendManager.getInstance()
     return FriendManager.singleInstance
 end
 
-function FriendManager:storeFriendList(friendList)
-    self.friendList = friendList
+function FriendManager:resetFriendList()
+	self.friendList = {}
+	self.friendUidIdxMap = {}
 end
 
-function FriendManager:getFriendInfo(uid)
-	local info = {}
-	if type(self.friendList) == "table" then
-		for _, v in pairs(self.friendList) do
-			if v.uid == uid then
-				info = v
-				break
-			end
+function FriendManager:storeFriendList(friendList)
+		self:resetFriendList()
+		self.friendList = friendList
+
+		for idx, frindInfo in pairs(friendList) do
+			self.friendUidIdxMap[frindInfo.uid] = idx
+		end
+end
+
+function FriendManager:asyncGetFriendInfo(uid, callback)
+	-- 在内存中查找
+	local infoInMeMIf = nil
+	if self.friendUidIdxMap[uid] then
+		infoInMeMIf = self.friendList[self.friendUidIdxMap[uid]]
+	end
+
+	-- 若内存中有, 返回
+	if infoInMeMIf then
+		if callback then callback(infoInMeMIf) end
+		return
+	end
+
+	-- 在数据库中查找, 若有, 返回
+
+end
+
+function FriendManager:asyncGetFriendInfoBatch(uids, callback)
+	-- 在内存中查找
+	local infoListInMeMIf = {}
+	for _, uid in pairs(uids) do
+		if self.friendUidIdxMap[uid] then
+			table.insert(infoListInMeMIf, self.friendList[self.friendUidIdxMap[uid]])
 		end
 	end
-	return info
+
+	-- 若内存中有, 返回
+	if table.nums(infoListInMeMIf) > 0 then
+		if callback then callback(infoListInMeMIf) end
+		return
+	end
+
+	-- 在数据库中查找, 若有, 返回
+
 end
 
 function FriendManager:updateFriendRemarkList(something)
