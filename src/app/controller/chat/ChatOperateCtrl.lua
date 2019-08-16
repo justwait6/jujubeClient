@@ -12,19 +12,6 @@ end
 function ChatOperateCtrl:initialize()
 end
 
-function ChatOperateCtrl:reqFriendList(successCallback, failCallback)
-    local resetWrapHandler = handler(self, function ()
-        self.httpIds['friendList'] = nil
-    end)
-    g.myUi.miniLoading:show()
-
-    local reqParams = {}
-    reqParams._interface    = '/friend/friendList'
-
-    self.httpIds['friendList'] = g.http:simplePost(reqParams,
-        successCallback, failCallback, resetWrapHandler)
-end
-
 function ChatOperateCtrl:bindChatUser(uid)
     self._chatUid = uid
 end

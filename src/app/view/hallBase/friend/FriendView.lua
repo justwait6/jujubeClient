@@ -12,14 +12,14 @@ FriendView.WIDTH = 1035
 FriendView.HEIGHT = 643
 
 local Tab = {}
-Tab.MSG = 1
+Tab.CHAT = 1
 Tab.LIST = 2
 Tab.SEARCH = 3
 Tab.ADD = 4
 
 local LeftBarConf = {
 	{iconRes = g.Res.common_back, funcName = "close", tab = nil},
-	{iconRes = g.Res.common_chatIcon, funcName = "onTab", tab = Tab.MSG},
+	{iconRes = g.Res.common_chatIcon, funcName = "onTab", tab = Tab.CHAT},
 	{iconRes = g.Res.common_friendIcon, funcName = "onTab", tab = Tab.LIST},
 	{iconRes = g.Res.common_searchIcon, funcName = "onTab", tab = Tab.SEARCH},
 	{iconRes = g.Res.common_friendAddIcon, funcName = "onTab", tab = Tab.ADD},
@@ -54,11 +54,11 @@ function FriendView:initialize()
 	end
 
 	self.views = {}
-	self.views[Tab.MSG] = ChatListView.new(self):addTo(self):hide()
+	self.views[Tab.CHAT] = ChatListView.new(self):addTo(self):hide()
 	self.views[Tab.LIST] = FriendListView.new(self):addTo(self):hide()
 	self.views[Tab.SEARCH] = FriendSearchView.new(self):addTo(self):hide()
 	self.views[Tab.ADD] = FriendAddView.new(self):addTo(self):hide()
-	self:onTab(Tab.MSG)
+	self:onTab(Tab.CHAT)
 end
 
 function FriendView:onTab(tab)
@@ -133,7 +133,11 @@ function FriendView:getFriendInfo(...)
 	end
 end
 
-function FriendView:XXXX()
+function FriendView:goToChat(...)
+	self:onTab(Tab.CHAT)
+	if self.views[Tab.CHAT] then
+		self.views[Tab.CHAT]:checkAndStickTop(...)
+	end
 end
 
 function FriendView:XXXX()
