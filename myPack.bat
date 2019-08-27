@@ -1,5 +1,9 @@
-set buildScriptPath=%~dp0/frameworks/runtime-src/proj.android
-
-cd buildScriptPath
+@echo off
+python encryptSrc.py
+cd frameworks\runtime-src\proj.android
 python build_native.py -a arm64-v8a
-.\gradlew.bat assembleRelease
+call .\gradlew.bat assembleRelease --warning-mode=all
+
+cd ../../../
+python copyApkDirHere.py
+pause

@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         config {
-            keyAlias 'jujubeKeyAlias'
-            keyPassword '123456'
-            storeFile file('D:/source/jujubeClient/jujubeKey/jujubeKey.jks')
-            storePassword '123456'
+            keyAlias 'jujube'
+            keyPassword '123456zxc'
+            storeFile file('D:/source/jujubeClient/keystore/jujubeKey.jks')
+            storePassword '123456zxc'
         }
     }
     compileSdkVersion 28
@@ -25,9 +25,24 @@ android {
         release {
             debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            // variant.getPackageApplication().outputDirectory = new File(project.rootDir.absolutePath + "")
+            outputFileName = "${defaultConfig.applicationId}_${defaultConfig.versionName}_${releaseTime()}.apk"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
 dependencies {

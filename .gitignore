@@ -2,6 +2,7 @@ frameworks/runtime-src/proj.android/.gradle/
 frameworks/runtime-src/proj.android/.idea/
 frameworks/runtime-src/proj.android/app/app.iml
 frameworks/runtime-src/proj.android/app/build/
+frameworks/runtime-src/proj.android/app/release/
 frameworks/runtime-src/proj.android/build/
 frameworks/runtime-src/proj.android/app/src/main/assets
 
@@ -21,3 +22,6 @@ UserDefault.xml
 
 # local database file
 test.db
+
+# dest apk dir
+apk

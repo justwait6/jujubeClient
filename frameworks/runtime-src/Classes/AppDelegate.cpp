@@ -107,6 +107,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // use Quick-Cocos2d-X
     quick_module_register(L);
+
+		engine->getLuaStack()->executeString("print = release_print");
     
     // resource decode, include game.zip
     //FileUtils::getInstance()->setFileDataDecoder(decoder);
