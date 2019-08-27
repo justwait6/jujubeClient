@@ -18,8 +18,9 @@ function ChatStoreUtil:storeFriendChat(friendUid, data)
 
     local tableName = self:getFriendChatTableName(friendUid)
 
-    -- test begin
-	if data.msg == '1' then
+		-- test begin
+		--[[
+		if data.msg == '1' then
     	local t_search_sql = string.format([=[
 			SELECT * FROM %s;
 		]=], tableName);
@@ -32,6 +33,8 @@ function ChatStoreUtil:storeFriendChat(friendUid, data)
     	g.dbMgr:dropTable(tableName);
     	return
     end
+		]]
+	
     -- test end
 
     local function insert()
