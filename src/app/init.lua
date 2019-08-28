@@ -27,6 +27,8 @@ g.eventNames = require("app.common.EventNames")
 -- network
 g.http = require("core.http.HttpManager").getInstance()
 
+g.native = require("app.bridge.BridgeAdapter").new()
+
 -- custom ui components
 g.myUi = require("app.myUi.UiUtil")
 g.windowMgr = require("app.myUi.window.WindowManager").getInstance()
