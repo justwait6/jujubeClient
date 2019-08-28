@@ -1,6 +1,6 @@
 local FriendCtrl = class("FriendCtrl")
 
-local friendMgr = require("app.model.hallbase.friend.FriendManager").getInstance()
+local friendMgr = require("app.model.hallBase.friend.FriendManager").getInstance()
 local chatMgr = require("app.model.chat.ChatManager").getInstance()
 
 function FriendCtrl:ctor()
