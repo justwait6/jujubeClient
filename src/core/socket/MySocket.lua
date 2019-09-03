@@ -9,7 +9,21 @@ function MySocket:ctor()
     MySocket.super.ctor(self, "MySocket", CmdDef)
     self.level = 0
     self.gameId = 0
-    self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
+end
+
+function MySocket:startHallConnect()
+	if not self.timerScheduleId then
+		self:timer_()
+		self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
+	end
+end
+
+function MySocket:cancelHallConnect()
+	if self.timerScheduleId then
+		g.mySched:cancel(self.timerScheduleId)
+		self.timerScheduleId = nil
+	end
+	self:disconnect()
 end
 
 function MySocket.getInstance()
@@ -45,7 +59,7 @@ function MySocket:removeConnectScheduler()
     if self.connectSchedulerHandle_ then
         g.mySched:cancel(self.connectSchedulerHandle_)
         self.connectSchedulerHandle_ = nil
-    end
+		end
 end
 
 function MySocket:removeLoginTimeoutScheduler()

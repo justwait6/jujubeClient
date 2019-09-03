@@ -38,6 +38,7 @@ function LoginScene:onTab(tab)
 end
 
 function LoginScene:onEnter()
+	g.mySocket:cancelHallConnect()
 end
 
 function LoginScene:onExit()

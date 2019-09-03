@@ -78,6 +78,7 @@ function LoginCtrl:onLoginSucc(data)
 	g.user:setLoginInfo(data.user)
 	g.http:setToken(data.token)
 	actMgr:setActSwitches(data.switches)
+	g.mySocket:startHallConnect()
 
 	g.myApp:enterScene("HallScene")
 end
