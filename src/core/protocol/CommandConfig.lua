@@ -41,7 +41,6 @@ CommandConfig = {
         }
     },
 
-
     --[[
         服务器包
     --]]
@@ -79,7 +78,7 @@ CommandConfig = {
             {name = "time", type = T.INT},
             {name = "msg", type = T.STRING},
         }
-    },
+		},
 }
 
 return CommandConfig
