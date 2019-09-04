@@ -87,6 +87,19 @@ function DbManager:executeSql(sql, callback)
     end
 end
 
+function DbManager:executeTransaction(sql, callback)
+	self:openDb()
+
+	local ret = _db:exec(sql)
+	self:showError()
+	if ret == sqlite3.DONE then
+		if callback then callback(true) end
+	else
+			self:showError()
+			if callback then callback(false) end
+	end
+end
+
 function DbManager:showError()
     print("[SQLite] " .. _db:errmsg())
 end
@@ -134,7 +147,6 @@ function DbManager:query(sql, sql_tag, callback)
     if ret ~= sqlite3.OK then
         self:showError()
     else
-        dump(data, "query data")
         if callback then callback(data) end
     end
 end
