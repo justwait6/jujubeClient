@@ -29,10 +29,6 @@ function ChatListCtrl:XXXX()
     
 end
 
-function ChatListCtrl:XXXX()
-    
-end
-
 function ChatListCtrl:dispose()
 	chatMgr:storeChatUids()
 end
