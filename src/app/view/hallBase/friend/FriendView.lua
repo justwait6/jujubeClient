@@ -37,6 +37,7 @@ function FriendView:onShow()
 		self.ctrl:reqFriendList(handler(self, self.onFriendListSucc), handler(self, self.onFriendListFail))
 		self.ctrl:reqReqAddList(handler(self, self.onReqAddListSucc))
 		self.ctrl:asyncFetchChatUserInfos(handler(self, self.onChatUserInfos))
+		self.ctrl:reqFriendMessageList(handler(self, self.reqFriendMessageListSucc))
 	end
 end
 
@@ -144,6 +145,33 @@ function FriendView:goToChat(...)
 	if self.views[Tab.CHAT] then
 		self.views[Tab.CHAT]:checkAndStickTop(...)
 	end
+end
+
+function FriendView:reqFriendMessageListSucc(data)
+	local data = data or {}
+	data.msgList = data.msgList or {}
+	for _, v in pairs(data.msgList) do
+		self.views[Tab.CHAT]:checkAndStickTop(v.srcUid, v.total)
+	end
+end
+
+function FriendView:asyncReqFriendMessage(friendUid)
+	if self.ctrl then
+		self.ctrl:reqFriendMessage({friendUid = friendUid}, handler(self, self.reqFriendMessageSucc))
+	end	
+end
+
+function FriendView:reqFriendMessageSucc(data)
+	local data = data or {}
+	if self.views[Tab.CHAT] then
+		self.views[Tab.CHAT]:batchAddChatItem(data.friendUid, data.msgs)
+	end
+end
+
+function FriendView:XXXX()
+end
+
+function FriendView:XXXX()
 end
 
 function FriendView:XXXX()

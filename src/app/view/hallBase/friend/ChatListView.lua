@@ -32,13 +32,14 @@ function ChatListView:initialize()
 
 	self._chatViews = {}
 	self.friendSelLbls = {}
+	self.unreadsMsgCountsLbls = {}
 end
 
 function ChatListView:addEventListeners()
-  -- g.event:on(g.eventNames.XXXX, handler(self, self.XXXX), self)
+  g.event:on(g.eventNames.SEND_CHAT_RESP, handler(self, self.onSentChatResp), self)
 end
 
-function ChatListView:checkAndStickTop(uid)
+function ChatListView:checkAndStickTop(uid, unreadMsgCounts)
 	local selNodeIf = self._chatListView:getAddedNodeByTag(uid)
 
 	-- 先删除(如果存在)再置顶(简单粗暴)
@@ -51,10 +52,11 @@ function ChatListView:checkAndStickTop(uid)
 	if not tolua.isnull(beginNode) then beginNode:getChildByTag(Tag.SEP_LINE):show() end
 
 	self:asyncGetFriendInfo(uid, handler(self, function(self, data)
+			data.unreadMsgCounts = unreadMsgCounts or 0
 			self:_addItem(data, false, true) -- 新加item置顶
 			if self.ctrl then self.ctrl:insertChatUid(1, uid) end
 			-- 模拟点击
-			self:onFriendItemClick(nil, g.myUi.TouchHelper.CLICK, uid)
+			self:onChatItemClick(nil, g.myUi.TouchHelper.CLICK, uid, true)
 		end
 	))
 end
@@ -75,23 +77,23 @@ function ChatListView:onUpdate(friendsData)
 end
 
 function ChatListView:_addItem(v, isSepLine, isStickTop)
-  	local friendItem = self:_newFriendItem(v, isSepLine)
+  	local chatItem = self:_newChatItem(v, isSepLine)
 			:pos(0, itemHeight/2)
 			:setTag(v.uid)
 		if not isStickTop then
-			self._chatListView:addNode(friendItem, LIST_WIDTH, itemHeight, v.uid) -- third parameter is tag
+			self._chatListView:addNode(chatItem, LIST_WIDTH, itemHeight, v.uid) -- third parameter is tag
 		else
-			self._chatListView:addNodeInBegin(friendItem, LIST_WIDTH, itemHeight, v.uid)
+			self._chatListView:addNodeInBegin(chatItem, LIST_WIDTH, itemHeight, v.uid)
 		end
 end
 
-function ChatListView:_newFriendItem(v, isSepLine)
+function ChatListView:_newChatItem(v, isSepLine)
 	local node = display.newNode()
 
 	local itemBg = display.newScale9Sprite(g.Res.blank, 0, 0, cc.size(LIST_WIDTH - 2, 94))
 		:pos(LIST_WIDTH/2, 0):addTo(node)
 	g.myUi.TouchHelper.new(itemBg, function (target, evt)
-		self:onFriendItemClick(target, evt, v.uid)
+		self:onChatItemClick(target, evt, v.uid)
 	end)
 		:enableTouch()
 		:setTouchSwallowEnabled(false)
@@ -117,6 +119,16 @@ function ChatListView:_newFriendItem(v, isSepLine)
 	self.friendSelLbls[v.uid] = display.newScale9Sprite(g.Res.moneytree_selected, 0, 0, cc.size(LIST_WIDTH + 2, 100))
 		:pos(LIST_WIDTH/2, 0):addTo(node):hide()
 
+	-- 未读消息数量
+	self.unreadsMsgCountsLbls[v.uid] = display.newTTFLabel({text = "0", size = 20, color = cc.c3b(172, 0, 0)})
+		:pos(LIST_WIDTH - 30, 20):addTo(node)
+	if type(v.unreadMsgCounts) == "number" and v.unreadMsgCounts > 0 then
+		self.unreadsMsgCountsLbls[v.uid]:setString(v.unreadMsgCounts)
+		self.unreadsMsgCountsLbls[v.uid]:show()
+	else
+		self.unreadsMsgCountsLbls[v.uid]:hide()
+	end
+
 	-- 横向分割线
 	local line = cc.DrawNode:create()
 	line:drawSegment(cc.p(10, 0), cc.p(LIST_WIDTH - 10, 0), 1, cc.c4f(0.8, 0.8, 0.8, 0.8))
@@ -128,13 +140,18 @@ function ChatListView:_newFriendItem(v, isSepLine)
 	return node
 end
 
-function ChatListView:onFriendItemClick(target, evt, uid)
+function ChatListView:onChatItemClick(target, evt, uid, isSimulate)
 	if evt ~= g.myUi.TouchHelper.CLICK then return end
 
 	self:changeSelectLbl(uid, self.lastSelectedUid)
 	self:changeChatView(uid, self.lastSelectedUid)
 	self:checkAndBindOprateView(uid)
 	self.lastSelectedUid = uid
+
+	-- 请求好友消息
+	if not isSimulate and tonumber(self.unreadsMsgCountsLbls[uid]:getString()) > 0 then
+		if self.mainViewObj then self.mainViewObj:asyncReqFriendMessage(uid) end
+	end
 end
 
 function ChatListView:changeSelectLbl(uid, lastUid)
@@ -199,6 +216,25 @@ end
 
 function ChatListView:showOtherUserinfo(uid)
 	print("待完成")
+end
+
+function ChatListView:onSentChatResp(data)
+	local data = data or {}
+	local friendUid = data.destUid or -1
+	for uid, view in pairs(self._chatViews) do
+		if tonumber(friendUid) == tonumber(uid) and not tolua.isnull(view) then
+			view:addChatItem(data)
+		end
+	end
+end
+
+function ChatListView:batchAddChatItem(friendUid, data)
+	local data = data or {}
+	for uid, view in pairs(self._chatViews) do
+		if tonumber(friendUid) == tonumber(uid) and not tolua.isnull(view) then
+			view:batchAddChatItem(data)
+		end
+	end
 end
 
 function ChatListView:onCleanup(uid)

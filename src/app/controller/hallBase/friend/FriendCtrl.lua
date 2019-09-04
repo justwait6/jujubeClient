@@ -43,7 +43,7 @@ function FriendCtrl:reqReqAddList(successCallback, failCallback)
 end
 
 function FriendCtrl:reqSendFriendRequest(params, successCallback, failCallback)
-	params = params or {}
+	local params = params or {}
 	local resetWrapHandler = handler(self, function ()
         self.httpIds['friendAdd'] = nil
     end)
@@ -73,7 +73,7 @@ function FriendCtrl:reqAcceptFriend(params, successCallback, failCallback)
 end
 
 function FriendCtrl:reqDeleteFriend(friendUid, successCallback, failCallback)
-	params = params or {}
+	local params = params or {}
 	local resetWrapHandler = handler(self, function ()
         self.httpIds['friendDelete'] = nil
     end)
@@ -106,13 +106,45 @@ end
 
 function FriendCtrl:asyncFetchChatUserInfos(callback)
 	local uids = chatMgr:fetchChatUids()
+	printVgg("uids userdefault.xml: ", dump(uids))
 	if type(uids) ~= "table" then return end
 
 	friendMgr:asyncGetFriendInfoBatch(uids, callback)
 end
 
-function FriendCtrl:XXXX()
-	
+function FriendCtrl:reqFriendMessageList(successCallback, failCallback)
+	local resetWrapHandler = handler(self, function ()
+		self.httpIds['friendMessageList'] = nil
+	end)
+	g.myUi.miniLoading:show()
+
+	local reqParams = {}
+	reqParams._interface 	= '/friend/messageList'
+
+	self.httpIds['friendMessageList'] = g.http:simplePost(reqParams,
+			successCallback, failCallback, resetWrapHandler)
+end
+
+function FriendCtrl:reqFriendMessage(params, successCallback)
+	local params = params or {}
+	local resetWrapHandler = handler(self, function ()
+		self.httpIds['friendMessage'] = nil
+	end)
+	g.myUi.miniLoading:show()
+
+	local ctrlSuccCb = function (data)
+		chatMgr:batchStoreFriendChat(data.friendUid, data.msgs)
+		if successCallback then successCallback(data) end
+	end
+
+	local reqParams = {}
+	reqParams._interface 	= '/friend/someFriendMessage'
+	reqParams.friendUid 	= params.friendUid
+	reqParams.lastSvrMsgId= chatMgr:asyncGetLastSvrMsgId(params.friendUid, handler(self, function(self, lastSvrMsgId)
+		reqParams.lastSvrMsgId = lastSvrMsgId or 0
+		self.httpIds['friendMessage'] = g.http:simplePost(reqParams,
+		ctrlSuccCb, failCallback, resetWrapHandler)
+	end))
 end
 
 function FriendCtrl:XXXX()

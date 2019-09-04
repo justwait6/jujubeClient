@@ -30,6 +30,9 @@ function FriendManager:storeFriendList(friendList)
 		for idx, frindInfo in pairs(friendList) do
 			self.friendUidIdxMap[frindInfo.uid] = idx
 		end
+
+		-- 写入本地数据库
+		
 end
 
 function FriendManager:asyncGetFriendInfo(uid, callback)
@@ -39,6 +42,7 @@ function FriendManager:asyncGetFriendInfo(uid, callback)
 		infoInMeMIf = self.friendList[self.friendUidIdxMap[uid]]
 	end
 
+	printVgg("infoInMeMIf", infoInMeMIf)
 	-- 若内存中有, 返回
 	if infoInMeMIf then
 		if callback then callback(infoInMeMIf) end
@@ -52,19 +56,27 @@ end
 function FriendManager:asyncGetFriendInfoBatch(uids, callback)
 	-- 在内存中查找
 	local infoListInMeMIf = {}
-	for _, uid in pairs(uids) do
+	local markFoundUids = clone(uids)
+	local TAG_UID_FOUND = 0
+	for idx, uid in pairs(uids) do
 		if self.friendUidIdxMap[uid] then
 			table.insert(infoListInMeMIf, self.friendList[self.friendUidIdxMap[uid]])
+			markFoundUids[idx] = TAG_UID_FOUND
 		end
 	end
 
-	-- 若内存中有, 返回
-	if table.nums(infoListInMeMIf) > 0 then
+	-- 若内存中全部有, 返回
+	if table.nums(infoListInMeMIf) == table.nums(uids) then
 		if callback then callback(infoListInMeMIf) end
 		return
 	end
 
-	-- 在数据库中查找, 若有, 返回
+	-- 在内存中没有的, 在数据库中查找; 若有, 返回
+	for idx, uid in pairs(markFoundUids) do
+		if uid ~= TAG_UID_FOUND then
+			uid
+		end
+	end
 
 end
 

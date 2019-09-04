@@ -115,6 +115,13 @@ function ChatScreenView:addChatItem(data)
 	self._delayShowId = g.mySched:doDelay(handler(self, self.delayScroll), 0.05)
 end
 
+function ChatScreenView:batchAddChatItem(data)
+	for _, v in pairs(data) do
+		self:_addItem(v)
+	end
+	self._delayShowId = g.mySched:doDelay(handler(self, self.delayScroll), 0.05)
+end
+
 function ChatScreenView:getCurItemHeight()
 	return self._curItemHeight
 end

@@ -43,16 +43,14 @@ function ChatManager:onSentChatResp(data)
 
 	-- 存入数据库
 	self:storeFriendChat(friendUid, data)
-
-	for uid, view in pairs(self._chatViews) do
-		if friendUid == uid and not tolua.isnull(view) then
-			view:addChatItem(data)
-		end
-	end
 end
 
 function ChatManager:storeFriendChat(friendUid, data)
 	_store:storeFriendChat(friendUid, data)
+end
+
+function ChatManager:batchStoreFriendChat(friendUid, data)
+	_store:batchStoreFriendChat(friendUid, data)
 end
 
 function ChatManager:asyncFetchChatData(friendUid, callback)
@@ -104,8 +102,8 @@ function ChatManager:fetchChatUids()
 	return json.decode(g.userDefault:getStringForKey(g.cookieKey.CHAT_UIDS) or "")
 end
 
-function ChatManager:XXXX()
-    
+function ChatManager:asyncGetLastSvrMsgId(friendUid, callback)
+	_store:asyncGetLastSvrMsgId(friendUid, callback)
 end
 
 function ChatManager:XXXX()
