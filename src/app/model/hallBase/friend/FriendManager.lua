@@ -74,7 +74,7 @@ function FriendManager:asyncGetFriendInfoBatch(uids, callback)
 	-- 在内存中没有的, 在数据库中查找; 若有, 返回
 	for idx, uid in pairs(markFoundUids) do
 		if uid ~= TAG_UID_FOUND then
-			uid
+			-- uid
 		end
 	end
 
