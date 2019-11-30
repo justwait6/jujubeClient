@@ -89,12 +89,10 @@ function FriendAddView:onAcceptClick(requestUid)
 end
 
 function FriendAddView:onAcceptFriendOk(data)
-    dump(data, 'onAcceptFriendOk')
     g.myUi.topTip:showText(g.lang:getText("FRIEND", "ADD_SUCC"))
 end
 
 function FriendAddView:onAcceptFriendFail(data)
-    dump(data, 'onAcceptFriendFail')
     g.myUi.topTip:showText(g.lang:getText("FRIEND", "ADD_FAIL"))
 end
 
