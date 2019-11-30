@@ -106,7 +106,7 @@ end
 
 function FriendCtrl:asyncFetchChatUserInfos(callback)
 	local uids = chatMgr:fetchChatUids()
-	printVgg("uids userdefault.xml: ", dump(uids))
+	-- printVgg("uids userdefault.xml: ", dump(uids))
 	if type(uids) ~= "table" then return end
 
 	friendMgr:asyncGetFriendInfoBatch(uids, callback)
@@ -140,10 +140,34 @@ function FriendCtrl:reqFriendMessage(params, successCallback)
 	local reqParams = {}
 	reqParams._interface 	= '/friend/someFriendMessage'
 	reqParams.friendUid 	= params.friendUid
-	reqParams.lastSvrMsgId= chatMgr:asyncGetLastSvrMsgId(params.friendUid, handler(self, function(self, lastSvrMsgId)
+	chatMgr:asyncGetLastSvrMsgId(params.friendUid, handler(self, function(self, lastSvrMsgId)
 		reqParams.lastSvrMsgId = lastSvrMsgId or 0
+		printVgg(lastSvrMsgId, "lastSvrMsgId")
 		self.httpIds['friendMessage'] = g.http:simplePost(reqParams,
 		ctrlSuccCb, failCallback, resetWrapHandler)
+	end))
+end
+
+function FriendCtrl:setMessageRead(friendUid)
+	-- 更新本地内存
+	friendMgr:setMessageRead(friendUid)
+	-- 上传服务器
+	self:uploadMessageRead(friendUid)
+end
+
+function FriendCtrl:uploadMessageRead(friendUid)
+	local params = params or {}
+	local resetWrapHandler = handler(self, function ()
+		self.httpIds['updMsgRead'] = nil
+	end)
+
+	local reqParams = {}
+	reqParams._interface 	= '/friend/updateMessageRead'
+	reqParams.friendUid 	= friendUid
+	chatMgr:asyncGetLastSvrMsgId(friendUid, handler(self, function(self, lastSvrMsgId)
+		reqParams.lastSvrMsgId = lastSvrMsgId or 0
+		self.httpIds['updMsgRead'] = g.http:simplePost(reqParams,
+		nil, nil, resetWrapHandler)
 	end))
 end
 

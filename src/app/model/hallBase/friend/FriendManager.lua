@@ -42,7 +42,6 @@ function FriendManager:asyncGetFriendInfo(uid, callback)
 		infoInMeMIf = self.friendList[self.friendUidIdxMap[uid]]
 	end
 
-	printVgg("infoInMeMIf", infoInMeMIf)
 	-- 若内存中有, 返回
 	if infoInMeMIf then
 		if callback then callback(infoInMeMIf) end
@@ -64,7 +63,7 @@ function FriendManager:asyncGetFriendInfoBatch(uids, callback)
 			markFoundUids[idx] = TAG_UID_FOUND
 		end
 	end
-
+	dump(infoListInMeMIf, "infoListInMeMIf", 4)
 	-- 若内存中全部有, 返回
 	if table.nums(infoListInMeMIf) == table.nums(uids) then
 		if callback then callback(infoListInMeMIf) end
@@ -111,6 +110,15 @@ function FriendManager:uploadFriendRemarkList(friendRemarkPairList)
     	function ()
     		g.myUi.topTip:showText(g.lang:getText("COMMON", "UPDATE_FAIL"))
     	end, true)
+end
+
+function FriendManager:setMessageRead(friendUid)
+	if self.friendUidIdxMap[friendUid] then
+		local infoInMeMIf = self.friendList[self.friendUidIdxMap[friendUid]]
+		if type(infoInMeMIf) == "table" and infoInMeMIf.unreadMsgCounts then
+			infoInMeMIf.unreadMsgCounts = 0
+		end
+	end
 end
 
 return FriendManager

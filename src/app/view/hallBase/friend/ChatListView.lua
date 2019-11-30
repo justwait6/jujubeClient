@@ -40,6 +40,7 @@ function ChatListView:addEventListeners()
 end
 
 function ChatListView:checkAndStickTop(uid, unreadMsgCounts)
+	self:hideNoChatFriendTips()
 	local selNodeIf = self._chatListView:getAddedNodeByTag(uid)
 
 	-- 先删除(如果存在)再置顶(简单粗暴)
@@ -55,8 +56,7 @@ function ChatListView:checkAndStickTop(uid, unreadMsgCounts)
 			data.unreadMsgCounts = unreadMsgCounts or 0
 			self:_addItem(data, false, true) -- 新加item置顶
 			if self.ctrl then self.ctrl:insertChatUid(1, uid) end
-			-- 模拟点击
-			self:onChatItemClick(nil, g.myUi.TouchHelper.CLICK, uid, true)
+			self:simulateClickSelUid(uid)
 		end
 	))
 end
@@ -65,15 +65,24 @@ function ChatListView:onUpdate(friendsData)
 	friendsData = friendsData or {}
 	self._chatListView:removeAllItems()
 
+	printVgg("inma ", table.nums(friendsData))
 	if table.nums(friendsData) <= 0 then
-		self:showNoFriendTips()
+		self:showNoChatFriendTips()
 	else
-		self:hideNoFriendTips()
+		self:hideNoChatFriendTips()
 	end
 
 	for i, v in pairs(friendsData) do
 		self:_addItem(v, i ~= 1)
+		if i == 1 then
+			self:simulateClickSelUid(v.uid)
+		end
 	end
+end
+
+function ChatListView:simulateClickSelUid(uid)
+	-- 模拟点击第一个
+	self:onChatItemClick(nil, g.myUi.TouchHelper.CLICK, uid, true)
 end
 
 function ChatListView:_addItem(v, isSepLine, isStickTop)
@@ -152,6 +161,11 @@ function ChatListView:onChatItemClick(target, evt, uid, isSimulate)
 	if not isSimulate and tonumber(self.unreadsMsgCountsLbls[uid]:getString()) > 0 then
 		if self.mainViewObj then self.mainViewObj:asyncReqFriendMessage(uid) end
 	end
+
+	-- 点击后未读改为已读, 并向服务器上传已读
+	if not isSimulate then
+		self.unreadsMsgCountsLbls[uid]:hide()
+	end
 end
 
 function ChatListView:changeSelectLbl(uid, lastUid)
@@ -194,9 +208,9 @@ function ChatListView:checkAndBindOprateView(uid)
 	self._chatOpView:bindChatUser(uid)
 end
 
-function ChatListView:showNoFriendTips()
+function ChatListView:showNoChatFriendTips()
 	if not self._noFriendTips then
-		self._noFriendTips = display.newTTFLabel({text = g.lang:getText("FRIEND", "NO_FRIEND_TIPS"), size = 26, color = cc.c3b(137, 190, 224)})
+		self._noFriendTips = display.newTTFLabel({text = g.lang:getText("FRIEND", "NO_CHAT_FRIEND_TIPS"), size = 26, color = cc.c3b(137, 190, 224)})
 			:pos(-250, 0)
 			:addTo(self)
 			:hide()
@@ -204,14 +218,14 @@ function ChatListView:showNoFriendTips()
 	self._noFriendTips:show()
 end
 
-function ChatListView:asyncGetFriendInfo(...)
-	if self.mainViewObj then self.mainViewObj:asyncGetFriendInfo(...) end
-end
-
-function ChatListView:hideNoFriendTips()
+function ChatListView:hideNoChatFriendTips()
 	if self._noFriendTips then
 		self._noFriendTips:hide()
 	end
+end
+
+function ChatListView:asyncGetFriendInfo(...)
+	if self.mainViewObj then self.mainViewObj:asyncGetFriendInfo(...) end
 end
 
 function ChatListView:showOtherUserinfo(uid)
