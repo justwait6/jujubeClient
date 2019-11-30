@@ -136,10 +136,14 @@ end
 function MySocketBase:onHeartBeatReceived_()
     local delaySeconds = g.timeUtil:getSocketTime() - self.heartBeatPackSendTime_
     if self.heartBeatTimeoutId_ then
-        self:cancelHeartBeatTimeOut()
-        self.logger_:warnf("onHeartBeatReceived_: received delaySeconds = %s", delaySeconds)
-    else
-        self.logger_:warnf("onHeartBeatReceived_: timeout received delaySeconds = %s", delaySeconds)
+				self:cancelHeartBeatTimeOut()
+				if ENABLE_HEART_BEATS_LOG then
+					self.logger_:warnf("onHeartBeatReceived_: received delaySeconds = %s", delaySeconds)
+				end
+		else
+				if ENABLE_HEART_BEATS_LOG then
+					self.logger_:warnf("onHeartBeatReceived_: timeout received delaySeconds = %s", delaySeconds)
+				end
     end
 end
 
@@ -230,6 +234,12 @@ function MySocketBase:reconnect_()
 end
 
 function MySocketBase:onReceivePacket(pack)
+		if pack.cmd == self.CmdDef.SVR_HEART_BEAT and not ENABLE_HEART_BEATS_LOG then
+			-- 心跳包不打印日志时不显示
+		else
+			dump(pack, "on pack received")
+		end
+
     local cmdName = CmdConfig[pack.cmd].name
 
     if pack.cmd == self.CmdDef.SVR_HEART_BEAT then

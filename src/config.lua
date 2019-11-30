@@ -2,6 +2,8 @@
 -- 0 - disable debug info, 1 - less debug info, 2 - verbose debug info
 DEBUG = 5
 
+ENABLE_HEART_BEATS_LOG = false
+
 -- Language Options: CH, EN,
 LANG = require("app.language.LangDef").CH
 
