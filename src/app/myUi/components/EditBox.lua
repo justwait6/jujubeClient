@@ -27,7 +27,7 @@ function EditBox:ctor(param)
 
 	local fontSize = param.fontSize or 24
 	local size = param.size or cc.size(190, 63)
-	self.inputNode = ccui.EditBox:create(cc.size(size.width, fontSize + 16), "image/common/blank.png")
+	self.inputNode = ccui.EditBox:create(cc.size(size.width, fontSize + 16), "", 1)
     self.inputNode:pos(0, 0)
     self.inputNode:setFontSize(fontSize)
     if param.fontColor then

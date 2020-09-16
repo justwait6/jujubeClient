@@ -38,7 +38,7 @@ function MoneyTreeView:ctor(treeType)
     display.addSpriteFrames("image/activity/moneytree/newMoneyTreeAnimChip.plist", "image/activity/moneytree/newMoneyTreeAnimChip.png")
     display.addSpriteFrames("image/activity/moneytree/newMoneyTreeAnimGold.plist", "image/activity/moneytree/newMoneyTreeAnimGold.png")
 
-    self.treeType = treeType or MoneyTreeView.GOLD
+    self.treeType = treeType or MoneyTreeView.CHIP
     self:initConfig(treeType)
     self:initUI()
     self:checkNeedGuide()
@@ -47,10 +47,9 @@ end
 
 function MoneyTreeView:onShow()
     if self.ctrl then
-        self.ctrl:requestBaseInfo(handler(self, self.onRequestBaseInfoSucc))
+        self.ctrl:requestMyTreeInfo(handler(self, self.onRequestMyTreeInfoSucc))
     end
     self:requestRankList(handler(self, self.onRequestRankListSucc))
-    self:requestMyTreeInfo(handler(self, self.onRequestMyTreeInfoSucc))
 end
 
 function MoneyTreeView:initConfig(treeType)
@@ -147,11 +146,11 @@ function MoneyTreeView:initMyInfoPanel()
 
     -- 头像
     g.myUi.AvatarView.new({
-        radius = 74,
+        radius = 37,
         gender = g.user:getGender(),
         frameRes = g.Res.moneytree_imageFrameR,
         avatarUrl = g.user:getIconUrl(),
-        clickOptions = {default = true, uid = g.user:getUid()},
+				clickOptions = {default = false, enable = false},
     })
         :pos(-88, 0)
         :addTo(self.myInfoNode)
@@ -172,7 +171,7 @@ function MoneyTreeView:initMyInfoPanel()
         :addTo(currencyNode)
     -- 金币(筹码)数量
     self.myGoldNum = display.newTTFLabel({
-            text = "", size = 26, color = cc.c3b(255, 255, 255)})
+            text = g.moneyUtil:splitMoney(g.user:getMoney()), size = 26, color = cc.c3b(255, 255, 255)})
         :align(display.CENTER, 8, 0)
         :addTo(currencyNode)
 end
@@ -343,7 +342,7 @@ function MoneyTreeView:createVsPanel(attributes)
         :align(display.CENTER, -50, treeLevelPosY - 4)
         :addTo(node)
 
-    attributes.progress = g.myUi.ProgressBar.new(g.Res.Common_progress_bg_2, g.Res.Common_progress_2, {bgWidth = 112, bgHeight = 12, fillWidth = 6, fillHeight = 8})
+    attributes.progress = g.myUi.ProgressBar.new(g.Res.common_progressBg2, g.Res.common_progress2, {bgWidth = 112, bgHeight = 12, fillWidth = 6, fillHeight = 8})
         :pos(-12, treeLevelPosY)
         :addTo(node)
     attributes.progress:setValue(0.5)
@@ -438,7 +437,7 @@ function MoneyTreeView:renderTreeLevelInfo()
             text = "", size = 22, color = cc.c3b(255, 255, 255)})
         :align(display.CENTER, 34, 12)
         :addTo(node)
-    self.treeLevelProgress = g.myUi.ProgressBar.new(g.Res.Common_progress_bg_2, g.Res.Common_progress_2, {bgWidth = 212, bgHeight = 12, fillWidth = 6, fillHeight = 8})
+    self.treeLevelProgress = g.myUi.ProgressBar.new(g.Res.common_progressBg2, g.Res.common_progress2, {bgWidth = 212, bgHeight = 12, fillWidth = 6, fillHeight = 8})
         :pos(-82, -10)
         :addTo(node)
     self.treeLevelProgress:setValue(0)
@@ -670,7 +669,6 @@ function MoneyTreeView:onRequestCollectOwnCoinSucc(data)
     -- printVgg("MoneyTreeView:onRequestCollectOwnCoinSucc: ", dump(data))
 
     local completeCallback = handler(self, function ()
-        self:requestBaseInfo(handler(self, self.onRequestBaseInfoSucc), nil, true)
         self:requestRankList(handler(self, self.onRequestRankListSucc), nil, true)
         self:requestMyTreeInfo(handler(self, self.onRequestMyTreeInfoSucc), nil, true)
         self:setForbidOperation(false)
@@ -734,7 +732,6 @@ function MoneyTreeView:onRequestCollectOtherCoinSucc(data)
     local data = data or {}
     local dataInfo = data.info or {}
     local completeCallback = handler(self, function ()
-        self:requestBaseInfo(handler(self, self.onRequestBaseInfoSucc), nil, true)
         self:requestRankList(handler(self, self.onRequestRankListSucc), nil, true)
         self:tryRequestOtherTreeInfo(self:getCurTreeShowUid())
         self:setForbidOperation(false)
@@ -1155,43 +1152,30 @@ function MoneyTreeView:showGuideStep(guideStep)
     end
 end
 
-function MoneyTreeView:onRequestBaseInfoSucc(data)
-    printVgg("MoneyTreeView:onRequestBaseInfoSucc: dump(data)", dump(data))
-    local data = data or {}
-    local dataInfo = data.info or {}
-
-    if self.myGoldNum then
-        local money = dataInfo.money or 0
-        if self.treeType == MoneyTreeView.GOLD then
-            g.user:setGold(money)
-            money = g.moneyUtil:formatGold(money, true)
-        else
-            g.user:setMoney(money)
-        end
-        PushCenter.pushEvent(g.eventNames.LOBBY_UPDATE, {mtype = 1})
-        self.myGoldNum:setString(g.moneyUtil:splitMoney(money or 0))
-    end
-end
-
-function MoneyTreeView:requestMyTreeInfo(successCallback, failCallback, noLoading)
-    if self.httpMyTreeInfoId then return end
-    if not noLoading then
-        g.myUi.miniLoading:show()
-    end
-
-    local resetWrapHandler = handler(self, function ()
-        self.httpMyTreeInfoId = nil
-    end)
-
-    local param = {}
-    param._interface = "/moneyTree/ownTreeInfo"
-    param.param = {}
-    param.param.type = self.treeType
-    self.httpMyTreeInfoId = g.http:simplePost(param,
-        successCallback, failCallback, resetWrapHandler)
-end
-
 function MoneyTreeView:onRequestMyTreeInfoSucc(data)
+	data = {
+		info = {
+			own = {
+				dyInfo = {{
+					name = "MuMu",
+					text = "?????????????",
+					time = 1574308156,
+					type = 2,
+				}},
+				exp = 6,
+				isWater = 1,
+				level = 1,
+				maxExp = 50,
+				ownPokerMoney = 140,
+				timerMoney = 0,
+				timerTxt = "18:00??????????????",
+				timerVal = 10000,
+				waterMoney = 0,
+				waterMoneyCount = 1,
+			}
+		},
+		ret = 0
+	}
     local data = data or {}
     local dataInfo = data.info or {}
     local dataOwnInfo = dataInfo.own or {}
@@ -1620,7 +1604,7 @@ function MoneyTreeView:newTrunkNode(data, isSelf)
     end
     local treeTrunkRes = string.format(g.Res.moneytree_treeFormat, math.floor((treeLevel + 1)/2))
     display.newSprite(treeTrunkRes):pos(-10, -88):addTo(trunkNode)
-
+		--[[
     -- 渲染浇水金币
     self:setWaterMoneyAward(dataInfoOwn.waterMoney or 0)
     local waterCoin = self:newWaterCoin(dataInfoOwn.waterMoneyCount or 0, dataInfoOwn.waterMoney or 0, isSelf)
@@ -1652,7 +1636,7 @@ function MoneyTreeView:newTrunkNode(data, isSelf)
 
     -- 渲染好友贡献金币
     self:renderCoins(dataInfo.friend or {}, trunkNode)
-
+		--]]
     -- 树等级经验条
     self:updateTreeLevelInfo(dataInfoOwn.level, dataInfoOwn.exp, dataInfoOwn.maxExp)
 
@@ -1665,6 +1649,10 @@ end
 
 function MoneyTreeView:getCurTreeShowUid()
     return self.curTreeShowUid
+end
+
+function MoneyTreeView:getTreeType()
+	return self.treeType
 end
 
 function MoneyTreeView:setWaterMoneyAward(money)

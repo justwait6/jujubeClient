@@ -29,7 +29,6 @@ end
 
 function MoneyTreeInviteView:onShow()
 	if self.ctrl then
-    	self.ctrl:requestBaseInfo()
     	self.ctrl:requestInviteCodeInfo(handler(self, self.onRequestInviteInfoSucc), nil, true)
     end
 end
@@ -371,8 +370,7 @@ end
 
 function MoneyTreeInviteView:onWindowRemove()
 	if self.ctrl then
-		self.ctrl:cancelRequestBaseInfo()
-		self.ctrl:cancelRequestInviteCodeInfo()
+		self.ctrl:dispose()
 	end
     if self.curGuideSchedId then g.mySched:cancel(self.curGuideSchedId) end
 end

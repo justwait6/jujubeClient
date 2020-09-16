@@ -18,8 +18,20 @@ function MoneyTreeCtrl:onInviteClick()
 	-- g.user:requestInvite("tree", handler(self, self.requestCallback))
 end
 
+function MoneyTreeCtrl:getCurTreeShowUid()
+	if self.viewObj then
+		return self.viewObj:getCurTreeShowUid()
+	end
+end
+
+function MoneyTreeCtrl:getTreeType()
+	if self.viewObj then
+		return self.viewObj:getTreeType()
+	end
+end
+
 function MoneyTreeCtrl:onWaterButtonClick()
-    if self:getCurTreeShowUid() == tonumber(g.User:getUid()) then
+    if self:getCurTreeShowUid() == tonumber(g.user:getUid()) then
         self:requestWaterMyTree(handler(self, self.onRequestWaterMyTreeSucc))
     else
         local params = {}
@@ -40,24 +52,40 @@ function MoneyTreeCtrl:showMoneyTreeInvitePopup()
     end
 end
 
-function MoneyTreeCtrl:requestBaseInfo(successCallback, failCallback, noLoading)
-    if self.httpIds['baseInfo'] then return end
-    local resetWrapHandler = handler(self, function ()
-        self.httpIds['baseInfo'] = nil
-    end)
+function MoneyTreeCtrl:requestMyTreeInfo(successCallback, failCallback, noLoading)
+	if self.httpIds['myTreeInfo'] then return end
+	local resetWrapHandler = handler(self, function ()
+			self.httpIds['myTreeInfo'] = nil
+	end)
 
-    if not noLoading then
-        g.myUi.miniLoading:show()
-    end
+	if not noLoading then
+			g.myUi.miniLoading:show()
+	end
 
-    local param = {}
-    param._interface = "/moneyTree/basicInfo"
-    param.param = {}
-    param.param.type = self.treeType
-    param.param.gid = g.Const.GID
-    
-    self.httpIds['baseInfo'] = g.http:simplePost(param,
-        successCallback, failCallback, resetWrapHandler)
+	local reqParams = {}
+	reqParams._interface = "/moneyTree/myTreeInfo"
+	reqParams.treeType = self:getTreeType()
+	reqParams.uid = g.user:getUid()
+	self.httpIds['myTreeInfo'] = g.http:simplePost(reqParams,
+			successCallback, failCallback, resetWrapHandler)
+end
+
+function MoneyTreeCtrl:requestTreeInfo(successCallback, failCallback, noLoading)
+	if self.httpIds['treeInfo'] then return end
+	local resetWrapHandler = handler(self, function ()
+			self.httpIds['treeInfo'] = nil
+	end)
+
+	if not noLoading then
+			g.myUi.miniLoading:show()
+	end
+
+	local reqParams = {}
+	reqParams._interface = "/moneyTree/treeInfo"
+	reqParams.treeType = self:getTreeType()
+	reqParams.uid = self:getCurTreeShowUid()
+	self.httpIds['treeInfo'] = g.http:simplePost(reqParams,
+			successCallback, failCallback, resetWrapHandler)
 end
 
 function MoneyTreeCtrl:requestInviteCodeInfo(successCallback, failCallback, noLoading)
@@ -70,12 +98,10 @@ function MoneyTreeCtrl:requestInviteCodeInfo(successCallback, failCallback, noLo
         g.myUi.miniLoading:show()
     end
 
-    local param = {}
-    param._interface = "/MoneyTree/inviteCodeInfo"
-    param.param = {}
-    param.param.type = self.treeType
-    param.param.gid = g.Const.GID
-    self.httpIds['inviteCodeInfo'] = g.http:simplePost(param,
+    local reqParams = {}
+    reqParams._interface = "/moneyTree/inviteCodeInfo"
+    reqParams.treeType = self:getTreeType()
+    self.httpIds['inviteCodeInfo'] = g.http:simplePost(reqParams,
         successCallback, failCallback, resetWrapHandler)
 end
 

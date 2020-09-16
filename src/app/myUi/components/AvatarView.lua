@@ -34,12 +34,15 @@ function AvatarView:initialize()
         self:_createCircleAvatar()
     else
         self:_createSquareAvatar()
-    end
-
-    g.myUi.ScaleButton.new({normal = g.Res.blank})
+		end
+		
+    local avatarBtn = g.myUi.ScaleButton.new({normal = g.Res.blank})
         :onClick(handler(self, self._onAvatarClick))
         :setButtonSize(self.avatarSize)
-        :addTo(self)
+				:addTo(self)
+		if self.clickOptions and self.clickOptions.enable == false then
+			avatarBtn:setButtonEnabled(false)
+		end
 
     if self.frameRes then
         self.frame = display.newSprite(self.frameRes):addTo(self)
@@ -113,10 +116,10 @@ function AvatarView:_setUrlAvatar(url)
 end
 
 function AvatarView:_onAvatarClick()
-    if self.clickOptions and self.clickOptions.enable == false then
-        return
-    end
-    
+		if self.clickOptions and self.clickOptions.enable == false then
+			return
+		end
+
     self:_playClickAnim()
     if self.clickOptions and self.clickOptions.default then
         print('头像点击: 默认模式打开 uid: ', self.clickOptions.uid)
