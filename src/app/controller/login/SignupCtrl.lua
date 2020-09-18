@@ -41,7 +41,7 @@ function SignupCtrl:getSignupParams(data)
           loginParams.ads = g.myFunc:encodeURI(referrer)
     end
     if device.platform == "android" then
-          loginParams.timezone = g.myFunc:encodeURI(g.Const.timeZone)
+          loginParams.timezone = g.myFunc:encodeURI(g.Const.TIME_ZONE)
 	end
 	return loginParams
 end

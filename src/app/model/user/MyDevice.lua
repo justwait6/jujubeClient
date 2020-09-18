@@ -21,8 +21,8 @@ end
 
 function MyDevice:getImei()
 	local imei = device.getOpenUDID()  --设备号
-	if DEBUG > 0 and g.Const.testImei and g.Const.testImei ~= "" then
-        imei = g.Const.testImei
+	if DEBUG > 0 and g.Const.TEST_IMEI and g.Const.TEST_IMEI ~= "" then
+        imei = g.Const.TEST_IMEI
 	end
 	return imei
 end

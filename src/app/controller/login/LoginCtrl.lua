@@ -52,7 +52,7 @@ function LoginCtrl:getLoginParams(data)
           loginParams.ads = g.myFunc:encodeURI(referrer)
     end
     if device.platform == "android" then
-          loginParams.timezone = g.myFunc:encodeURI(g.Const.timeZone)
+          loginParams.timezone = g.myFunc:encodeURI(g.Const.TIME_ZONE)
 	end
 	return loginParams
 end
@@ -78,7 +78,7 @@ function LoginCtrl:onLoginSucc(data)
 	g.user:setLoginInfo(data.user)
 	g.http:setToken(data.token)
 	actMgr:setActSwitches(data.switches)
-	g.mySocket:startHallConnect()
+	g.mySocket:cliConnectHall()
 
 	g.myApp:enterScene("HallScene")
 end
