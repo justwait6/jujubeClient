@@ -5,7 +5,7 @@ DEBUG = 5
 ENABLE_HEART_BEATS_LOG = false
 
 -- Language Options: CH, EN,
-LANG = require("app.language.LangDef").CH
+LANG = require("app.language.LangDef").EN
 
 -- display FPS stats on screen
 DEBUG_FPS = true
