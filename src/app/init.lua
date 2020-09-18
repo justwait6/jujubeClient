@@ -20,6 +20,7 @@ g.Logger = require("core.util.Logger")
 
 g.Res = require("app.common.Res")
 g.Const = require("app.common.Const")
+g.Var = require("app.common.Var")
 g.cookieKey = require("app.common.CookieKey")
 g.event = require("core.event.EventCenter")
 g.eventNames = require("app.common.EventNames")
