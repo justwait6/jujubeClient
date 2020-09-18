@@ -16,7 +16,7 @@ function HallCtrl:getTable()
 end
 
 function HallCtrl:onGetTableResp(pack)
-	printVgg("onGetTableResp, 123")
+	g.mySocket:setRoomCmdConfig(pack.gameId)
 	g.mySocket:cliEnterRoom(pack.tid)
 end
 

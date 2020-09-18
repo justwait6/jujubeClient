@@ -1,6 +1,6 @@
 local Var = {}
 
-Var.gameId = 1000
+Var.gameId = g.SubGameDef.RUMMY
 Var.level = 1
 
 return Var

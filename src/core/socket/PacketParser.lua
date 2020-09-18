@@ -15,6 +15,10 @@ function PacketParser:ctor(CmdConfig, socketName)
     self.config_ = CmdConfig
 end
 
+function PacketParser:setSubCmdConfig(subCmdConfig)
+    self.subConfig_ = subCmdConfig
+end
+
 function PacketParser:reset()
     self.buf_ = nil
 end
@@ -244,6 +248,9 @@ function PacketParser:parsePacket_(buf)
     local cmd = buf:setPos(7):readInt()
     local config = nil
     config = self.config_[cmd]
+    if self.subConfig_ then
+        config = self.subConfig_[cmd]
+    end
     if config ~= nil then
         local fmt = config.fmt
         self:decryty(buf)

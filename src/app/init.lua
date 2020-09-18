@@ -20,6 +20,7 @@ g.Logger = require("core.util.Logger")
 
 g.Res = require("app.common.Res")
 g.Const = require("app.common.Const")
+g.SubGameDef = require("app.model.baseDef.SubGameDef")
 g.Var = require("app.common.Var")
 g.cookieKey = require("app.common.CookieKey")
 g.event = require("core.event.EventCenter")

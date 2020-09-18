@@ -7,6 +7,7 @@ local PacketParser = import(".PacketParser")
 local SocketService = class("SocketService")
 
 local CmdConfig = require("core.protocol.CommandConfig")
+local RummyCmdConfig = require("core.protocol.RummyCmdConfig")
 
 local SOCKET_ID = 1
 
@@ -26,7 +27,19 @@ function SocketService:setMySocket(mySocket)
 end
 
 function SocketService:createPacketBuilder(cmd)
-    return PacketBuilder.new(cmd, CmdConfig[cmd], self.socketName_)
+    local cmdItem = CmdConfig[cmd]
+    if self.subCmdConfig_ then
+        cmdItem = self.subCmdConfig_[cmd]
+    end
+    return PacketBuilder.new(cmd, cmdItem, self.socketName_)
+end
+
+function SocketService:setSubCmdConfig(gameId)
+    self.subCmdConfig_ = nil
+    if gameId == g.SubGameDef.RUMMY then
+        self.subCmdConfig_ = RummyCmdConfig
+    end
+    self.parser_:setSubCmdConfig(self.subCmdConfig_)
 end
 
 function SocketService:connect(host, port)

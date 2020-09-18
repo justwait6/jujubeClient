@@ -109,6 +109,11 @@ function MySocket:sendLogin(uid, version, channel, deviceId, token)
         :build()
     self:send(pack)
 end
+function MySocket:setRoomCmdConfig(gameId)
+    if self.socketService_ then
+        self.socketService_:setSubCmdConfig(gameId)
+    end
+end
 
 function MySocket:cliGetTable()
     local pack = self:createPacketBuilder(CmdDef.CLI_GET_TABLE)

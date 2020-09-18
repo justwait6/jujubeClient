@@ -4,7 +4,6 @@ local ProxySelector = import(".ProxySelector")
 local SocketService = import(".SocketService")
 
 local MySocketBase = class("MySocketBase")
-local CmdConfig = require("core.protocol.CommandConfig")
 
 local MAX_RETRY_LIMIT = 3
 
@@ -241,8 +240,6 @@ function MySocketBase:onReceivePacket(pack)
             dump(pack, "on pack received")
 		end
 
-    local cmdName = CmdConfig[pack.cmd].name
-
     if pack.cmd == self.CmdDef.SVR_HEART_BEAT then
         self:onHeartBeatReceived_()
     elseif pack.cmd == self.CmdDef.SVR_PUSH then
@@ -261,7 +258,7 @@ function MySocketBase:onReceivePacket(pack)
         else
             local ret, errMsg = pcall(function() g.event:emit(g.eventNames.PACKET_RECEIVED, pack) end)
             if errMsg then
-                self.logger_:errorf("onReceivePacket: dispatching. ", cmdName, errMsg)
+                self.logger_:errorf("onReceivePacket: dispatching. ", string.format("%x", pack.cmd), errMsg)
             end
         end
     end
