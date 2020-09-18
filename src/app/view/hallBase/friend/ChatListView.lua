@@ -64,8 +64,7 @@ end
 function ChatListView:onUpdate(friendsData)
 	friendsData = friendsData or {}
 	self._chatListView:removeAllItems()
-
-	printVgg("inma ", table.nums(friendsData))
+	
 	if table.nums(friendsData) <= 0 then
 		self:showNoChatFriendTips()
 	else
