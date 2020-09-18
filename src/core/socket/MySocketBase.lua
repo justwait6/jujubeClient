@@ -236,8 +236,9 @@ end
 function MySocketBase:onReceivePacket(pack)
 		if pack.cmd == self.CmdDef.SVR_HEART_BEAT and not ENABLE_HEART_BEATS_LOG then
 			-- 心跳包不打印日志时不显示
-		else
-			dump(pack, "on pack received")
+        else
+            printVgg("0x" .. string.format("%x", pack.cmd))
+            dump(pack, "on pack received")
 		end
 
     local cmdName = CmdConfig[pack.cmd].name
@@ -252,6 +253,8 @@ function MySocketBase:onReceivePacket(pack)
         if pack.uid == g.user:getUid() then
             g.event:emit(g.eventNames.SEND_CHAT_RESP, pack)
         end
+    elseif pack.cmd == self.CmdDef.SVR_GET_TABLE then
+        g.event:emit(g.eventNames.GET_TABLE_RESP, pack)
     else
         if self.isPaused_ then
             self.delayPackCache_[#self.delayPackCache_ + 1] = pack

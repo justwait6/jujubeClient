@@ -40,6 +40,23 @@ CommandConfig = {
             {name = "msg", type = T.STRING},
         }
     },
+    [C.CLI_GET_TABLE] = {
+        ver = 1,
+        fmt = {
+            {name = "uid", type = T.INT},
+            {name = "gameId", type = T.INT},
+            {name = "level", type = T.INT},
+        }
+    },
+    [C.CLI_ENTER_ROOM] = {
+        ver = 1,
+        fmt = {
+            {name = "uid", type = T.INT},
+            {name = "gameId", type = T.INT},
+            {name = "tid", type = T.INT},
+            {name = "userinfo", type = T.STRING},
+        }
+    },
 
     --[[
         服务器包
@@ -78,7 +95,16 @@ CommandConfig = {
             {name = "time", type = T.INT},
             {name = "msg", type = T.STRING},
         }
-		},
+    },
+    [C.SVR_GET_TABLE] = {
+        ver = 1,
+        fmt = {
+            {name = "ret", type = T.INT},
+            {name = "tid", type = T.INT},
+            {name = "gameId", type = T.INT},
+            {name = "level", type = T.INT},
+        }
+    },
 }
 
 return CommandConfig

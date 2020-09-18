@@ -22,7 +22,13 @@ function HallView:initialize()
     display.newTTFLabel({
         	text = g.lang:getText("HALL", "HALL_TIPS"), size = 28, color = cc.c3b(128, 0, 0)})
     	:pos(0, 100)
-    	:addTo(self)
+		:addTo(self)
+	
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
+		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("HALL", "ENTER_ROOM")}))
+		:onClick(handler(self.ctrl, self.ctrl.getTable))
+		:pos(0, 0)
+		:addTo(self)
 
 	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
 		:setButtonLabel(display.newTTFLabel({size = 24, text = g.lang:getText("COMMON", "LOGOUT")}))
@@ -47,7 +53,7 @@ function HallView:initialize()
 end
 
 function HallView:addEventListeners()
-	-- g.event:on(g.eventNames.XX, handler(self, self.XX), self)
+	g.event:on(g.eventNames.GET_TABLE_RESP, handler(self.ctrl, self.ctrl.onGetTableResp), self)
 end
 
 function HallView:playShowAnim()

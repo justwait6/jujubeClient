@@ -11,14 +11,14 @@ function MySocket:ctor()
     self.gameId = 0
 end
 
-function MySocket:startHallConnect()
+function MySocket:cliConnectHall()
 	if not self.timerScheduleId then
 		self:timer_()
 		self.timerScheduleId = g.mySched:doLoop(handler(self, self.timer_), 10)
 	end
 end
 
-function MySocket:cancelHallConnect()
+function MySocket:cancelCliConnectHall()
 	if self.timerScheduleId then
 		g.mySched:cancel(self.timerScheduleId)
 		self.timerScheduleId = nil
@@ -106,6 +106,25 @@ function MySocket:sendLogin(uid, version, channel, deviceId, token)
         :setParameter("version", version)
         :setParameter("channel", channel)
         :setParameter("deviceId", deviceId)
+        :build()
+    self:send(pack)
+end
+
+function MySocket:cliGetTable()
+    local pack = self:createPacketBuilder(CmdDef.CLI_GET_TABLE)
+        :setParameter("uid", g.user:getUid())
+        :setParameter("gameId", g.Var.gameId)
+        :setParameter("level", g.Var.level)
+        :build()
+    self:send(pack)
+end
+
+function MySocket:cliEnterRoom(tableId)
+    local pack = self:createPacketBuilder(CmdDef.CLI_ENTER_ROOM)
+        :setParameter("uid", g.user:getUid())
+        :setParameter("gameId", g.Var.gameId)
+        :setParameter("tid", tableId)
+        :setParameter("userinfo", g.user:getUserinfo())
         :build()
     self:send(pack)
 end
