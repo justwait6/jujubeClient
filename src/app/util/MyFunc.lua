@@ -97,6 +97,31 @@ function MyFunc:setNodesAlignCenter(nodeItemList, gap)
     end
 end
 
+--[[
+    @func checkScaleBg: 检查全面屏适配, 只做横向拉伸
+    @param bgSprite: 背景精灵
+--]]
+function MyFunc:checkScaleBg(bgSprite)
+    if bgSprite then
+        local sz = bgSprite:getContentSize()
+        -- 图片本身已做2:1适配
+        if sz.width >= sz.height * 2 then
+            -- 分辨率大于2:1, 横向拉伸
+            if display.width > display.height * 2 then
+                local scaleX = display.width / 1440
+                bgSprite:setScaleX(scaleX)
+            end
+            -- 其他情况不管
+            return
+        end
+        -- 全面屏横向拉伸
+        if display.width * 9 > 16 * display.height then
+            local scaleX = display.width / 1280
+            bgSprite:setScaleX(scaleX)
+        end
+    end
+end
+
 function MyFunc:calcIconUrl(iconUrl, isRelative)
     if isRelative then
         return g.user:getImageBase() .. iconUrl
