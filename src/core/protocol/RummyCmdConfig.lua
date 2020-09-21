@@ -28,7 +28,7 @@ RummyCmdConfig = {
             {name="level",type=T.INT, depends = function(ctx) return ctx.ret == 0 end},
             {name="state",type=T.INT, depends = function(ctx) return ctx.ret == 0 end},
             {name="smallbet",type=T.INT, depends = function(ctx) return ctx.ret == 0 end},
-            {name="dSeatId",type=T.INT, depends = function(ctx) return ctx.ret == 0 end},
+            {name="dUid",type=T.INT, depends = function(ctx) return ctx.ret == 0 end},
             {name="players", type=T.ARRAY, lengthType=T.BYTE, depends = function(ctx) return ctx.ret == 0 end,
                 fmt = {
                     {name="uid", type=T.INT},
@@ -36,7 +36,6 @@ RummyCmdConfig = {
                     {name="money", type=T.LONG},
                     {name="gold", type=T.LONG},
                     {name="userinfo", type=T.STRING},
-                    {name="gameinfo", type=T.STRING},
                     {name="state",type=T.INT}
                 }
             },

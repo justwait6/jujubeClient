@@ -28,7 +28,7 @@ end
 
 function SocketService:createPacketBuilder(cmd)
     local cmdItem = CmdConfig[cmd]
-    if self.subCmdConfig_ then
+    if self.subCmdConfig_ and self.subCmdConfig_[cmd] then
         cmdItem = self.subCmdConfig_[cmd]
     end
     return PacketBuilder.new(cmd, cmdItem, self.socketName_)
