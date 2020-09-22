@@ -201,6 +201,7 @@ function User:updateUserInfo(userInfo)
 end
 
 function User:getUserinfo()
+	printVgg("gender: ", self:getGender())
 	return json.encode({nickName = self:getName(), icon = self:getIconUrl(), gender = self:getGender(), 
 		exp = self:getExp(), money = self:getMoney(), gold = self:getGold(), 
 		vip =self:getVip()})

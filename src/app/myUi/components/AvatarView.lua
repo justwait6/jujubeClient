@@ -98,6 +98,15 @@ end
     @func _setUrlAvatar 设置url头像(若要设置默认头像, 请使用@func _setDefaultAvatar)
     @param url: 请求的url
 --]]
+function AvatarView:setAvatarTex(sprite)
+    local size = sprite:getContentSize()
+    local minImageLength = math.min(size.width, size.height)
+    self._avatarSprite:setSpriteFrame(sprite:getSpriteFrame())
+    self._avatarSprite:scale(self.avatarSize.width/minImageLength)
+    if self._avatarSprite then self._avatarSprite:show() end
+    if self._defaultAvatar0 then self._defaultAvatar0:hide() end
+    if self._defaultAvatar1 then self._defaultAvatar1:hide() end
+end
 function AvatarView:_setUrlAvatar(url)
     self:_asyncGetAvatarSprite(url,
         function (sprite)

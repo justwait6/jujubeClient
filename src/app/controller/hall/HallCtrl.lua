@@ -17,7 +17,8 @@ end
 
 function HallCtrl:onGetTableResp(pack)
 	g.mySocket:setRoomCmdConfig(pack.gameId)
-	g.mySocket:cliEnterRoom(pack.tid)
+	g.Var.tid = pack.tid
+	g.myApp:enterScene("RummyScene")
 end
 
 function HallCtrl:XXXX()

@@ -252,8 +252,6 @@ function MySocketBase:onReceivePacket(pack)
         end
     elseif pack.cmd == self.CmdDef.SVR_GET_TABLE then
         g.event:emit(g.eventNames.GET_TABLE_RESP, pack)
-    elseif pack.cmd == self.CmdDef.SVR_ENTER_ROOM then
-        g.myApp:enterScene("RummyScene")
     else
         if self.isPaused_ then
             self.delayPackCache_[#self.delayPackCache_ + 1] = pack
