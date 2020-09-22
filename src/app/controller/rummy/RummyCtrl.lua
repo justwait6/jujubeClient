@@ -3,6 +3,7 @@ local RummyCtrl = class("RummyCtrl")
 local CmdDef = require("core.protocol.CommandDef")
 local roomMgr = require("app.model.rummy.RoomManager").getInstance()
 local seatMgr = require("app.model.rummy.SeatManager").getInstance()
+local RummyConst = require("app.model.rummy.RummyConst")
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
 
 function RummyCtrl:ctor()
@@ -84,6 +85,12 @@ function RummyCtrl:processPacket_(pack)
 	local cmd = pack.cmd
 	if cmd == CmdDef.SVR_ENTER_ROOM then
 		self:enterRoom(pack)
+	elseif cmd == CmdDef.SVR_EXIT_ROOM then
+		self:exitRoom(pack)
+	elseif cmd == CmdDef.SVR_CAST_EXIT_ROOM then
+		self:castUserExit(pack)
+	elseif cmd == CmdDef.SVR_CAST_USER_SIT then
+		self:castUserSit(pack)
 	else
 	end
 end
@@ -168,6 +175,47 @@ function RummyCtrl:mPlayerLoginInfo(players, users)
 	return mPlayer
 end
 
+function RummyCtrl:backClick()
+	printVgg("123")
+	if RummyConst.isMeInGames then
+		g.myUi.Dialog.new({
+			type = g.myUi.Dialog.Type.NORMAL,
+			text = g.lang:getText("RUMMY", "EXITTIPS"),
+			onConfirm = RummyCtrl.logoutRoom,	
+		})
+ 	else
+		RummyCtrl.logoutRoom()
+ 	end
+end
+
+function RummyCtrl:logoutRoom()
+	if g.mySocket:isConnected() then
+		g.mySocket:send(g.mySocket:createPacketBuilder(CmdDef.CLI_EXIT_ROOM)
+	   :setParameter("uid", tonumber(g.user:getUid()))
+	   :setParameter("tid", tonumber(g.Var.tid)):build())
+	end
+end
+
+function RummyCtrl:exitRoom(pack)
+	if not pack then return end
+	if pack.ret == 0 then
+		if pack.money and pack.money >= 0 then
+			g.user:setMoney(pack.money)
+		end
+		g.myApp:enterScene("HallScene")
+	end
+end
+
+function RummyCtrl:castUserSit(pack)
+	if not pack then return end
+	seatMgr:castUserSit(pack)
+end
+
+function RummyCtrl:castUserExit(pack)
+	if not pack then return end
+	seatMgr:castUserExit(pack)
+end
+
 function RummyCtrl:XXXX()
 	
 end
@@ -177,6 +225,7 @@ function RummyCtrl:XXXX()
 end
 
 function RummyCtrl:dispose()
+	seatMgr:clearAll()
 	g.event:removeByTag(self)
 end
 

@@ -52,12 +52,14 @@ end
     @func onBgCoverTouch_: 透明背景遮罩点击
         |=>检测弹窗的isBgCoverTouchClose属性, 该属性为true时关闭弹窗
 --]]
-function WindowManager:onBgCoverTouch_()
-    local windowData = self.windowStack_[#self.windowStack_]
-    if windowData and windowData.window and windowData.isBgCoverTouchClose then
-        self:removeWindow(windowData.window)
+function WindowManager:onBgCoverTouch_(event)
+    if event.name == "began" then
+        local windowData = self.windowStack_[#self.windowStack_]
+        if windowData and windowData.window and windowData.isBgCoverTouchClose then
+            self:removeWindow(windowData.window)
+        end
+        return true
     end
-    return true
 end
 
 --[[

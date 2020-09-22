@@ -16,6 +16,13 @@ RummyCmdConfig = {
             {name = "userinfo", type = T.STRING},
         }
     },
+    [C.CLI_EXIT_ROOM] = {
+        ver = 1,
+        fmt = {
+            {name = "uid", type = T.INT},
+            {name = "tid", type = T.INT},
+        }
+    },
 
     --[[
         服务器包
@@ -75,6 +82,31 @@ RummyCmdConfig = {
             {name="finishCard", type=T.BYTE, depends = function(ctx) return ctx.ret == 0 and (ctx.state == 1) end},
         }
     },
+    [C.SVR_EXIT_ROOM] = {
+        ver = 1,
+        fmt = {
+            {name="ret",type=T.BYTE},
+            {name="money", type=T.LONG, depends = function(ctx) return ctx.ret == 0 end},
+            {name="gold", type=T.LONG, depends = function(ctx) return ctx.ret == 0 end},
+        }
+    },
+    [C.SVR_CAST_EXIT_ROOM] = {
+        ver = 1,
+        fmt = {
+            {name="uid",type=T.INT},
+        }
+    },
+    [C.SVR_CAST_USER_SIT] = {
+        ver = 1,
+        fmt = {
+            {name="uid", type=T.INT},
+            {name="seatId", type=T.INT},
+            {name="money", type=T.LONG},
+            {name="gold", type=T.LONG},
+            {name="userinfo", type=T.STRING},
+            {name="state",type=T.INT},
+        }
+    },    
 }
 
 return RummyCmdConfig

@@ -26,6 +26,8 @@ Res.common_cameraIcon         = "image/common/cameraIcon.png"
 Res.common_redDot             = "image/common/redDot.png"
 Res.common_back               = "image/common/back.png"
 
+Res.commonroom_back           = "image/commonroom/back.png"
+
 
 Res.errorBg                   = "bg2.jpg"
 Res.loginBg                   = "katoBig.jpg"

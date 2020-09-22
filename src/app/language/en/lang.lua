@@ -171,5 +171,9 @@ L.RUMMY.NUMBER_OF_DECKS                     = "Number Of Decks: %s"
 L.RUMMY.TURN_TIME                           = "Turn Time: %s"
 L.RUMMY.BONUS_TIME                          = "Bonus Time: %s"
 L.RUMMY.Drop_POINT                          = "Drop Points: First: %s\nMid: %s Full: %s"
+L.RUMMY.BACK                                = "Menu"
+L.RUMMY.EXIT_TO_LOBBY                       = "Exit To Lobby"
+L.RUMMY.HAND_RANKING                        = "Hand Ranking"
+L.RUMMY.LAST_ROUND                          = "Last Round"
 
 return lang

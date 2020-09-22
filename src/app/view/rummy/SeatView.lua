@@ -4,7 +4,7 @@ end)
 
 local SeatCtrl = require("app.controller.rummy.SeatCtrl")
 local RummyConst = require("app.model.rummy.RummyConst")
-
+local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
 local mResDir = "image/rummy/seat/" -- module resource directory
 
 function SeatView:ctor(scene)
@@ -39,7 +39,7 @@ function SeatView:initialize()
 end
 
 function SeatView:onAvatarClick()
-    if self.serverSeatId < 0 and RoomInfo.getInstance():getMSeatId() == -1 then -- 我站起点击空座位
+    if self.serverSeatId < 0 and roomInfo:getMSeatId() == -1 then -- 我站起点击空座位
           self.ctrl:requestSitDown()
     elseif self.uid > 0 and app.gameId >= 10000 then
           RoomUserInfoPopup.new(self.uid):show()
@@ -65,19 +65,16 @@ function SeatView:updateSeatConfig()
         self.headMaskScale = 1.29
         self.headCircleLightScale = 1.25
         self.miniInfoNode:hide()
-        -- self.betBg:pos(P2[fixSeatId].x,P2[fixSeatId].y)
         -- self.circleProgress:setScale(1.1)
         -- self.countDownNumBg:pos(-80, -16)
     else
         self.headScale = 1
         self.headMaskScale = 1.08
         self.headCircleLightScale = 1
-        self.miniInfoNode:show()
-        -- self.betBg:pos(P2[fixSeatId].x,P2[fixSeatId].y)
         -- self.circleProgress:setScale(0.9)
         -- self.countDownNumBg:pos(-66, -10)
     end
-    if self:getUid() < 0 and RoomInfo.getInstance():getMSeatId() < 0 then--我站起且当前座位没人，显示坐下图标
+    if self:getUid() < 0 and roomInfo:getMSeatId() < 0 then--我站起且当前座位没人，显示坐下图标
         self.sitdown:show()
     else
         self.sitdown:hide()
@@ -187,6 +184,76 @@ function SeatView:checkShowMiniInfoBg()
     else
         self.miniInfoNode:pos(0, -50)
     end
+end
+function SeatView:hideMiniInfoBg()
+	if self.miniInfoNode then self.miniInfoNode:hide() end
+end
+
+function SeatView:startCountDown(time,finishCallback)
+    if self.circleProgress then
+        if finishCallback then
+          self.circleProgress:setFinishCallback(finishCallback)
+        end
+        if self.serverSeatId == RoomInfo.getInstance():getMSeatId() then
+           self.circleProgress:setShakeCallback(function()
+                self:shakeCard()
+           end)
+        else
+          self.circleProgress:setShakeCallback(nil)
+        end
+        self.circleProgress:startCountDown(time)
+    end
+    if self.countDownNumBg then
+      self.countDownNumBg:show()
+      self.countDownNum:setString(time)
+      local useTime = time
+      self:clearSchedule()
+      self.schedId = nk.SchedulerPool:loopCall(function()
+          useTime = useTime - 1
+          if useTime > 0 then
+              self.countDownNum:setString(useTime)
+              return true
+          else
+              self.countDownNumBg:hide()
+              self:clearSchedule()
+          end
+      end, 1)
+    end
+end
+
+-- function SeatView:stopCountDown()
+--     if self.circleProgress then
+--         self.circleProgress:stopCountDown()
+--     end
+--     if self.countDownNumBg then
+--       self.countDownNumBg:hide()
+--     end
+--     self:clearSchedule()
+-- end
+
+function SeatView:standUp()
+    self:updateMoney(-1)
+    self:hideMiniInfoBg()
+    self.headMask:hide()
+	self:hideHeader()
+	if roomInfo:getMSeatId() < 0 then --我是站起的
+        self.sitdown:show()
+    end
+    self:setUid(-1)
+	self:clearTable()
+	self:setServerSeatId(RummyConst.NoPlayerSeatId)
+    self:updateSeatConfig()
+    -- self:stopCountDown()
+end
+
+function SeatView:clearTable()
+    -- self:hideFoldTxt()
+    -- self:hideAwayTxt()
+    -- self:clearSchedule()
+end
+
+function SeatView:XXXX()
+	
 end
 
 function SeatView:XXXX()

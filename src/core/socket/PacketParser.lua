@@ -248,7 +248,7 @@ function PacketParser:parsePacket_(buf)
     local cmd = buf:setPos(7):readInt()
     local config = nil
     config = self.config_[cmd]
-    if self.subConfig_ then
+    if self.subConfig_ and self.subConfig_[cmd] then
         config = self.subConfig_[cmd]
     end
     if config ~= nil then

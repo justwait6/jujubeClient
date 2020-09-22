@@ -5,7 +5,8 @@ end)
 local DefaulPanel = import(".DefaulPanel")
 
 function Window:ctor(params)
-	self:pos(display.cx, display.cy)
+	local pos = params.pos or cc.p(display.cx, display.cy)
+	self:pos(pos.x, pos.y)
 	self.panel = DefaulPanel.new(params):addTo(self)
 
 	local isModal = params.isModal or false
@@ -32,7 +33,6 @@ end
 
 function Window:close()
 	g.windowMgr:removeWindow(self)
-	-- self:hide()
 end
 
 return Window

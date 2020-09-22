@@ -96,7 +96,6 @@ function SeatManager:startAllSeatMove(seatOffset, isInstant)
 		local seat = self.seats_[i]
         local fromSeatId = seat:getServerSeatId()
         if fromSeatId ~= RummyConst.NoPlayerSeatId then
-            print('123')
 			seat:show()
 			local toSeatId = fromSeatId + seatOffset
 			if toSeatId < 0 then
@@ -115,7 +114,16 @@ function SeatManager:startSeatMove(seat, fromSeatId, toSeatId)
     if isInstant then
         self:setToIndexSeat(seat, toSeatId)
     else
+        printVgg(seat, fromSeatId, toSeatId)
         self:startMoveSeatAnimation(seat, fromSeatId, toSeatId)
+    end
+end
+
+function SeatManager:startMoveToNotFix()
+    for i = 0, RummyConst.UserNum-1 do
+        local seat = self.seats_[i]
+        seat:updateSeatConfig()
+        self:startMoveSeatAnimation(seat, seat:getNowPos(), i)
     end
 end
 
@@ -134,8 +142,76 @@ local moveActions = {}
     seat:runAction(sequence)
 end
 
-function SeatManager:XXXX()
-    
+function SeatManager:castUserSit(pack)
+    if pack.seatId >= 0 and pack.seatId <= RummyConst.UserNum - 1 then
+        local user = self:insertUser(pack)
+        self:initPlayerViewWithSeatId(user)  
+        local seat = self:getSeatByUid(user.uid)
+        local toSeatId = RummyUtil.getFixSeatId(pack.seatId or -1)
+        seat:show()
+        self:startSeatMove(seat, user.seatId, toSeatId)
+    end
+end
+
+function SeatManager:castUserExit(pack)
+    self:standUp(pack.uid)
+end
+
+function SeatManager:standUp(uid)
+    self:deleteUser(uid)
+	for i = 0, #self.seats_ do
+		if tonumber(uid) == tonumber(self.seats_[i]:getUid()) then
+			self.seats_[i]:standUp()
+		end
+	end
+	if tonumber(uid) == tonumber(g.user:getUid()) then
+		roomInfo:setMSeatId(-1)
+		roomInfo:clearMCards()
+		self:startMoveToNotFix()  
+		-- self.scene:showChgTableBtn()
+		-- self.scene:hideStandUpBtn()
+	end
+end
+
+function SeatManager:getSeatByUid(uid)
+	for i = 0, RummyConst.UserNum - 1 do
+		local seat = self.seats_[i]
+		if seat:getUid() == uid then
+			return seat
+		end
+	end
+end
+
+function SeatManager:insertUser(pack)
+    local user = {}
+    user.uid = pack.uid or -1
+    user.seatId = pack.seatId or -1
+    user.userinfo = pack.userinfo or ""
+    user.state = pack.state or RummyConst.USER_USER_SEAT
+    user.money = pack.money or 0
+    user.gold = pack.gold or 0
+    table.insert(self.playerInfo, user)
+    return user
+end
+
+function SeatManager:deleteUser(id)
+    if not id then return end
+    if self.playerInfo and #self.playerInfo > 0 then
+        for i = 1, #self.playerInfo do
+            local player = self.playerInfo[i]
+            if player then
+                if player.uid and tonumber(player.uid) == tonumber(id) then
+                    table.remove(self.playerInfo, i)
+                    return
+                end
+            end
+        end
+    end
+end
+
+function SeatManager:clearAll()
+    self.playerInfo = {}
+    self.seats_ = {}
 end
 
 function SeatManager:XXXX()
