@@ -113,6 +113,24 @@ RummyCmdConfig = {
             {name="leftSec", type=T.BYTE},
         }
     },
+    [C.SVR_RUMMY_GAME_START] = {
+        ver = 1,
+        fmt = {
+            {name="state", type=T.INT},
+            {name="dUid", type=T.INT},
+            {name="smallbet", type=T.INT},
+            {name="players", type=T.ARRAY, lengthType=T.BYTE,
+                fmt = {
+                    {name="uid", type=T.INT},
+                    {name="money", type=T.LONG},
+                    {name="card", type=T.BYTE},
+                    {name="minusPoint", type=T.INT},
+                    {name="minusMoney", type=T.LONG},
+                }
+            },
+        }
+    },
+    
 }
 
 return RummyCmdConfig

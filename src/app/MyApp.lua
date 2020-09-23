@@ -18,8 +18,13 @@ end
 
 function MyApp:run()
     cc.FileUtils:getInstance():addSearchPath("res/")
+    self:addRes()
     g.lang:addPlatformSearchPath()
     self:enterScene("LoginScene")
+end
+
+function MyApp:addRes()
+    display.addSpriteFrames("textures/pokers.plist", "textures/pokers.png")
 end
 
 return MyApp

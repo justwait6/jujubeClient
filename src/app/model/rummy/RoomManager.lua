@@ -1,6 +1,10 @@
 local RoomManager = class("RoomManager")
 
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
+local RummyUtil = require("app.model.rummy.RummyUtil")
+
+local RVP = require("app.model.rummy.RoomViewPosition")
+local P3 = RVP.RDPosition
 
 local mResDir = "image/rummy/" -- module resource directory
 
@@ -24,6 +28,34 @@ function RoomManager.getInstance()
         RoomManager.singleInstance = RoomManager.new()
     end
     return RoomManager.singleInstance
+end
+
+function RoomManager:showDIcon(fixSeatId,needAnim)
+    if fixSeatId < 0 then return end
+    self.dIcon:show()
+    if needAnim then
+        local moveAction = cc.MoveTo:create(0.4,P3[fixSeatId])
+        self.dIcon:stopAllActions()
+        self.dIcon:runAction(cc.EaseSineOut:create(moveAction))
+    else
+        self.dIcon:pos(P3[fixSeatId].x,P3[fixSeatId].y)
+    end
+end
+
+function RoomManager:hideDIcon()
+    self.dIcon:hide()
+end
+
+function RoomManager:updateDSeat(dSeatId, needAnim)
+	roomInfo:setDSeatId(dSeatId or -1)
+	if dSeatId >= 0 then
+		local fixSeatId = RummyUtil.getFixSeatId(dSeatId)
+		if fixSeatId >= 0 then
+			self:showDIcon(fixSeatId, needAnim)
+		end
+	else
+		self:hideDIcon()
+	end
 end
 
 function RoomManager:enterRoomInfo(pack)

@@ -194,7 +194,7 @@ function SeatView:startCountDown(time,finishCallback)
         if finishCallback then
           self.circleProgress:setFinishCallback(finishCallback)
         end
-        if self.serverSeatId == RoomInfo.getInstance():getMSeatId() then
+        if self.serverSeatId == roomInfo:getMSeatId() then
            self.circleProgress:setShakeCallback(function()
                 self:shakeCard()
            end)
@@ -230,6 +230,17 @@ end
 --     end
 --     self:clearSchedule()
 -- end
+
+function SeatView:setUState(uState)
+    self.uState = uState
+    if self.serverSeatId == roomInfo:getMSeatId() then
+           if uState == RummyConst.USER_PLAY then
+                 RummyConst.isMeInGames = true
+           else
+                 RummyConst.isMeInGames = false
+           end
+    end
+end
 
 function SeatView:standUp()
     self:updateMoney(-1)

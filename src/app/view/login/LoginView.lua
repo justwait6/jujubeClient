@@ -86,6 +86,17 @@ function LoginView:initialize()
 		end)
 		:pos(400, 80 + yOffset)
 		:addTo(self)
+
+	-- 登录测试按钮3
+	g.myUi.ScaleButton.new({normal = g.Res.common_btnBlueS})
+	:setButtonLabel(display.newTTFLabel({size = 24, text = "Login 122"}))
+	:onClick(function ()
+		self.nameEditBox:setText("122")
+		self.pwdEditBox:setText("123456")
+		self.ctrl:requestGuestLogin()
+	end)
+	:pos(600, 80 + yOffset)
+	:addTo(self)
 	-- test end
 
 	local leave = cc.ParticleSystemQuad:create("particles/Ye_1.plist")

@@ -34,6 +34,10 @@ function RummyCtrl:initRoomNode(sceneRoomNode)
 	roomMgr:initRoomNode(sceneRoomNode)
 end
 
+function RummyCtrl:initAnimNode(sceneAnimNode)
+	seatMgr:initAnimNode(sceneAnimNode)
+end
+
 function RummyCtrl:onPackReceived_(packet)
 	table.insert(self.packetCache_, packet)
 end
@@ -97,6 +101,8 @@ function RummyCtrl:processPacket_(pack)
 		self:castUserSit(pack)
 	elseif cmd == CmdDef.SVR_RUMMY_COUNTDOWN then
 		self:gameStartCountDown(pack)
+	elseif cmd == CmdDef.SVR_RUMMY_GAME_START then
+		self:gameStart(pack)
 	end
 end
 
@@ -181,9 +187,17 @@ function RummyCtrl:mPlayerLoginInfo(players, users)
 end
 
 function RummyCtrl:gameStartCountDown(pack)
+	if not pack then return end
 	roomMgr:clearTable()
 	seatMgr:clearTable()
 	roomMgr:countDownTips(pack.leftSec)
+end
+
+function RummyCtrl:gameStart(pack)
+	if not pack then return end
+	pack.dSeatId = seatMgr:querySeatIdByUid(pack.dUid)
+	roomInfo:setDSeatId(pack.dSeatId or -1)
+	seatMgr:gameStart(pack)
 end
 
 function RummyCtrl:backClick()

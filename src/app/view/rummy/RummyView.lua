@@ -6,7 +6,7 @@ local RummyCtrl = require("app.controller.rummy.RummyCtrl")
 local DownMenuView = require("app.view.rummy.DownMenuView")
 
 local RummyConst = require("app.model.rummy.RummyConst")
-local RVP = import("app.model.rummy.RoomViewPosition")
+local RVP = require("app.model.rummy.RoomViewPosition")
 local P1 = RVP.SeatPosition
 
 local mResDir = "image/rummy/" -- module resource directory
@@ -37,6 +37,7 @@ function RummyView:initialize()
 
 	self.ctrl:initRoomNode(self.scene.nodes.roomNode)
 	self.ctrl:initSeatNode(self.scene.nodes.seatNode)
+	self.ctrl:initAnimNode(self.scene.nodes.animNode)
 end
 
 function RummyView:addEventListeners()
