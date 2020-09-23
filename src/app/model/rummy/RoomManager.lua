@@ -1,5 +1,6 @@
 local RoomManager = class("RoomManager")
 
+local CmdDef = require("core.protocol.CommandDef")
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
 local RummyUtil = require("app.model.rummy.RummyUtil")
 

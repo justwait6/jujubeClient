@@ -103,6 +103,8 @@ function RummyCtrl:processPacket_(pack)
 		self:gameStartCountDown(pack)
 	elseif cmd == CmdDef.SVR_RUMMY_GAME_START then
 		self:gameStart(pack)
+	elseif cmd == CmdDef.SVR_RUMMY_DEAL_CARDS then
+		self:startDealCards(pack, true)
 	end
 end
 
@@ -120,7 +122,7 @@ function RummyCtrl:enterRoom(pack)
 		-- 	print("enterRoom: isSelfInGame", self:isSelfInGame(pack.users))
 		-- 	if self:isSelfInGame(pack.users) then -- 自己正在玩
 		-- 		pack.cards = RummyUtil.calcMCardsByReconnect(pack.groups, pack.drawCardPos)
-		-- 		RoomInfo:setMCards(pack.cards)
+		-- 		roomInfo:setMCards(pack.cards)
 		-- 		self.roomManager:selfInGameReconnectInfo(pack)
 		-- 		self.seatManager:selfInGameReconnectInfo(pack)
 		-- 		local isOk = RummyUtil.refreshGroupsByReconnect(pack.groups, pack.drawCardPos)
@@ -198,6 +200,13 @@ function RummyCtrl:gameStart(pack)
 	pack.dSeatId = seatMgr:querySeatIdByUid(pack.dUid)
 	roomInfo:setDSeatId(pack.dSeatId or -1)
 	seatMgr:gameStart(pack)
+end
+
+function RummyCtrl:startDealCards(pack, needAnim)
+	if not pack then return end
+	roomInfo:setMCards(pack.cards)
+	roomInfo:setMagicCard(pack.magicCard)
+	seatMgr:startDealCards(pack, needAnim)
 end
 
 function RummyCtrl:backClick()
