@@ -26,8 +26,12 @@ function RummyCtrl:addEventListeners()
 	g.event:on(g.eventNames.PACKET_RECEIVED, handler(self, self.onPackReceived_), self)
 end
 
-function RummyCtrl:setSeats(seats)
-	seatMgr:setSeats(seats)
+function RummyCtrl:initSeatNode(sceneSeatNode)
+	seatMgr:initSeatNode(sceneSeatNode)
+end
+
+function RummyCtrl:initRoomNode(sceneRoomNode)
+	roomMgr:initRoomNode(sceneRoomNode)
 end
 
 function RummyCtrl:onPackReceived_(packet)
@@ -91,7 +95,8 @@ function RummyCtrl:processPacket_(pack)
 		self:castUserExit(pack)
 	elseif cmd == CmdDef.SVR_CAST_USER_SIT then
 		self:castUserSit(pack)
-	else
+	elseif cmd == CmdDef.SVR_RUMMY_COUNTDOWN then
+		self:gameStartCountDown(pack)
 	end
 end
 
@@ -144,7 +149,7 @@ function RummyCtrl:enterRoom(pack)
 		end
 		nk.TopTipManager:showTopTip(msg)
 		local id = g.mySched:doDelay(function()
-				g.mySched:clear(id)
+				g.mySched:cancel(id)
 				g.myApp:enterScene("HallScene")
 			end, 1.5)
 	end
@@ -173,6 +178,12 @@ function RummyCtrl:mPlayerLoginInfo(players, users)
 	roomInfo:setMSeatId(mPlayer.seatId or -1)
 
 	return mPlayer
+end
+
+function RummyCtrl:gameStartCountDown(pack)
+	roomMgr:clearTable()
+	seatMgr:clearTable()
+	roomMgr:countDownTips(pack.leftSec)
 end
 
 function RummyCtrl:backClick()

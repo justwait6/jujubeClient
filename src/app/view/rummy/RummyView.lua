@@ -4,7 +4,6 @@ end)
 
 local RummyCtrl = require("app.controller.rummy.RummyCtrl")
 local DownMenuView = require("app.view.rummy.DownMenuView")
-local SeatView = import("app.view.rummy.SeatView")
 
 local RummyConst = require("app.model.rummy.RummyConst")
 local RVP = import("app.model.rummy.RoomViewPosition")
@@ -26,7 +25,8 @@ function RummyView:initialize()
 		:pos(display.cx, display.cy)
         :addTo(self.scene.nodes.bgNode)
 	g.myFunc:checkScaleBg(roombg)
-
+	
+	-- return button
 	local clickEvent = {self.menu, self.requestChangeTable, self.openRulePop, self.ctrl.backClick}
 	 g.myUi.ScaleButton.new({normal = g.Res.commonroom_back})
 	 	:onClick(handler(self, function(sender) 
@@ -35,15 +35,8 @@ function RummyView:initialize()
         :pos(display.left + 53, display.top - 55)
 		:addTo(self.scene.nodes.bgNode)
 
-	-- dealer icon
-	self.dIcon = display.newSprite(mResDir .. "d_icon.png"):pos(display.cx, display.cy):addTo(self.scene.nodes.roomNode):hide()
-
-	-- seats
-	self.seats_ = {}
-	for i = 0, RummyConst.UserNum - 1 do
-        self.seats_[i] = SeatView.new(i):pos(P1[i].x,P1[i].y):addTo(self.scene.nodes.seatNode):hide()
-	end
-	self.ctrl:setSeats(self.seats_)
+	self.ctrl:initRoomNode(self.scene.nodes.roomNode)
+	self.ctrl:initSeatNode(self.scene.nodes.seatNode)
 end
 
 function RummyView:addEventListeners()

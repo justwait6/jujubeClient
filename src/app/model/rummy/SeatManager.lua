@@ -2,6 +2,7 @@ local SeatManager = class("SeatManager")
 
 local RummyConst = require("app.model.rummy.RummyConst")
 local RummyUtil = require("app.model.rummy.RummyUtil")
+local SeatView = import("app.view.rummy.SeatView")
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
 
 local RVP = import("app.model.rummy.RoomViewPosition")
@@ -17,8 +18,12 @@ end
 function SeatManager:initialize()
 end
 
-function SeatManager:setSeats(seats)
-    self.seats_ = seats
+function SeatManager:initSeatNode(sceneSeatNode)
+    self.sceneSeatNode_ = sceneSeatNode
+    -- seats
+	for i = 0, RummyConst.UserNum - 1 do
+        self.seats_[i] = SeatView.new(i):pos(P1[i].x,P1[i].y):addTo(self.sceneSeatNode_):hide()
+	end
 end
 
 function SeatManager.getInstance()
@@ -214,8 +219,10 @@ function SeatManager:clearAll()
     self.seats_ = {}
 end
 
-function SeatManager:XXXX()
-    
+function SeatManager:clearTable()
+    for i = 0, RummyConst.UserNum - 1 do
+        self.seats_[i]:clearTable()
+    end
 end
 
 function SeatManager:XXXX()

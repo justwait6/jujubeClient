@@ -75,7 +75,7 @@ function MySchedulerPool:doLoop(callback, interval, ...)
     local handle = scheduler.scheduleGlobal(function()
         if callback then
             if not callback(self, id, unpack(args)) then
-                scheduler.unscheduleGlobal(self.pool_[id])
+                self:cancel(self.pool_[id])
                 self.pool_[id] = nil
             end
         end

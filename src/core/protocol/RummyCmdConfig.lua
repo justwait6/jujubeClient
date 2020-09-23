@@ -106,7 +106,13 @@ RummyCmdConfig = {
             {name="userinfo", type=T.STRING},
             {name="state",type=T.INT},
         }
-    },    
+    },
+    [C.SVR_RUMMY_COUNTDOWN] = {
+        ver = 1,
+        fmt = {
+            {name="leftSec", type=T.BYTE},
+        }
+    },
 }
 
 return RummyCmdConfig

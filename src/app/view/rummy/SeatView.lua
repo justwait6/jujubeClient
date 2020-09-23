@@ -207,15 +207,15 @@ function SeatView:startCountDown(time,finishCallback)
       self.countDownNumBg:show()
       self.countDownNum:setString(time)
       local useTime = time
-      self:clearSchedule()
-      self.schedId = nk.SchedulerPool:loopCall(function()
+    --   self:clearSchedule()
+      self.schedId = g.mySched:doLoop(function()
           useTime = useTime - 1
           if useTime > 0 then
               self.countDownNum:setString(useTime)
               return true
           else
               self.countDownNumBg:hide()
-              self:clearSchedule()
+            --   self:clearSchedule()
           end
       end, 1)
     end
