@@ -70,8 +70,9 @@ function RoomManager:countDownTips(sec)
 
 	if type(sec) ~= "number" then return end
 	self:tipsMiddle_(string.format(g.lang:getText("RUMMY", "GAME_START_COUNTDOWN_FMT"), sec) )
-    -- PushCenter.pushEvent(g.eventNames.SCORE_POPUP_COUNT, {time = sec, flag = 2})
-	local id = g.mySched:doLoop(function()
+	-- PushCenter.pushEvent(g.eventNames.SCORE_POPUP_COUNT, {time = sec, flag = 2})
+	g.mySched:cancel(self.schedLoopId_)
+	self.schedLoopId_ = g.mySched:doLoop(function()
 		sec = sec - 1
 		if sec > 0 then
 			self:tipsMiddle_(string.format(g.lang:getText("RUMMY", "GAME_START_COUNTDOWN_FMT"), sec) )
@@ -79,7 +80,7 @@ function RoomManager:countDownTips(sec)
 			return true
 		else
 			self:hideTipsMiddle_()
-			g.mySched:cancel(id)
+			g.mySched:cancel(self.schedLoopId_)
 		end
 	end, 1)
 end
@@ -137,6 +138,14 @@ end
 
 function RoomManager:clearTable()
     self:hideAllMiddleTips_()
+end
+
+function RoomManager:clearAll()
+end
+
+function RoomManager:dispose()
+	self:clearAll()
+	g.mySched:cancelAll()
 end
 
 return RoomManager

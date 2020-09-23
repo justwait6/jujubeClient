@@ -201,7 +201,6 @@ function RummyCtrl:gameStart(pack)
 end
 
 function RummyCtrl:backClick()
-	printVgg("123")
 	if RummyConst.isMeInGames then
 		g.myUi.Dialog.new({
 			type = g.myUi.Dialog.Type.NORMAL,
@@ -250,7 +249,8 @@ function RummyCtrl:XXXX()
 end
 
 function RummyCtrl:dispose()
-	seatMgr:clearAll()
+	seatMgr:dispose()
+	roomMgr:dispose()
 	g.event:removeByTag(self)
 end
 

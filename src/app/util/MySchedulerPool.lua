@@ -38,7 +38,7 @@ end
     @func cancelAll: 取消全部调度器
 --]]
 function MySchedulerPool:cancelAll()
-    for k,v in pairs(self.pool_) do 
+    for k,v in pairs(self.pool_) do
         scheduler.unscheduleGlobal(v)
     end
     self.pool_ = {}

@@ -253,7 +253,6 @@ function SeatManager:startSeatMove(seat, fromSeatId, toSeatId)
     if isInstant then
         self:setToIndexSeat(seat, toSeatId)
     else
-        printVgg(seat, fromSeatId, toSeatId)
         self:startMoveSeatAnimation(seat, fromSeatId, toSeatId)
     end
 end
@@ -383,6 +382,10 @@ end
 
 function SeatManager:XXXX()
     
+end
+
+function SeatManager:dispose()
+    self:clearAll()
 end
 
 return SeatManager
