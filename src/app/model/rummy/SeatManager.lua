@@ -425,12 +425,12 @@ function SeatManager:mCardDrag(cardsNode)
     local cardGap = RummyUtil.getCardGap()
     for i, child in pairs(children) do
         child:getFrontSprite():addNodeEventListener(cc.NODE_TOUCH_EVENT, function(event)
-            dump(event)
+            -- dump(event)
             if event.name == "began" then
                 posX = child:getPositionX()
                 posY = child:getPositionY()
-                preX = event.x
-                preY = event.y
+                preX = event.startX
+                preY = event.startY
                 self:onCardMoveBegan(child)
                 return true
             elseif event.name == "moved" then

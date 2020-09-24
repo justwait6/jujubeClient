@@ -1,11 +1,15 @@
 
 -- 0 - disable debug info, 1 - less debug info, 2 - verbose debug info
-DEBUG = 5
+DEBUG = 0
 
 ENABLE_HEART_BEATS_LOG = false
 
 -- Language Options: CH, EN,
 LANG = require("app.language.LangDef").EN
+
+LOAD_DEPRECATED_API = false
+
+LOAD_SHORTCODES_API = true
 
 -- display FPS stats on screen
 DEBUG_FPS = true

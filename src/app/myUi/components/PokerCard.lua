@@ -33,16 +33,16 @@ function PokerCard:ctor()
     self.cardValue_ = 14
     self.cardVariety_ = 2
     self.isBack_ = true
+    
+    -- 初始化batch node
+    self.frontBatch_ = display.newBatchNode("textures/pokers.png"):pos(0, 0)
+    self.frontBatch_:retain()
 
     -- 牌背
     self.backBg_ = display.newSprite("#back_bg.png")
         -- :pos(0, 0)
     self.backBg_:setScaleX(-1)
     self.backBg_:retain()
-
-    -- 初始化batch node
-    self.frontBatch_ = display.newBatchNode("textures/pokers.png"):pos(0, 0)
-    self.frontBatch_:retain()
 
     -- 前背景
     self.frontBg_ = display.newSprite("#front_bg.png")
