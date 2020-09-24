@@ -100,6 +100,10 @@ function ScaleButton:setButtonLabel(lbl, offset)
     return self
 end
 
+function ScaleButton:getLabel()
+    return self.label
+end
+
 --[[
 	@func setBinding: 点击1按钮可以触发2按钮的点击效果
 	@param tab: 要关联按键
