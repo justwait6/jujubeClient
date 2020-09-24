@@ -5,6 +5,7 @@ local roomMgr = require("app.model.rummy.RoomManager").getInstance()
 local seatMgr = require("app.model.rummy.SeatManager").getInstance()
 local RummyConst = require("app.model.rummy.RummyConst")
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
+local RummyUtil = require("app.model.rummy.RummyUtil")
 
 function RummyCtrl:ctor()
 	self.packetCache_ = {}
@@ -27,10 +28,12 @@ function RummyCtrl:addEventListeners()
 end
 
 function RummyCtrl:initSeatNode(sceneSeatNode)
+	seatMgr:setRummyCtrl(self)
 	seatMgr:initSeatNode(sceneSeatNode)
 end
 
 function RummyCtrl:initRoomNode(sceneRoomNode)
+	roomMgr:setRummyCtrl(self)
 	roomMgr:initRoomNode(sceneRoomNode)
 end
 
@@ -105,6 +108,8 @@ function RummyCtrl:processPacket_(pack)
 		self:gameStart(pack)
 	elseif cmd == CmdDef.SVR_RUMMY_DEAL_CARDS then
 		self:startDealCards(pack, true)
+	elseif cmd == CmdDef.SVR_RUMMY_USER_TURN then
+		self:castUserTurn(pack)
 	end
 end
 
@@ -112,7 +117,8 @@ function RummyCtrl:enterRoom(pack)
 	if pack.ret == 0 then
 		g.Var.level = tonumber(pack.level)
 		pack.mPlayer = self:mPlayerLoginInfo(pack.players, pack.users)
-		roomMgr:enterRoomInfo(pack)
+		pack.dSeatId = seatMgr:querySeatIdByUid(pack.dUid)
+		roomMgr:enterRoomInfo(pack, pack.mPlayer.money)
 		seatMgr:initSeats(pack)
 		-- if pack.state and tonumber(pack.state) == 1 then -- 游戏正在进行
 		-- 	RummyConst.isFinalGame = false
@@ -199,14 +205,35 @@ function RummyCtrl:gameStart(pack)
 	if not pack then return end
 	pack.dSeatId = seatMgr:querySeatIdByUid(pack.dUid)
 	roomInfo:setDSeatId(pack.dSeatId or -1)
-	seatMgr:gameStart(pack)
+	seatMgr:gameStart(pack, function()
+		roomMgr:updateDSeat(roomInfo:getDSeatId(), true)
+	end)
 end
 
 function RummyCtrl:startDealCards(pack, needAnim)
 	if not pack then return end
 	roomInfo:setMCards(pack.cards)
 	roomInfo:setMagicCard(pack.magicCard)
-	seatMgr:startDealCards(pack, needAnim)
+	seatMgr:startDealCards(pack, needAnim, function()
+		roomMgr:onStartDealCardsFinish()
+	end)
+end
+
+function RummyCtrl:castUserTurn(pack)
+	if not pack then return end
+	local name = seatMgr:queryUsernameByUid(pack.uid)
+	local str = string.format(g.lang:getText("RUMMY", "TURN_TO_PLAY_FMT"), (name or pack.uid))
+	roomMgr:playMiddleTips(str)
+	if pack.uid == tonumber(g.user:getUid()) then
+		-- g.audio:playSound(g.audio.YOUR_TURN)
+		roomMgr:onSelfTurn()
+		roomInfo:resetWhenSelfTurn()
+		seatMgr:showAreaLightsDrawStage() -- 轮到用户自己, 进入摸牌阶段
+	else
+		roomMgr:onNotSelfTurn()
+		seatMgr:hideAllAreaLights() -- 不到用户自己, 隐藏亮光
+	end
+	seatMgr:startCountDown(pack.time or 0, pack.uid)
 end
 
 function RummyCtrl:backClick()
@@ -247,6 +274,53 @@ end
 function RummyCtrl:castUserExit(pack)
 	if not pack then return end
 	seatMgr:castUserExit(pack)
+end
+
+
+function RummyCtrl:sendCliDrawCard(regionId)
+	-- if g.mySocket:isConnected() then
+	-- 	g.mySocket:send(g.mySocket:createPacketBuilder(CmdDef.CLI_RUMMY_DRAW_CARD)
+	-- 	:setParameter("uid", tonumber(g.user:getUid()))
+	-- 	:setParameter("region", regionId) -- 摸牌区域: 0, 新牌堆; 1, 旧牌堆
+	-- 	:build())
+  	-- end
+end
+
+function RummyCtrl:sendCliDiscardCard(cardIdx)
+	-- local mCards = roomInfo:getMCards()
+	-- if g.mySocket:isConnected() then
+	-- 		g.mySocket:send(g.mySocket:createPacketBuilder(CmdDef.CLI_RUMMY_DISCARD_CARD)
+	-- 		:setParameter("uid", tonumber(g.user:getUid()))
+	-- 		:setParameter("card", mCards[cardIdx])
+	-- 		:setParameter("index", cardIdx)
+	-- 		:build())
+	-- end
+end
+function RummyCtrl:sendCliFinishCard(cardIdx)
+	-- local mCards = roomInfo:getMCards()
+	-- roomInfo:setFinishCardIndex(cardIdx)
+	-- if g.mySocket:isConnected() then
+	-- 	g.mySocket:send(g.mySocket:createPacketBuilder(CmdDef.CLI_RUMMY_FINISH)
+	-- 	:setParameter("uid", tonumber(g.user:getUid()))
+	-- 	:setParameter("card", mCards[cardIdx])
+	-- 	:build())
+	-- end
+end
+
+function RummyCtrl:vggSortCards()
+    local isOk = RummyUtil.refreshGroupsBySort()
+    if isOk then
+        seatMgr:updateMCards(roomInfo:getCurGroups())
+    end
+end
+
+function RummyCtrl:vggGroupCards()
+    local isOk = RummyUtil.refreshGroupsByGroup(roomInfo:getMCardChooseList())
+    if isOk then
+        seatMgr:updateMCards(roomInfo:getCurGroups())        
+    end
+    seatMgr:cancelCardsSel()
+    seatMgr:clearMCardChooseList()
 end
 
 function RummyCtrl:XXXX()

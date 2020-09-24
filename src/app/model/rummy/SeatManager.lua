@@ -5,7 +5,6 @@ local RummyConst = require("app.model.rummy.RummyConst")
 local RummyUtil = require("app.model.rummy.RummyUtil")
 local SeatView = require("app.view.rummy.SeatView")
 local roomInfo = require("app.model.rummy.RoomInfo").getInstance()
-local roomMgr = require("app.model.rummy.RoomManager").getInstance()
 
 local mResDir = "image/rummy/" -- module resource directory
 
@@ -31,6 +30,10 @@ function SeatManager:ctor()
 end
 
 function SeatManager:initialize()
+end
+
+function SeatManager:setRummyCtrl(rummyCtrl)
+	self.rummyCtrl_ = rummyCtrl
 end
 
 function SeatManager:initSeatNode(sceneSeatNode)
@@ -96,11 +99,9 @@ function SeatManager:initPlayerViewWithSeatId(user)
     end
 end
 
-function SeatManager:gameStart(pack)
+function SeatManager:gameStart(pack, animFinishCb)
     self:changeUserState(RummyConst.USER_PLAY) --游戏开始所有坐下玩家置为在玩状态
-        self:chooseDealerAnim(pack, handler(self, function()
-			roomMgr:updateDSeat(roomInfo:getDSeatId(), true)
-		end))
+    self:chooseDealerAnim(pack, animFinishCb)
 end
 
 function SeatManager:chooseDealerAnim(pack, finishCallback)
@@ -201,7 +202,7 @@ function SeatManager:getChooseDealerFixedPlayers(users, dealerUid)
     return refinedPlayers
 end
 
-function SeatManager:startDealCards(pack, needAnim)
+function SeatManager:startDealCards(pack, needAnim, animFinishCb)
     -- 设置一开始的组, 即一个组, 里边有全部牌
     local groups = {}
     if pack.cards and #pack.cards > 0 then -- 玩家自己有牌才建立组
@@ -217,7 +218,7 @@ function SeatManager:startDealCards(pack, needAnim)
     self:initInfoCardsNode(pack.dropCard, needAnim)
     self:dealCardsAnim(needAnim, handler(self, function()
         self:showMagicCard(needAnim)
-        -- roomMgr:onStartDealCardsFinish()
+        if animFinishCb then animFinishCb() end
     end))
 end
 
@@ -317,6 +318,42 @@ function SeatManager:updateSlotCard(slotTag, cardUint, isShowCardBack)
     end
 end
 
+function SeatManager:showAreaLightsDrawStage()
+    self:hideAllAreaLights()
+    self:showAreaLights({TAG_NEW_AREA, TAG_OLD_AREA})
+end
+
+function SeatManager:showAreaLightsDiscardStage()
+    self:hideAllAreaLights()
+    self:showAreaLights({TAG_OLD_AREA, TAG_FINISH_AREA})
+end
+
+function SeatManager:showAreaLights(tags)
+    for _, tag in pairs(tags) do
+        local child = self.infoCardsNode:getChildByTag(tag)
+        child:stopAllActions()
+        child:show()
+        child:runAction(cc.RepeatForever:create(
+            cc.Sequence:create(
+            cc.DelayTime:create(0.7),
+            cc.EaseBackOut:create(cc.ScaleTo:create(0.7, 1)),
+            cc.FadeIn:create(0.7), 
+            cc.FadeOut:create(0.7)
+            )
+        ))
+    end
+end
+
+function SeatManager:hideAllAreaLights()
+    if not g.myFunc:checkNodeExist(self.infoCardsNode) then return end
+    local tags = {TAG_NEW_AREA, TAG_OLD_AREA, TAG_FINISH_AREA}
+    for i, tag in pairs(tags) do
+        local child = self.infoCardsNode:getChildByTag(tag)
+        child:stopAllActions()
+        child:hide()
+    end
+end
+
 function SeatManager:dealCardsAnim(needAnim, finishCallback)
     g.myFunc:safeRemoveNode(self.mCardsNode)
     self.mCardsNode = display.newNode():addTo(self.sceneAnimNode_)
@@ -337,7 +374,7 @@ function SeatManager:dealCardsAnim(needAnim, finishCallback)
         mCard:showBack()
         mCard:setMagicVisible(RummyUtil.isMagicCard(cards[i]))
         local callback = handler(self, function (self)
-            -- roomMgr:onCardGroupsChange(#roomInfo:getCurGroups())
+            g.event:emit(g.eventNames.RUMMY_CARD_GROUPS_CHANGE)
             if finishCallback then finishCallback() end
         end)
         if needAnim then
@@ -559,7 +596,7 @@ function SeatManager:refreshCardSel_() -- 下移选中牌到最初位置
         end
     end
     roomInfo:setMCardChooseList(chooseList)
-    -- roomMgr:onChosenCardChange(#chooseList)
+    g.event:emit(g.eventNames.RUMMY_CHOSEN_CARD_CHANGE, {count = #chooseList})
 end
 
 function SeatManager:cancelCardsSel() -- 下移选中牌到最初位置
@@ -571,6 +608,11 @@ function SeatManager:cancelCardsSel() -- 下移选中牌到最初位置
             child:setPositionY(mCardCenter.y)
         end
     end
+end
+
+function SeatManager:clearMCardChooseList()
+    roomInfo:setMCardChooseList({})
+    g.event:emit(g.eventNames.RUMMY_CHOSEN_CARD_CHANGE, {count = 0})
 end
 
 function SeatManager:isInNewGroupArea(x, y)
@@ -611,7 +653,7 @@ function SeatManager:onDragToOldArea(cardSprite)
         return
     end
     roomInfo:setDragDiscard(true)
-    -- roomMgr:sendCliDiscardCard(cardSprite:getTag())
+    self.rummyCtrl_:sendCliDiscardCard(cardSprite:getTag())
 
     local destPos = RVP.OldHeapPos
     cardSprite:stopAllActions()
@@ -654,7 +696,7 @@ function SeatManager:showFinishConfirmPopup(cardIdx)
     CommonPopup.new(g.lang:getText("RUMMY", "CONFIRM_FINISH_TIPS"),CommonPopup.TWOBTN,
     handler(self, function()
         roomInfo:setDragFinish(true)
-        self.roomManager:sendCliFinishCard(cardIdx)
+        self.rummyCtrl_:sendCliFinishCard(cardIdx)
         self:updateMCards(roomInfo:getCurGroups()) -- 更改后牌堆
     end),
     handler(self,self.cardsToOrigin),handler(self,self.cardsToOrigin),true):show()
@@ -704,7 +746,7 @@ function SeatManager:updateMCards(groups, noUpload)
     if not noUpload then
         self:uploadGroups(groups, newDrawCardPos)
     end
-    self.roomManager:onCardGroupsChange(#groups)
+    g.event:emit(g.eventNames.RUMMY_CARD_GROUPS_CHANGE)
 end
 
 function SeatManager:updateMGroupInfo(groups, firstCardPosX, lastCardPosX)
@@ -807,6 +849,30 @@ function SeatManager:hideNewGroupBg()
     end
 end
 
+function SeatManager:startCountDown(time,uid,finishCallback)
+    local seatId = self:querySeatIdByUid(uid)
+    if seatId and seatId >=0 then
+        local seat = self.seats_[seatId]
+        seat:startCountDown(time,function()
+            if seat and seatId == roomInfo:getMSeatId() then
+                 seat:stopShakeCard()
+            end
+            if finishCallback then
+                 finishCallback()
+            end
+        end)
+    end
+end
+function SeatManager:stopCountDown(uid)
+    local seatId = self:querySeatIdByUid(uid)
+    if seatId and seatId >=0 then
+        local seat = self.seats_[seatId]
+        if seat then
+            seat:stopCountDown()
+        end
+    end
+end
+
 function SeatManager:changeUserState(uState)
     for _, v in ipairs(self.playerInfo) do
             v.state = uState
@@ -821,9 +887,6 @@ function SeatManager:changeUserState(uState)
 end
 
 function SeatManager:updateMoney(seatId, money)
-    if seatId == tonumber(roomInfo:getMSeatId()) then
-        -- roomMgr:updateMBalance(money)
-    end
     if seatId and seatId >= 0 and money and money >=0 then
         local seat = self.seats_[seatId]
         seat:updateMoney(money)
@@ -976,6 +1039,19 @@ function SeatManager:deleteUser(id)
             end
         end
     end
+end
+
+function SeatManager:queryUserinfo(uid)
+	local player = self:queryUser(uid)
+	if player and player.userinfo then
+		return json.decode(player.userinfo)
+	end
+	return {}
+end
+
+function SeatManager:queryUsernameByUid(uid)
+    local userinfo = self:queryUserinfo(uid) or {}
+    return userinfo.nickName
 end
 
 function SeatManager:clearAll()

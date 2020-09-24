@@ -37,7 +37,7 @@ end
 -- 		return node
 -- end
 function RummyUtil.refreshGroupsBySort()
-    local mCards = RoomInfo:getInstance():getMCards()
+    local mCards = roomInfo:getMCards()
     local VARIETY_DIAMOND = 0 -- 方块
     local VARIETY_CLUB    = 1 -- 梅花
     local VARIETY_HEART   = 2 -- 红桃

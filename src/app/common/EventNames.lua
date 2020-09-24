@@ -21,4 +21,7 @@ E.XXXX = E.getName()
 E.FRIEND_RED_DOT = E.getName()
 E.FRIENDS_REMARKS_UPDATE = E.getName()
 
+E.RUMMY_CARD_GROUPS_CHANGE = E.getName()
+E.RUMMY_CHOSEN_CARD_CHANGE = E.getName()
+
 return E

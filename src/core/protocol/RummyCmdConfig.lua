@@ -130,6 +130,13 @@ RummyCmdConfig = {
             },
         }
     },
+    [C.SVR_RUMMY_USER_TURN] = {
+        ver = 1,
+        fmt = {
+            {name="uid", type=T.INT},
+            {name="time", type=T.INT},
+        }
+    },    
     [C.SVR_RUMMY_DEAL_CARDS] = {
         ver = 1,
         fmt = {
