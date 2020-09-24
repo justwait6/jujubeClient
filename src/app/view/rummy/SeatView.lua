@@ -36,6 +36,14 @@ function SeatView:initialize()
     display.newSprite(mResDir .. "mini_info_bg.png"):addTo(self.miniInfoNode)
     self.nickName = display.newTTFLabel({color = cc.c3b(255, 255, 255), text = "", size = 20})
         :addTo(self.miniInfoNode)
+
+    -- 头像倒计时
+    self.circleProgress = g.myUi.SeatCircleProgress.new(0.9)
+       :addTo(self)
+    self.countDownNumBg = display.newSprite(mResDir .. "count_down_num_bg.png"):pos(-66, -10):addTo(self, -1):hide()
+    self.countDownNum = display.newTTFLabel({size = 24, text = ""})
+        :pos(self.countDownNumBg:getContentSize().width/2 - 8, self.countDownNumBg:getContentSize().height/2)
+        :addTo(self.countDownNumBg)
 end
 
 function SeatView:onAvatarClick()
@@ -65,14 +73,15 @@ function SeatView:updateSeatConfig()
         self.headMaskScale = 1.29
         self.headCircleLightScale = 1.25
         self.miniInfoNode:hide()
-        -- self.circleProgress:setScale(1.1)
-        -- self.countDownNumBg:pos(-80, -16)
+        self.circleProgress:setScale(1.1)
+        self.countDownNumBg:pos(-80, -16)
     else
         self.headScale = 1
         self.headMaskScale = 1.08
         self.headCircleLightScale = 1
-        -- self.circleProgress:setScale(0.9)
-        -- self.countDownNumBg:pos(-66, -10)
+        self.miniInfoNode:show()
+        self.circleProgress:setScale(0.9)
+        self.countDownNumBg:pos(-66, -10)
     end
     if self:getUid() < 0 and roomInfo:getMSeatId() < 0 then--我站起且当前座位没人，显示坐下图标
         self.sitdown:show()
@@ -185,6 +194,7 @@ function SeatView:checkShowMiniInfoBg()
         self.miniInfoNode:pos(0, -50)
     end
 end
+
 function SeatView:hideMiniInfoBg()
 	if self.miniInfoNode then self.miniInfoNode:hide() end
 end
@@ -207,7 +217,7 @@ function SeatView:startCountDown(time,finishCallback)
       self.countDownNumBg:show()
       self.countDownNum:setString(time)
       local useTime = time
-    --   self:clearSchedule()
+      self:clearSchedule()
       self.schedId = g.mySched:doLoop(function()
           useTime = useTime - 1
           if useTime > 0 then
@@ -215,21 +225,21 @@ function SeatView:startCountDown(time,finishCallback)
               return true
           else
               self.countDownNumBg:hide()
-            --   self:clearSchedule()
+              self:clearSchedule()
           end
       end, 1)
     end
 end
 
--- function SeatView:stopCountDown()
---     if self.circleProgress then
---         self.circleProgress:stopCountDown()
---     end
---     if self.countDownNumBg then
---       self.countDownNumBg:hide()
---     end
---     self:clearSchedule()
--- end
+function SeatView:stopCountDown()
+    if self.circleProgress then
+        self.circleProgress:stopCountDown()
+    end
+    if self.countDownNumBg then
+      self.countDownNumBg:hide()
+    end
+    self:clearSchedule()
+end
 
 function SeatView:setUState(uState)
     self.uState = uState
@@ -239,6 +249,27 @@ function SeatView:setUState(uState)
            else
                  RummyConst.isMeInGames = false
            end
+    end
+end
+
+-- 增加换牌功能，抖牌逻辑去掉
+function SeatView:shakeCard()
+    if self.needShake then
+       self.needShake = false
+       self.soundHandle = g.audio:playSound(nk.Audio.SANGONG_COUNTDOWN)
+   end
+end
+
+function SeatView:stopShakeCard()
+    self.needShake = true
+    g.audio:stopSound(self.soundHandle)
+    self.soundHandle = nil
+end
+
+function SeatView:clearSchedule()
+    if self.schedId then
+        g.mySched:cancel(self.schedId)
+        self.schedId = nil
     end
 end
 
@@ -260,7 +291,7 @@ end
 function SeatView:clearTable()
     -- self:hideFoldTxt()
     -- self:hideAwayTxt()
-    -- self:clearSchedule()
+    self:clearSchedule()
 end
 
 function SeatView:XXXX()
