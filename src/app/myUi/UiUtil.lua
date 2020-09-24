@@ -10,6 +10,7 @@ UiUtil.UIListView = import(".components.UIListView")
 UiUtil.NumberImage = import(".components.NumberImage")
 UiUtil.AvatarView = import(".components.AvatarView")
 UiUtil.PokerCard = import(".components.PokerCard")
+UiUtil.SeatCircleProgress = import(".components.SeatCircleProgress")
 UiUtil.EditBox = import(".components.EditBox")
 UiUtil.Dialog = import(".dialog.Dialog")
 
